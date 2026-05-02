@@ -8,476 +8,495 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+/* ── RESET & VARIABLES ── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --gold:#B8922A;--gold-l:#D4AA50;--gold-pale:#F5EDD4;
-  --cream:#FAF8F3;--charcoal:#1A1A1A;--mid:#4A4440;--muted:#8A8078;
-  --white:#FFFFFF;--red:#8B1A1A;--green:#25D366;
-  --fd:'Cormorant Garamond',Georgia,serif;--fb:'Jost',sans-serif;
+  /* Paleta emocional:
+     --gold       = confianza, lujo, valor
+     --emerald    = exclusividad, rareza (color de la esmeralda del logo)
+     --charcoal   = elegancia, peso, autoridad
+     --cream      = calidez, artesanía, descanso visual
+     --deep-red   = urgencia, escasez, acción
+  */
+  --gold:#C49A28;
+  --gold-l:#D9B84A;
+  --gold-dim:#8A6B1A;
+  --gold-pale:#F7F0DC;
+  --gold-pale2:#EFE4C0;
+  --emerald:#1A7A45;
+  --emerald-l:#22A05A;
+  --cream:#FAFAF7;
+  --cream2:#F3F0E8;
+  --charcoal:#111111;
+  --charcoal2:#1E1E1E;
+  --mid:#3A3530;
+  --muted:#7A746C;
+  --white:#FFFFFF;
+  --deep-red:#9B1C1C;
+  --green:#25D366;
+
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'Jost',sans-serif;
   --ease:cubic-bezier(.25,.46,.45,.94);
+  --ease-out:cubic-bezier(.16,1,.3,1);
 }
+
 html{scroll-behavior:smooth}
 body{font-family:var(--fb);background:var(--cream);color:var(--charcoal);overflow-x:hidden;cursor:none}
 
-/* CURSOR */
-.cursor{width:10px;height:10px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:transform .15s var(--ease);transform:translate(-50%,-50%)}
-.cursor-ring{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:all .32s var(--ease);transform:translate(-50%,-50%);opacity:.5}
+/* ── CURSOR personalizado ── */
+.cursor{width:10px;height:10px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:transform .12s var(--ease);transform:translate(-50%,-50%)}
+.cursor-ring{width:30px;height:30px;border:1.5px solid var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:all .28s var(--ease);transform:translate(-50%,-50%);opacity:.45}
+.cursor.big{transform:translate(-50%,-50%) scale(2.2)}
+.cursor-ring.big{transform:translate(-50%,-50%) scale(1.4);opacity:.25}
 
-/* ── MEJORA 9: WhatsApp flotante con pulso ── */
-.wa-float{
-  position:fixed;bottom:32px;right:32px;z-index:400;
-  width:62px;height:62px;border-radius:50%;
-  background:var(--green);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 24px rgba(37,211,102,.5);
-  text-decoration:none;
-  transition:transform .3s var(--ease),box-shadow .3s;
-}
+/* ── WA FLOAT ── */
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:600;width:60px;height:60px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.5);text-decoration:none;transition:transform .3s var(--ease),box-shadow .3s}
 .wa-float svg{position:relative;z-index:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
-.wa-float:hover{transform:scale(1.12);box-shadow:0 6px 28px rgba(37,211,102,.6)}
-.wa-float::before{
-  content:'';position:absolute;inset:0;border-radius:50%;
-  background:rgba(37,211,102,.4);
-  animation:waPulse 2.2s ease-out infinite;
-}
-@keyframes waPulse{
-  0%{transform:scale(1);opacity:.7}
-  70%{transform:scale(1.7);opacity:0}
-  100%{transform:scale(1.7);opacity:0}
-}
-.wa-float-label{
-  position:absolute;right:70px;top:50%;transform:translateY(-50%);
-  background:var(--charcoal);color:var(--white);
-  font-size:12px;letter-spacing:.06em;padding:8px 14px;
-  white-space:nowrap;opacity:0;transition:opacity .3s;pointer-events:none;
-}
-.wa-float:hover .wa-float-label{opacity:1}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.65)}
+.wa-float::before{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(37,211,102,.35);animation:waPulse 2.4s ease-out infinite}
+@keyframes waPulse{0%{transform:scale(1);opacity:.7}70%{transform:scale(1.75);opacity:0}100%{transform:scale(1.75);opacity:0}}
+.wa-float-tip{position:absolute;right:70px;top:50%;transform:translateY(-50%);background:var(--charcoal);color:var(--white);font-size:11px;letter-spacing:.06em;padding:9px 16px;white-space:nowrap;opacity:0;transition:opacity .3s;pointer-events:none;border-left:3px solid var(--gold)}
+.wa-float:hover .wa-float-tip{opacity:1}
 
-/* ── MEJORA 14: Botón CTA pulsante ── */
-@keyframes ctaPulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(184,146,42,.4)}
-  50%{box-shadow:0 0 0 10px rgba(184,146,42,0)}
-}
-.btn-pulse{animation:ctaPulse 2.5s ease-in-out infinite}
-
-/* URGENCY */
-.urgency{background:var(--gold);padding:10px 24px;display:flex;align-items:center;justify-content:center;gap:0;position:fixed;top:0;left:0;right:0;z-index:200;transition:transform .4s}
+/* ── URGENCY BAR ── */
+.urgency{background:var(--charcoal2);padding:10px 24px;display:flex;align-items:center;justify-content:center;position:fixed;top:0;left:0;right:0;z-index:300;transition:transform .4s}
 .urgency.hidden{transform:translateY(-100%)}
-.urgency-text{font-size:12px;letter-spacing:.08em;color:var(--white);text-align:center;flex:1;font-weight:400}
-.urgency-text strong{font-weight:600}
-.urgency-count{display:inline-flex;align-items:center;gap:6px}
-.urgency-dot{width:7px;height:7px;background:var(--white);border-radius:50%;animation:blink 1.2s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.urgency-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.75);font-size:17px;flex-shrink:0;padding:0 8px}
+.urgency-text{font-size:11.5px;letter-spacing:.07em;color:rgba(255,255,255,.82);text-align:center;flex:1}
+.urgency-text strong{color:var(--gold);font-weight:600}
+.urgency-dot{display:inline-block;width:6px;height:6px;background:#e05252;border-radius:50%;margin-right:6px;animation:blink 1.2s ease-in-out infinite;vertical-align:middle}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.urgency-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.5);font-size:18px;padding:0 8px;flex-shrink:0}
 
-/* NAV */
-nav{position:fixed;top:38px;width:100%;z-index:100;padding:0 60px;display:flex;align-items:center;justify-content:space-between;height:76px;background:rgba(250,248,243,.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(184,146,42,.12);transition:all .4s var(--ease)}
-nav.scrolled{height:60px;top:0}
-.nav-logo img{height:64px;display:block;transition:height .3s;object-fit:contain;object-position:center center;border-radius:2px}
-nav.scrolled .nav-logo img{height:52px}
-.nav-links{display:flex;gap:32px;list-style:none}
-.nav-links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);text-decoration:none;position:relative;padding-bottom:4px;transition:color .3s}
-.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease)}
-.nav-links a:hover{color:var(--gold)}
+/* ── NAV ── */
+nav{position:fixed;top:36px;width:100%;z-index:200;padding:0 56px;display:flex;align-items:center;justify-content:space-between;height:72px;background:rgba(250,250,247,.97);backdrop-filter:blur(24px);border-bottom:1px solid rgba(196,154,40,.14);transition:all .4s var(--ease)}
+nav.scrolled{height:60px;top:0;box-shadow:0 2px 24px rgba(0,0,0,.06)}
+.nav-logo img{height:60px;object-fit:contain;display:block;transition:height .3s}
+nav.scrolled .nav-logo img{height:48px}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);text-decoration:none;position:relative;padding-bottom:4px;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:var(--gold);transition:width .35s var(--ease)}
+.nav-links a:hover{color:var(--charcoal)}
 .nav-links a:hover::after{width:100%}
-.nav-wa{font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;background:var(--gold);color:var(--white);text-decoration:none;transition:background .3s;white-space:nowrap;display:flex;align-items:center;gap:8px}
-.nav-wa:hover{background:var(--charcoal)}
+.nav-cta{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding:12px 26px;background:var(--gold);color:var(--white);text-decoration:none;font-weight:500;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+.nav-cta:hover{background:var(--charcoal)}
 
-/* HERO */
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:110px;overflow:hidden}
-.hero-left{display:flex;flex-direction:column;justify-content:center;padding:60px 60px 60px 80px}
-.hero-eyebrow{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:14px}
-.hero-eyebrow::before{content:'';width:36px;height:1px;background:var(--gold)}
+/* ── SLIDER ── */
+.slider-section{position:relative;width:100%;overflow:hidden;background:var(--charcoal)}
+.slider-track{display:flex;transition:transform .85s var(--ease-out);will-change:transform}
+.slide{min-width:100%;position:relative;height:100vh;overflow:hidden;flex-shrink:0}
+.slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transform:scale(1.06);transition:transform 7s ease-out;filter:brightness(.62) saturate(1.1)}
+.slide.active img{transform:scale(1)}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(125deg,rgba(10,8,5,.82) 0%,rgba(10,8,5,.5) 45%,rgba(10,8,5,.1) 100%);display:flex;align-items:flex-end;padding:0 8% 10% 8%}
+@media(min-width:769px){.slide-overlay{align-items:center;padding:108px 10% 0 8%}}
+.slide-content{max-width:640px;opacity:0;transform:translateY(40px);transition:opacity .7s .2s var(--ease-out),transform .7s .2s var(--ease-out)}
+.slide.active .slide-content{opacity:1;transform:translateY(0)}
+.slide-num{font-family:var(--fd);font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.slide-num::before{content:'';width:48px;height:1px;background:var(--gold)}
+.slide-title{font-family:var(--fd);font-size:clamp(38px,6.5vw,90px);font-weight:300;color:var(--white);line-height:1.0;margin-bottom:18px;letter-spacing:-.01em}
+.slide-title em{font-style:italic;color:var(--gold)}
+.slide-sub{font-size:clamp(14px,1.5vw,17px);font-weight:300;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:12px;max-width:480px}
+.slide-price-tag{display:inline-flex;align-items:center;gap:12px;margin-bottom:32px;border-left:3px solid var(--gold);padding-left:14px}
+.spt-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.spt-price{font-family:var(--fd);font-size:26px;font-weight:400;color:var(--gold);line-height:1}
+.slide-btns{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.slide-btn-main{font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:15px 40px;background:var(--gold);color:var(--white);text-decoration:none;font-weight:500;transition:all .3s;display:inline-block;position:relative;overflow:hidden}
+.slide-btn-main::before{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-101%);transition:transform .4s var(--ease)}
+.slide-btn-main span{position:relative;z-index:1}
+.slide-btn-main:hover::before{transform:translateX(0)}
+.slide-btn-main:hover span{color:var(--gold)}
+.slide-btn-wa{font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:14px 24px;border:1.5px solid rgba(255,255,255,.4);color:rgba(255,255,255,.85);text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:10px}
+.slide-btn-wa:hover{border-color:var(--white);color:var(--white)}
+.wdot-s{width:8px;height:8px;background:var(--green);border-radius:50%;animation:wdotP 2s ease-in-out infinite;flex-shrink:0}
+@keyframes wdotP{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+/* Slide logo */
+.slide-logo{position:absolute;top:28px;left:40px;z-index:10}
+.slide-logo img{height:62px;object-fit:contain;filter:drop-shadow(0 2px 12px rgba(0,0,0,.5))}
+/* Controles */
+.sl-prev,.sl-next{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);color:var(--white);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:all .3s}
+.sl-prev{left:24px}.sl-next{right:24px}
+.sl-prev:hover,.sl-next:hover{background:var(--gold);border-color:var(--gold)}
+.sl-dots{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
+.sd{height:3px;background:rgba(255,255,255,.3);cursor:pointer;transition:all .45s var(--ease);width:24px}
+.sd.active{background:var(--gold);width:44px}
+.sl-progress{position:absolute;bottom:0;left:0;height:3px;background:var(--gold);width:0%;z-index:10;transition:width 5.5s linear}
 
-/* ── MEJORA 3: CTA verbo apropiación ── */
-h1.hero-title{font-family:var(--fd);font-size:clamp(42px,5.2vw,76px);font-weight:300;line-height:1.04;margin-bottom:20px}
-h1.hero-title em{font-style:italic;color:var(--gold)}
-.hero-sub{font-size:15px;font-weight:300;line-height:1.82;color:var(--mid);max-width:400px;margin-bottom:16px}
-
-/* ── MEJORA 1: Precio ancla en hero ── */
-.hero-price-anchor{
-  display:inline-flex;align-items:center;gap:10px;
-  margin-bottom:32px;padding:10px 18px;
-  background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.3);
-}
-.hpa-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.hpa-price{font-family:var(--fd);font-size:22px;font-weight:400;color:var(--gold)}
-.hpa-sep{color:rgba(184,146,42,.3);font-size:18px}
-
-.hero-btns{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-.btn-dark{display:inline-block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:15px 40px;background:var(--charcoal);color:var(--white);text-decoration:none;position:relative;overflow:hidden;transition:all .4s var(--ease);border:none;cursor:pointer}
-.btn-dark::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-100%);transition:transform .4s var(--ease)}
-.btn-dark span{position:relative;z-index:1}
-.btn-dark:hover::before{transform:translateX(0)}
-.btn-link{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mid);text-decoration:none;transition:color .3s}
-.btn-link:hover{color:var(--gold)}
-.wdot{width:8px;height:8px;background:var(--green);border-radius:50%;flex-shrink:0;animation:wdotPulse 2s ease-in-out infinite}
-@keyframes wdotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.8)}}
-
-.hero-stats{display:flex;gap:32px;margin-top:44px;padding-top:28px;border-top:1px solid rgba(184,146,42,.2)}
-.stat-n{font-family:var(--fd);font-size:30px;font-weight:300;color:var(--gold);line-height:1}
-.stat-l{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
-
-/* ── MEJORA 4: Scarcity viewer counter en hero ── */
-.hero-social-proof{
-  display:flex;align-items:center;gap:10px;margin-top:16px;
-  font-size:12px;color:var(--muted);font-weight:300;
-}
-.hsp-dot{width:8px;height:8px;background:#e74c3c;border-radius:50%;animation:blink 1.5s ease-in-out infinite}
-
-.hero-right{position:relative;overflow:hidden;background:var(--charcoal)}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82;transition:transform 8s var(--ease)}
-.hero-grad{position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,26,26,.35) 0%,transparent 55%)}
-.hero-badge{position:absolute;bottom:44px;left:28px;background:rgba(250,248,243,.96);padding:14px 20px;border-left:3px solid var(--gold);animation:float 4s ease-in-out infinite;max-width:200px}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-.badge-l{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.badge-v{font-family:var(--fd);font-size:17px;font-weight:500;color:var(--charcoal);margin-top:2px;line-height:1.2}
-
-/* ── MEJORA 4: Scarcity badge en hero imagen ── */
-.hero-scarcity{
-  position:absolute;top:32px;right:32px;
-  background:var(--red);color:var(--white);
-  padding:10px 16px;text-align:center;
-  animation:float 3s ease-in-out infinite;
-}
-.hs-num{font-family:var(--fd);font-size:28px;font-weight:300;line-height:1}
-.hs-lbl{font-size:9px;letter-spacing:.18em;text-transform:uppercase;margin-top:2px}
-
-.hero-scroll-ind{position:absolute;bottom:28px;right:28px;writing-mode:vertical-rl;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:10px}
-.hero-scroll-ind::before{content:'';width:1px;height:44px;background:rgba(255,255,255,.25);animation:sl 2s ease-in-out infinite}
-@keyframes sl{0%,100%{opacity:1}50%{opacity:.2}}
-
-/* MARQUEE */
-.marquee-wrap{padding:14px 0;background:var(--charcoal);overflow:hidden;white-space:nowrap}
-.marquee-track{display:inline-flex;animation:mq 26s linear infinite}
+/* ── MARQUEE ── */
+.mq-wrap{padding:13px 0;background:var(--charcoal2);overflow:hidden;white-space:nowrap}
+.mq-track{display:inline-flex;animation:mq 28s linear infinite}
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.mi{font-family:var(--fd);font-size:14px;font-weight:300;font-style:italic;color:rgba(184,146,42,.65);padding:0 36px;letter-spacing:.05em}
-.md{color:var(--gold);padding:0 5px}
+.mi{font-family:var(--fd);font-size:13px;font-weight:300;font-style:italic;color:rgba(196,154,40,.6);padding:0 36px;letter-spacing:.06em}
+.md{color:var(--gold);padding:0 4px;opacity:.7}
 
-/* SEC HEADER */
-.sh{text-align:center;margin-bottom:56px}
-.sk{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:12px}
-.sk::before,.sk::after{content:'';width:32px;height:1px;background:var(--gold)}
-.st{font-family:var(--fd);font-size:clamp(30px,3.8vw,50px);font-weight:300;line-height:1.1}
+/* ── SEC HEADER ── */
+.sh{text-align:center;margin-bottom:60px}
+.sk{font-size:9.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:14px}
+.sk::before,.sk::after{content:'';width:36px;height:1px;background:var(--gold)}
+.st{font-family:var(--fd);font-size:clamp(32px,4vw,54px);font-weight:300;line-height:1.08;color:var(--charcoal)}
 .st em{font-style:italic;color:var(--gold)}
-.sd{font-size:15px;font-weight:300;color:var(--muted);max-width:500px;margin:14px auto 0;line-height:1.85}
+.sd-text{font-size:15px;font-weight:300;color:var(--muted);max-width:520px;margin:16px auto 0;line-height:1.9}
 
-/* STORY ── MEJORA 7: por qué + foto Abigail ── */
-.story{padding:100px 80px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+/* ── STORY / NOSOTROS ── */
+.story{padding:108px 80px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;background:var(--cream)}
 .story-mosaic{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative}
 .sm{width:100%;object-fit:cover;display:block}
 .sm.tall{grid-row:span 2;aspect-ratio:2/3}
 .sm.sq{aspect-ratio:1}
-.s-acc{position:absolute;bottom:-20px;right:-20px;width:80px;height:80px;border:2px solid var(--gold);z-index:-1}
-blockquote.s-quote{font-family:var(--fd);font-size:22px;font-weight:300;font-style:italic;line-height:1.55;margin-bottom:18px;padding-left:20px;border-left:3px solid var(--gold)}
-.s-why{font-size:14px;font-weight:400;color:var(--gold);letter-spacing:.05em;margin-bottom:12px;text-transform:uppercase;font-size:10px;letter-spacing:.2em}
-.s-body{font-size:15px;font-weight:300;color:var(--mid);line-height:1.9;margin-bottom:24px}
-.s-founder{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:16px;background:rgba(184,146,42,.06);border-left:3px solid var(--gold)}
-.s-founder-img{width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--gold)}
-.s-founder-info{}
-.s-sig{font-family:var(--fd);font-size:22px;font-style:italic;color:var(--gold);line-height:1}
-.s-role{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-.mt{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-.mtag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border:1px solid rgba(184,146,42,.4);color:var(--gold)}
+.s-acc{position:absolute;bottom:-22px;right:-22px;width:84px;height:84px;border:2px solid var(--gold);z-index:-1}
+.s-why{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--emerald);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.s-why::before{content:'';width:28px;height:1px;background:var(--emerald)}
+blockquote.s-quote{font-family:var(--fd);font-size:23px;font-weight:300;font-style:italic;line-height:1.55;margin-bottom:22px;padding-left:22px;border-left:3px solid var(--gold);color:var(--charcoal)}
+.s-body{font-size:15px;font-weight:300;color:var(--mid);line-height:1.95;margin-bottom:26px}
+.s-founder{display:flex;align-items:center;gap:16px;padding:16px 20px;background:rgba(196,154,40,.07);border-left:3px solid var(--gold)}
+.s-founder-img{width:62px;height:62px;border-radius:8px;object-fit:cover;flex-shrink:0;border:2px solid rgba(196,154,40,.3)}
+.s-sig{font-family:var(--fd);font-size:22px;font-style:italic;color:var(--gold);line-height:1.1}
+.s-role{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.mt{display:flex;gap:9px;margin-top:20px;flex-wrap:wrap}
+.mtag{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;padding:6px 14px;border:1px solid rgba(196,154,40,.35);color:var(--gold-dim);background:transparent;transition:all .25s}
+.mtag:hover{background:var(--gold);color:var(--white);border-color:var(--gold)}
 
-/* COLECCIONES */
-.coll{padding:90px 80px;background:var(--white)}
-.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+/* ── COLECCIONES ── */
+.coll{padding:100px 80px;background:var(--white)}
+.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 .cc{position:relative;overflow:hidden;cursor:pointer;background:var(--charcoal)}
-.cc::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(26,26,26,.92) 0%,rgba(26,26,26,.15) 50%,transparent 100%);z-index:1;transition:opacity .4s}
-.cc:hover::before{opacity:.85}
-.cc-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;transition:transform .7s var(--ease);opacity:.82}
-.cc:hover .cc-img{transform:scale(1.07);opacity:.65}
-.cc-info{position:absolute;bottom:0;left:0;right:0;padding:28px 24px;z-index:2;transform:translateY(12px);transition:transform .4s var(--ease)}
+.cc::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,5,.95) 0%,rgba(10,8,5,.2) 55%,transparent 100%);z-index:1;transition:opacity .5s}
+.cc-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;transition:transform .8s var(--ease);filter:brightness(.75) saturate(1.05)}
+.cc:hover .cc-img{transform:scale(1.08);filter:brightness(.55) saturate(1.1)}
+.cc-info{position:absolute;bottom:0;left:0;right:0;padding:32px 28px;z-index:2;transform:translateY(10px);transition:transform .45s var(--ease)}
 .cc:hover .cc-info{transform:translateY(0)}
-.cc-mat{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-l);margin-bottom:8px}
-.cc-name{font-family:var(--fd);font-size:24px;font-weight:300;color:var(--white);line-height:1.1;margin-bottom:8px}
-/* ── MEJORA 1: precio ancla en colecciones ── */
-.cc-price{font-size:13px;color:rgba(184,146,42,.85);margin-bottom:10px;font-weight:300}
-.cc-desc{font-size:13px;color:rgba(255,255,255,.58);line-height:1.65;max-height:0;overflow:hidden;transition:max-height .4s var(--ease);font-weight:300}
-.cc:hover .cc-desc{max-height:70px}
-.cc-link{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-l);display:flex;align-items:center;gap:6px;text-decoration:none;margin-top:12px;transition:gap .3s}
-.cc:hover .cc-link{gap:14px}
+.cc-mat{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-l);margin-bottom:10px}
+.cc-name{font-family:var(--fd);font-size:26px;font-weight:300;color:var(--white);line-height:1.1;margin-bottom:6px}
+.cc-price{font-size:13px;color:var(--gold);margin-bottom:12px;font-weight:300}
+.cc-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .45s var(--ease);font-weight:300}
+.cc:hover .cc-desc{max-height:72px}
+.cc-link{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-l);display:inline-flex;align-items:center;gap:7px;text-decoration:none;margin-top:14px;transition:gap .3s;opacity:0;transform:translateY(6px);transition:all .3s .05s}
+.cc:hover .cc-link{opacity:1;transform:translateY(0)}
 .cc-link::after{content:'→'}
 
-/* PRODUCTS */
-.products{padding:90px 80px}
-.pf{display:flex;gap:0;margin-bottom:44px;border-bottom:1px solid rgba(184,146,42,.2);flex-wrap:wrap}
-.fb{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);background:none;border:none;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .3s}
-.fb.active,.fb:hover{color:var(--gold);border-bottom-color:var(--gold)}
-.pg{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+/* ── PRODUCTOS ── */
+.products{padding:100px 80px;background:var(--cream2)}
+.pf{display:flex;gap:0;margin-bottom:48px;border-bottom:1.5px solid rgba(196,154,40,.18);flex-wrap:wrap}
+.fb{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);background:none;border:none;padding:13px 22px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:color .3s}
+.fb.active,.fb:hover{color:var(--charcoal);border-bottom-color:var(--gold)}
+.pg{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
 .pc{position:relative}
-.piw{position:relative;overflow:hidden;background:var(--white);aspect-ratio:1;margin-bottom:14px}
-.pi{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+.piw{position:relative;overflow:hidden;background:var(--white);aspect-ratio:3/4;margin-bottom:14px;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+.pi{width:100%;height:100%;object-fit:cover;display:block;transition:transform .65s var(--ease)}
 .pc:hover .pi{transform:scale(1.07)}
-
-/* ── MEJORA 13: badges con jerarquía emocional correcta ── */
-.pb{position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;font-weight:500;z-index:2}
-.pb.fav{background:var(--gold);color:var(--white)}           /* dorado = aspiracional */
-.pb.new{background:#1a3a5c;color:var(--white)}               /* azul = novedad confiable */
-.pb.wed{background:#5c1a3a;color:var(--white)}               /* burdeos = especial */
-.pb.cus{background:var(--charcoal);color:var(--white)}       /* negro = premium */
-.pb.last{background:var(--red);color:var(--white)}           /* rojo = escasez/urgencia */
-.pb.avail{background:#2d7a3a;color:var(--white)}             /* verde = disponible hoy */
-
-/* ── MEJORA 4: viewer counter por producto ── */
-.p-viewers{
-  position:absolute;bottom:10px;left:10px;z-index:2;
-  background:rgba(26,26,26,.78);backdrop-filter:blur(4px);
-  color:var(--white);font-size:10px;padding:4px 9px;
-  display:flex;align-items:center;gap:5px;
-  opacity:0;transition:opacity .3s;
-}
+.pb{position:absolute;top:10px;left:10px;font-size:8.5px;letter-spacing:.17em;text-transform:uppercase;padding:5px 11px;font-weight:600;z-index:2;line-height:1}
+.pb.fav{background:var(--gold);color:var(--white)}
+.pb.new{background:#1C3A5E;color:var(--white)}
+.pb.wed{background:#5A1A38;color:var(--white)}
+.pb.cus{background:var(--charcoal);color:var(--white)}
+.pb.last{background:var(--deep-red);color:var(--white)}
+.pb.avail{background:var(--emerald);color:var(--white)}
+.p-viewers{position:absolute;bottom:10px;left:10px;z-index:2;background:rgba(10,8,5,.75);backdrop-filter:blur(4px);color:rgba(255,255,255,.85);font-size:9.5px;padding:4px 9px;display:flex;align-items:center;gap:5px;opacity:0;transition:opacity .3s}
 .pc:hover .p-viewers{opacity:1}
-.pv-dot{width:6px;height:6px;background:#e74c3c;border-radius:50%;animation:blink 1.2s ease-in-out infinite}
-
-.pa{position:absolute;bottom:0;left:0;right:0;display:flex;transform:translateY(100%);transition:transform .3s var(--ease);z-index:2}
+.pv-dot{width:6px;height:6px;background:#e05252;border-radius:50%;animation:blink 1.2s ease-in-out infinite;flex-shrink:0}
+.pa{position:absolute;bottom:0;left:0;right:0;display:flex;transform:translateY(100%);transition:transform .35s var(--ease);z-index:2}
 .pc:hover .pa{transform:translateY(0)}
-.pab{flex:1;padding:11px;border:none;cursor:pointer;font-size:10px;letter-spacing:.13em;text-transform:uppercase;transition:opacity .2s}
+.pab{flex:1;padding:12px;border:none;cursor:pointer;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;transition:background .2s}
 .pab.pri{background:var(--charcoal);color:var(--white)}
-.pab.sec{background:var(--gold);color:var(--white);max-width:46px;font-size:13px}
-.pab:hover{opacity:.85}
-.pm{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
-.pn{font-family:var(--fd);font-size:17px;font-weight:400;line-height:1.2;margin-bottom:4px}
-
-/* ── MEJORA 8: precio desde en productos ── */
-.pp{font-size:14px;color:var(--charcoal);font-weight:400}
+.pab.pri:hover{background:var(--gold)}
+.pab.sec{background:var(--gold);color:var(--white);max-width:46px;font-size:14px}
+.pab.sec:hover{background:var(--charcoal)}
+.pm{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:5px}
+.pn{font-family:var(--fd);font-size:18px;font-weight:400;line-height:1.2;margin-bottom:5px;color:var(--charcoal)}
+.pp{font-size:15px;color:var(--charcoal);font-weight:500}
 .pp-from{font-size:11px;color:var(--muted);font-weight:300;margin-right:4px}
-.pst{color:var(--gold);font-size:10px;margin-top:4px}
-/* ── MEJORA 4: scarcity line bajo producto ── */
-.p-scarcity{font-size:10px;color:var(--red);margin-top:4px;font-weight:400;display:flex;align-items:center;gap:5px}
-.p-scarcity::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;flex-shrink:0;animation:blink 1.2s ease-in-out infinite}
+.pst{color:var(--gold);font-size:10px;margin-top:4px;letter-spacing:.04em}
+.p-scarcity{font-size:10px;color:var(--deep-red);margin-top:5px;font-weight:500;display:flex;align-items:center;gap:5px}
+.p-scarcity::before{content:'';width:6px;height:6px;background:var(--deep-red);border-radius:50%;flex-shrink:0;animation:blink 1.2s ease-in-out infinite}
 
-/* EMOTIONAL STRIP */
-.emo-strip{padding:0;background:var(--charcoal);overflow:hidden;position:relative}
-.emo-strip img{width:100%;max-height:520px;object-fit:cover;object-position:center 30%;display:block;opacity:.75}
-.emo-strip-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(26,26,26,.85) 0%,rgba(26,26,26,.3) 50%,transparent 100%);display:flex;align-items:center;padding:0 80px}
-.emo-content{max-width:560px}
-.emo-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
-.emo-title{font-family:var(--fd);font-size:clamp(32px,4vw,56px);font-weight:300;color:var(--white);line-height:1.08;margin-bottom:20px}
+/* ── EMOTIONAL STRIP ── */
+.emo-strip{position:relative;overflow:hidden;background:var(--charcoal)}
+.emo-strip img{width:100%;height:580px;object-fit:cover;object-position:center 35%;display:block;filter:brightness(.5) saturate(1.15)}
+.emo-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,8,5,.9) 0%,rgba(10,8,5,.5) 50%,rgba(10,8,5,.1) 100%);display:flex;align-items:center;padding:0 10% 0 8%}
+.emo-content{max-width:580px}
+.emo-kicker{font-size:9.5px;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.emo-kicker::before{content:'';width:44px;height:1px;background:var(--gold)}
+.emo-title{font-family:var(--fd);font-size:clamp(34px,4.5vw,62px);font-weight:300;color:var(--white);line-height:1.06;margin-bottom:22px}
 .emo-title em{font-style:italic;color:var(--gold)}
-.emo-text{font-size:15px;color:rgba(255,255,255,.6);line-height:1.85;font-weight:300;margin-bottom:32px;max-width:420px}
-.btn-gold-outline{display:inline-block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:14px 36px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;transition:all .3s}
-.btn-gold-outline:hover{background:var(--gold);color:var(--white)}
+.emo-text{font-size:16px;color:rgba(255,255,255,.65);line-height:1.9;font-weight:300;margin-bottom:36px;max-width:440px}
+.btn-outline-gold{display:inline-block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;padding:15px 40px;border:1.5px solid var(--gold);color:var(--gold);text-decoration:none;transition:all .35s;font-weight:400}
+.btn-outline-gold:hover{background:var(--gold);color:var(--white)}
 
-/* ── MEJORA 6: REGALO SECTION ── */
-.regalo{padding:90px 80px;background:var(--gold-pale)}
-.regalo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:56px}
-.rg{position:relative;overflow:hidden;cursor:pointer;text-align:center}
-.rg-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:transform .6s var(--ease);filter:brightness(.88)}
-.rg:hover .rg-img{transform:scale(1.05);filter:brightness(1)}
-.rg-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,26,26,.85) 0%,transparent 50%)}
-.rg-info{position:absolute;bottom:0;left:0;right:0;padding:20px 16px}
-.rg-occasion{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-l);margin-bottom:5px}
-.rg-name{font-family:var(--fd);font-size:18px;font-weight:300;color:var(--white);line-height:1.2;margin-bottom:10px}
-.rg-cta{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);display:inline-flex;align-items:center;gap:5px;text-decoration:none;opacity:0;transform:translateY(6px);transition:all .3s var(--ease)}
+/* ── REGALO ── */
+.regalo{padding:100px 80px;background:var(--white)}
+.regalo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:60px}
+.rg{position:relative;overflow:hidden;cursor:pointer}
+.rg-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;transition:transform .7s var(--ease);filter:brightness(.7) saturate(1.05)}
+.rg:hover .rg-img{transform:scale(1.06);filter:brightness(.5) saturate(1.1)}
+.rg-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,5,.92) 0%,transparent 55%)}
+.rg-info{position:absolute;bottom:0;left:0;right:0;padding:24px 20px}
+.rg-occasion{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.rg-name{font-family:var(--fd);font-size:20px;font-weight:300;color:var(--white);line-height:1.2;margin-bottom:12px}
+.rg-cta{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-l);display:inline-flex;align-items:center;gap:6px;text-decoration:none;opacity:0;transform:translateY(8px);transition:all .35s var(--ease)}
 .rg-cta::after{content:'→'}
 .rg:hover .rg-cta{opacity:1;transform:translateY(0)}
-.regalo-strip{margin-top:40px;display:flex;align-items:center;justify-content:center;gap:0;background:var(--charcoal);padding:24px 40px;flex-wrap:wrap;gap:32px}
-.rs-item{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.7);font-weight:300}
-.rs-item strong{color:var(--gold)}
-.rs-sep{color:rgba(255,255,255,.2);font-size:20px}
+.regalo-strip{margin-top:0;background:var(--charcoal2);padding:26px 80px;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap}
+.rs-item{display:flex;align-items:center;gap:10px;font-size:12.5px;color:rgba(255,255,255,.65);font-weight:300}
+.rs-item strong{color:var(--gold);font-weight:500}
+.rs-sep{color:rgba(255,255,255,.15);font-size:22px}
 
-/* CUSTOM */
-.custom{padding:80px;background:var(--charcoal);display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;overflow:hidden}
-.custom::after{content:'LASER';position:absolute;right:-30px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:var(--fd);font-size:100px;font-weight:300;color:rgba(184,146,42,.04);letter-spacing:.1em;white-space:nowrap;pointer-events:none}
-.c-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.c-title{font-family:var(--fd);font-size:clamp(28px,3.2vw,46px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px}
+/* ── PERSONALIZADO / LASER ── */
+.custom{padding:100px 80px;background:var(--charcoal);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;overflow:hidden}
+.custom::after{content:'LÁSER';position:absolute;right:-20px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:var(--fd);font-size:110px;font-weight:300;color:rgba(196,154,40,.04);letter-spacing:.08em;white-space:nowrap;pointer-events:none}
+.c-kicker{font-size:9.5px;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.c-title{font-family:var(--fd);font-size:clamp(30px,3.5vw,50px);font-weight:300;color:var(--white);line-height:1.08;margin-bottom:18px}
 .c-title em{font-style:italic;color:var(--gold)}
-.c-text{font-size:15px;color:rgba(255,255,255,.52);line-height:1.85;font-weight:300;margin-bottom:24px}
-.c-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px}
-.c-item{display:flex;align-items:center;gap:11px;font-size:14px;color:rgba(255,255,255,.7);font-weight:300}
+.c-text{font-size:15px;color:rgba(255,255,255,.55);line-height:1.9;font-weight:300;margin-bottom:26px}
+.c-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.c-item{display:flex;align-items:center;gap:12px;font-size:14px;color:rgba(255,255,255,.72);font-weight:300}
 .c-item::before{content:'✦';color:var(--gold);font-size:9px;flex-shrink:0}
-.btn-gold{display:inline-block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:14px 36px;background:var(--gold);color:var(--white);text-decoration:none;border:none;cursor:pointer;transition:background .3s;font-weight:500}
-.btn-gold:hover{background:var(--gold-l)}
-.c-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.c-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:opacity .3s;filter:brightness(.92)}
-.c-img:hover{opacity:.85;filter:brightness(1)}
+.btn-gold{display:inline-block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;padding:15px 40px;background:var(--gold);color:var(--white);text-decoration:none;border:none;cursor:pointer;transition:all .3s;font-weight:500;position:relative;overflow:hidden}
+.btn-gold::before{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-101%);transition:transform .4s var(--ease)}
+.btn-gold span{position:relative;z-index:1}
+.btn-gold:hover::before{transform:translateX(0)}
+.btn-gold:hover span{color:var(--gold)}
+.c-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.c-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:all .4s;filter:brightness(.85)}
+.c-img:hover{filter:brightness(1);transform:scale(1.02)}
 
-/* PROCESS */
-.process{padding:90px 80px;background:var(--white)}
-.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:56px;position:relative}
-.process-steps::before{content:'';position:absolute;top:34px;left:80px;right:80px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+/* ── PROCESO ── */
+.process{padding:100px 80px;background:var(--cream)}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:60px;position:relative}
+.process-steps::before{content:'';position:absolute;top:38px;left:80px;right:80px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:.5}
 .ps{text-align:center;padding:0 8px;position:relative}
-/* ── MEJORA 12: números grandes y visibles ── */
-.ps-num{
-  width:68px;height:68px;border-radius:50%;
-  background:var(--white);border:2px solid var(--gold);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 20px;
-  font-family:var(--fd);font-size:28px;font-weight:400;color:var(--gold);
-  transition:all .3s;position:relative;z-index:1;
-}
-.ps:hover .ps-num{background:var(--gold);color:var(--white);transform:scale(1.1)}
-.ps-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;margin-bottom:16px;border-radius:2px;opacity:.85;transition:opacity .3s}
+.ps-num{width:72px;height:72px;border-radius:50%;background:var(--cream);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-family:var(--fd);font-size:30px;font-weight:300;color:var(--gold);transition:all .35s;position:relative;z-index:1;box-shadow:0 0 0 6px rgba(196,154,40,.08)}
+.ps:hover .ps-num{background:var(--gold);color:var(--white);box-shadow:0 0 0 10px rgba(196,154,40,.12);transform:scale(1.08)}
+.ps-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;margin-bottom:18px;opacity:.82;transition:opacity .3s;box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .ps:hover .ps-img{opacity:1}
-.ps-title{font-family:var(--fd);font-size:18px;font-weight:400;margin-bottom:8px;color:var(--charcoal)}
-.ps-text{font-size:13px;color:var(--muted);line-height:1.85;font-weight:300}
+.ps-title{font-family:var(--fd);font-size:19px;font-weight:500;margin-bottom:10px;color:var(--charcoal)}
+.ps-text{font-size:13px;color:var(--muted);line-height:1.9;font-weight:300}
 
-/* WEDDING */
-.wedding{padding:90px 80px;background:var(--gold-pale)}
-.wed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+/* ── ARGOLLAS MATRIMONIALES ── */
+.wedding{padding:100px 80px;background:var(--charcoal)}
+.wed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:60px}
 .wc{position:relative;overflow:hidden;cursor:pointer}
-.wi{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .6s var(--ease)}
-.wc:hover .wi{transform:scale(1.05)}
-.wo{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,26,26,.88) 0%,transparent 50%)}
-.winfo{position:absolute;bottom:0;left:0;right:0;padding:22px}
-.wmat{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-l);margin-bottom:5px}
-.wname{font-family:var(--fd);font-size:19px;font-weight:300;color:var(--white)}
-/* ── precio desde en argollas ── */
-.wprice{font-size:13px;color:rgba(184,146,42,.85);margin-top:4px;font-weight:300}
-.wcta{margin-top:8px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);display:flex;align-items:center;gap:6px;text-decoration:none;opacity:0;transform:translateY(7px);transition:all .3s var(--ease)}
+.wi{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .7s var(--ease);filter:brightness(.7)}
+.wc:hover .wi{transform:scale(1.06);filter:brightness(.5)}
+.wo{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,5,.94) 0%,transparent 55%)}
+.winfo{position:absolute;bottom:0;left:0;right:0;padding:26px 24px}
+.wmat{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.wname{font-family:var(--fd);font-size:21px;font-weight:300;color:var(--white)}
+.wprice{font-size:14px;color:rgba(196,154,40,.9);margin-top:4px;font-weight:300}
+.wcta{margin-top:10px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-l);display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0;transform:translateY(8px);transition:all .35s var(--ease)}
 .wcta::after{content:'→'}
 .wc:hover .wcta{opacity:1;transform:translateY(0)}
 
-/* WHY */
-.why{padding:90px 80px;background:var(--charcoal)}
-.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:56px}
-.wyc{text-align:center;padding:32px 16px;border:1px solid rgba(184,146,42,.12);transition:transform .3s,border-color .3s}
-.wyc:hover{transform:translateY(-7px);border-color:rgba(184,146,42,.4)}
-.wy-icon{font-size:32px;margin-bottom:16px;display:block}
-.wy-title{font-family:var(--fd);font-size:18px;font-weight:400;color:var(--white);margin-bottom:12px}
-.wy-text{font-size:13px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.85}
+/* ── WHY / DIFERENCIADORES ── */
+.why{padding:100px 80px;background:var(--white)}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:60px}
+.wyc{text-align:center;padding:36px 20px;background:var(--cream);border:1px solid rgba(196,154,40,.1);transition:all .35s;position:relative;overflow:hidden}
+.wyc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(196,154,40,.06) 0%,transparent 60%);opacity:0;transition:opacity .35s}
+.wyc:hover{transform:translateY(-8px);border-color:rgba(196,154,40,.3);box-shadow:0 12px 40px rgba(196,154,40,.1)}
+.wyc:hover::before{opacity:1}
+.wy-icon{font-size:36px;margin-bottom:20px;display:block}
+.wy-title{font-family:var(--fd);font-size:20px;font-weight:500;color:var(--charcoal);margin-bottom:12px}
+.wy-text{font-size:13px;font-weight:300;color:var(--muted);line-height:1.9}
 
-/* ── MEJORA 2 & 5: TESTIMONIALS con fotos y más cantidad ── */
-.testi{padding:90px 80px;background:var(--cream)}
-.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
-.tc{background:var(--white);padding:32px 24px;position:relative;transition:transform .3s}
-.tc:hover{transform:translateY(-5px)}
-.tqm{position:absolute;top:14px;right:18px;font-family:var(--fd);font-size:56px;font-weight:300;color:rgba(184,146,42,.1);line-height:1}
-.tst{color:var(--gold);font-size:11px;margin-bottom:14px}
-.tt{font-family:var(--fd);font-size:15px;font-weight:300;font-style:italic;line-height:1.65;margin-bottom:18px}
-.tline{width:30px;height:1px;background:var(--gold);margin-bottom:14px}
-/* foto + nombre */
-.t-author{display:flex;align-items:center;gap:12px}
-.t-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(184,146,42,.3);flex-shrink:0;background:var(--gold-pale)}
-.t-avatar-placeholder{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-l) 100%);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:18px;font-weight:300;color:var(--white);flex-shrink:0}
-.tn{font-size:14px;font-weight:500;line-height:1.2}
-.tl{font-size:11px;color:var(--muted);margin-top:2px}
-.tp{font-size:10px;color:var(--gold);margin-top:2px;letter-spacing:.05em}
-/* fila extra testimonios */
-.tg-extra{margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.tc.mini{padding:22px 20px}
-.tc.mini .tt{font-size:14px;margin-bottom:12px}
+/* ── TESTIMONIOS ── */
+.testi{padding:100px 80px;background:var(--cream2)}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:60px}
+.tc{background:var(--white);padding:34px 28px;position:relative;transition:all .35s;border:1px solid rgba(0,0,0,.04);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.tc:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(196,154,40,.1);border-color:rgba(196,154,40,.2)}
+.tqm{position:absolute;top:16px;right:20px;font-family:var(--fd);font-size:60px;font-weight:300;color:rgba(196,154,40,.1);line-height:1}
+.tst{font-size:14px;margin-bottom:16px;letter-spacing:.06em}
+.tt{font-family:var(--fd);font-size:16px;font-weight:300;font-style:italic;line-height:1.7;margin-bottom:20px;color:var(--mid)}
+.tline{width:32px;height:2px;background:var(--gold);margin-bottom:18px}
+.t-author{display:flex;align-items:center;gap:13px}
+.t-avatar-placeholder{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-l) 100%);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:20px;font-weight:400;color:var(--white);flex-shrink:0}
+.tn{font-size:14px;font-weight:500;color:var(--charcoal);line-height:1.2}
+.tl{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:.04em}
+.tp{font-size:10px;color:var(--gold-dim);margin-top:3px;letter-spacing:.04em}
+.tg-extra{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tc.mini{padding:24px 22px}
+.tc.mini .tt{font-size:14px;margin-bottom:14px}
 
-/* GALLERY */
-.gallery{padding:50px 80px;background:var(--white)}
-.gallery-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-.g-handle{font-size:16px;font-weight:300}
-.g-handle span{color:var(--gold);font-style:italic;font-family:var(--fd)}
+/* ── GALERÍA ── */
+.gallery{padding:56px 80px;background:var(--charcoal2)}
+.gallery-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.g-handle{font-family:var(--fd);font-size:18px;font-weight:300;color:var(--white)}
+.g-handle span{color:var(--gold);font-style:italic}
 .gg{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
 .gt{aspect-ratio:1;overflow:hidden;position:relative;cursor:pointer;background:var(--charcoal)}
-.gt img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease),opacity .3s;opacity:.9}
-.gt:hover img{transform:scale(1.1);opacity:.4}
-.gov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:var(--white);opacity:0;transition:opacity .3s;font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
-.gov span{font-size:20px}
+.gt img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s var(--ease),filter .4s;filter:brightness(.85) saturate(.9)}
+.gt:hover img{transform:scale(1.1);filter:brightness(.4) saturate(1)}
+.gov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;color:var(--white);opacity:0;transition:opacity .35s;font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;background:rgba(196,154,40,.12)}
+.gov span{font-size:22px}
 .gt:hover .gov{opacity:1}
 
-/* ── MEJORA 7 & 15: CTA FINAL mejorado ── */
-.cta-sec{padding:90px 80px;background:var(--charcoal);display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
-.cta-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.cta-title{font-family:var(--fd);font-size:clamp(28px,3.2vw,44px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px}
+/* ── CTA / CONTACTO ── */
+.cta-sec{padding:100px 80px;background:var(--charcoal);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.cta-kicker{font-size:9.5px;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.cta-title{font-family:var(--fd);font-size:clamp(30px,3.5vw,48px);font-weight:300;color:var(--white);line-height:1.08;margin-bottom:18px}
 .cta-title em{font-style:italic;color:var(--gold)}
-.cta-text{font-size:15px;color:rgba(255,255,255,.5);line-height:1.85;font-weight:300;margin-bottom:20px}
-.cta-wa{display:inline-flex;align-items:center;gap:11px;padding:16px 32px;background:var(--green);color:var(--white);text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;transition:background .3s}
-.cta-wa:hover{background:#1ea952}
-
-/* ── MEJORA 5 & 7: formulario reducido a 2 campos ── */
-.cta-or{font-size:12px;color:rgba(255,255,255,.25);margin:20px 0;display:flex;align-items:center;gap:12px}
+.cta-text{font-size:15px;color:rgba(255,255,255,.52);line-height:1.9;font-weight:300;margin-bottom:24px}
+.cta-wa{display:inline-flex;align-items:center;gap:12px;padding:17px 36px;background:var(--green);color:var(--white);text-decoration:none;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;transition:all .3s;box-shadow:0 4px 20px rgba(37,211,102,.35)}
+.cta-wa:hover{background:#1ea952;box-shadow:0 6px 28px rgba(37,211,102,.5)}
+.cta-or{font-size:11px;color:rgba(255,255,255,.22);margin:22px 0;display:flex;align-items:center;gap:14px}
 .cta-or::before,.cta-or::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
-.cta-form{display:flex;flex-direction:column;gap:11px}
-.cta-inp{padding:14px 18px;background:rgba(255,255,255,.05);border:1px solid rgba(184,146,42,.25);color:var(--white);font-family:var(--fb);font-size:14px;font-weight:300;outline:none;transition:border-color .3s;width:100%}
-.cta-inp::placeholder{color:rgba(255,255,255,.28)}
-.cta-inp:focus{border-color:var(--gold)}
-.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.cta-sub{padding:16px 32px;background:var(--gold);border:none;color:var(--white);font-family:var(--fb);font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background .3s;font-weight:500;width:100%}
-.cta-sub:hover{background:var(--gold-l)}
-.cta-priv{font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-top:3px}
-/* reassurance icons bajo el form */
-.cta-reassurance{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap}
-.cta-re{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.4);font-weight:300}
-.cta-re-icon{font-size:13px}
+.cta-form{display:flex;flex-direction:column;gap:12px}
+.cta-inp{padding:15px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(196,154,40,.22);color:var(--white);font-family:var(--fb);font-size:14px;font-weight:300;outline:none;transition:all .3s;width:100%}
+.cta-inp::placeholder{color:rgba(255,255,255,.25)}
+.cta-inp:focus{border-color:var(--gold);background:rgba(255,255,255,.07)}
+.cta-sub{padding:16px 36px;background:var(--gold);border:none;color:var(--white);font-family:var(--fb);font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;font-weight:500;width:100%;position:relative;overflow:hidden;transition:all .3s}
+.cta-sub::before{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-101%);transition:transform .4s var(--ease)}
+.cta-sub-text{position:relative;z-index:1;color:var(--white);transition:color .4s}
+.cta-sub:hover::before{transform:translateX(0)}
+.cta-sub:hover .cta-sub-text{color:var(--gold)}
+.cta-priv{font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-top:4px}
+.cta-re-row{display:flex;gap:18px;margin-top:18px;flex-wrap:wrap}
+.cta-re{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.38);font-weight:300}
+.cta-re-icon{font-size:14px}
 
-/* ── MEJORA 15: Footer con cierre emocional ── */
-.footer-cta-bar{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-l) 100%);padding:40px 80px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
-.fcb-text{font-family:var(--fd);font-size:28px;font-weight:300;font-style:italic;color:var(--white);line-height:1.2}
-.fcb-text strong{font-style:normal;font-weight:500}
-.btn-white{display:inline-flex;align-items:center;gap:10px;padding:15px 36px;background:var(--white);color:var(--gold);font-size:11px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-weight:500;transition:all .3s;white-space:nowrap}
-.btn-white:hover{background:var(--charcoal);color:var(--white)}
+/* ── TRUST STRIP ── */
+.trust{padding:30px 80px;background:var(--gold-pale2);display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;border-top:1px solid rgba(196,154,40,.15)}
+.tri{display:flex;flex-direction:column;align-items:center;gap:7px}
+.tri-icon{font-size:24px}
+.tri-lbl{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);font-weight:400}
 
-footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
-.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px}
-.ft-brand{display:flex;flex-direction:column;gap:14px}
-.ft-brand-logo{background:var(--white);border-radius:4px;padding:8px 14px;display:inline-flex;align-items:center;max-width:220px}
-.ft-about{font-size:13px;color:rgba(255,255,255,.36);line-height:1.85;font-weight:300;max-width:240px}
-.ft-soc{display:flex;gap:9px;margin-top:4px}
-.fts{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.38);text-decoration:none;font-size:11px;transition:all .3s}
+/* ── FOOTER CTA BAR ── */
+.footer-cta-bar{background:linear-gradient(125deg,var(--charcoal) 0%,var(--charcoal2) 100%);border-top:2px solid var(--gold);padding:44px 80px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.fcb-logo img{height:76px;object-fit:contain}
+.fcb-text{font-family:var(--fd);font-size:30px;font-weight:300;font-style:italic;color:var(--white);line-height:1.2}
+.fcb-text strong{font-style:normal;font-weight:500;color:var(--gold)}
+.btn-gold-solid{display:inline-flex;align-items:center;gap:10px;padding:16px 38px;background:var(--gold);color:var(--white);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;font-weight:500;transition:all .3s}
+.btn-gold-solid:hover{background:var(--gold-l)}
+
+/* ── FOOTER ── */
+footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.ft-brand{display:flex;flex-direction:column;gap:16px}
+.ft-logo-wrap{background:var(--white);border-radius:4px;padding:10px 16px;display:inline-flex;align-items:center;max-width:200px}
+.ft-logo-wrap img{height:44px;object-fit:contain}
+.ft-about{font-size:13px;color:rgba(255,255,255,.35);line-height:1.9;font-weight:300;max-width:240px}
+.ft-soc{display:flex;gap:10px}
+.fts{width:36px;height:36px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35);text-decoration:none;font-size:11px;transition:all .3s}
 .fts:hover{border-color:var(--gold);color:var(--gold)}
-.ftct{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
-.ftl{list-style:none;display:flex;flex-direction:column;gap:10px}
-.ftl a{font-size:13px;color:rgba(255,255,255,.36);text-decoration:none;font-weight:300;transition:color .3s}
+.ftct{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.ftl{list-style:none;display:flex;flex-direction:column;gap:12px}
+.ftl a{font-size:13px;color:rgba(255,255,255,.35);text-decoration:none;font-weight:300;transition:color .3s}
 .ftl a:hover{color:var(--white)}
-.ftb{border-top:1px solid rgba(255,255,255,.07);padding-top:20px;display:flex;align-items:center;justify-content:space-between}
-.ftc{font-size:12px;color:rgba(255,255,255,.2);font-weight:300}
-.ftleg{display:flex;gap:22px}
-.ftleg a{font-size:12px;color:rgba(255,255,255,.2);text-decoration:none;transition:color .3s}
+.ftb{border-top:1px solid rgba(255,255,255,.06);padding-top:22px;display:flex;align-items:center;justify-content:space-between}
+.ftc{font-size:11.5px;color:rgba(255,255,255,.2);font-weight:300}
+.ftleg{display:flex;gap:24px}
+.ftleg a{font-size:11.5px;color:rgba(255,255,255,.2);text-decoration:none;transition:color .3s}
 .ftleg a:hover{color:var(--gold)}
 
-/* TRUST */
-.trust{padding:28px 80px;background:var(--white);display:grid;grid-template-columns:repeat(4,1fr);gap:16px;text-align:center;border-top:1px solid rgba(184,146,42,.12)}
-.tri{display:flex;flex-direction:column;align-items:center;gap:6px}
-.tri-icon{font-size:22px}
-.tri-lbl{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--mid)}
-
-/* TOAST */
-.toast{position:fixed;bottom:104px;left:28px;z-index:500;background:var(--white);border-left:3px solid var(--gold);padding:14px 20px;max-width:280px;box-shadow:0 6px 32px rgba(0,0,0,.1);transform:translateX(-120%);transition:transform .5s var(--ease)}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:100px;left:28px;z-index:700;background:var(--white);border-left:3px solid var(--gold);padding:15px 22px;max-width:290px;box-shadow:0 8px 36px rgba(0,0,0,.12);transform:translateX(-120%);transition:transform .55s var(--ease)}
 .toast.show{transform:translateX(0)}
-.toast-title{font-size:13px;font-weight:500;margin-bottom:3px}
-.toast-body{font-size:12px;color:var(--muted);line-height:1.5}
-.toast-close{position:absolute;top:8px;right:10px;background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px}
+.toast-title{font-size:13px;font-weight:600;margin-bottom:4px;color:var(--charcoal)}
+.toast-body{font-size:12px;color:var(--muted);line-height:1.55}
+.toast-close{position:absolute;top:9px;right:12px;background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px}
 
-/* REVEAL */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s var(--ease-out),transform .75s var(--ease-out)}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
-/* RESPONSIVE */
-@media(max-width:1024px){
-  .hero,.story,.coll-grid,.custom,.wed-grid,.why-grid,.tg,.tg-extra,.cta-sec,.ft,.regalo-grid{grid-template-columns:1fr}
-  .hero-right{height:50vh}
+/* ════════════════════════════════
+   RESPONSIVE — TABLET (max 1100px)
+   ════════════════════════════════ */
+@media(max-width:1100px){
+  nav{padding:0 24px}
+  .nav-links{gap:22px}
+  .nav-links a{font-size:10px}
+  .story{grid-template-columns:1fr;gap:52px;padding:80px 40px}
+  .coll-grid{grid-template-columns:1fr}
   .pg{grid-template-columns:repeat(2,1fr)}
-  .process-steps{grid-template-columns:repeat(2,1fr);gap:32px}
+  .custom{grid-template-columns:1fr;padding:80px 40px}
+  .process-steps{grid-template-columns:repeat(2,1fr);gap:40px}
   .process-steps::before{display:none}
+  .wed-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .tg,.tg-extra{grid-template-columns:1fr}
+  .regalo-grid{grid-template-columns:repeat(2,1fr)}
+  .gg{grid-template-columns:repeat(4,1fr)}
+  .cta-sec{grid-template-columns:1fr;padding:80px 40px}
+  .ft{grid-template-columns:1fr 1fr}
   .trust{grid-template-columns:repeat(2,1fr)}
-  .gg{grid-template-columns:repeat(3,1fr)}
-  nav,.story,.coll,.products,.custom,.process,.wedding,.why,.testi,.gallery,.cta-sec,.trust,.regalo,.footer-cta-bar{padding-left:24px;padding-right:24px}
-  footer{padding:48px 24px 20px}
-  nav{padding:0 18px}
-  .hero-left{padding:40px 22px}
-  .emo-strip-overlay{padding:0 32px}
-  .footer-cta-bar{flex-direction:column;text-align:center}
+  .footer-cta-bar{flex-direction:column;text-align:center;padding:40px 32px}
+  footer{padding:52px 32px 24px}
+  .coll,.products,.wedding,.why,.testi,.gallery,.regalo,.process,.cta-sec,.trust{padding-left:32px;padding-right:32px}
+  .regalo-strip{padding:24px 32px}
+}
+
+/* ════════════════════════════════
+   RESPONSIVE — MÓVIL (max 640px)
+   ════════════════════════════════ */
+@media(max-width:640px){
+  body{cursor:auto}
+  .cursor,.cursor-ring{display:none}
+  nav{padding:0 16px;height:60px;top:32px}
+  nav.scrolled{height:52px}
+  .nav-links{display:none}
+  .nav-logo img{height:44px}
+  nav.scrolled .nav-logo img{height:38px}
+  .nav-cta{padding:9px 16px;font-size:10px;letter-spacing:.1em}
+  .urgency{padding:8px 12px}
+  .urgency-text{font-size:10.5px}
+  .slide{height:95vh}
+  .slide-overlay{padding:90px 6% 8% 6%;align-items:flex-end}
+  .slide-title{font-size:clamp(28px,9vw,42px)}
+  .slide-sub{font-size:14px;display:none}
+  .slide-logo img{height:44px}
+  .slide-logo{top:16px;left:16px}
+  .sl-prev,.sl-next{display:none}
+  .coll-grid{grid-template-columns:1fr}
+  .pg{grid-template-columns:1fr 1fr;gap:14px}
+  .pn{font-size:14px}
+  .regalo-grid{grid-template-columns:1fr 1fr}
+  .gg{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .wyc{padding:24px 14px}
+  .process-steps{grid-template-columns:1fr;gap:32px}
+  .ft{grid-template-columns:1fr}
+  .trust{grid-template-columns:1fr 1fr;padding:22px 20px}
+  .footer-cta-bar{padding:32px 20px}
+  .fcb-text{font-size:22px}
+  .fcb-logo{display:none}
+  footer{padding:44px 20px 20px}
+  .story,.coll,.products,.wedding,.testi,.gallery,.regalo,.process,.custom,.why,.cta-sec{padding-left:18px;padding-right:18px}
+  .story{padding-top:60px;padding-bottom:60px}
+  .emo-strip img{height:420px}
+  .emo-overlay{padding:0 6%}
+  .emo-title{font-size:clamp(28px,8vw,42px)}
+  .cta-re-row{gap:12px}
+  .regalo-strip{padding:20px 16px;gap:16px}
+  .slide-btns{gap:12px}
+  .slide-btn-main,.slide-btn-wa{padding:12px 22px;font-size:10px}
+  .spt-price{font-size:20px}
+  .toast{left:12px;max-width:calc(100vw - 24px)}
+  .wa-float{bottom:18px;right:18px;width:54px;height:54px}
+  .wa-float-tip{display:none}
 }
 </style>
 </head>
 <body>
 
 <div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-ring" id="cring"></div>
 
-<!-- ── MEJORA 9: WhatsApp flotante siempre visible ── -->
-<a href="https://wa.me/51965846128?text=Hola!%20Me%20interesa%20hacer%20un%20pedido" class="wa-float" target="_blank" id="waFloat">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="32" height="32" fill="none">
+<!-- WA FLOAT -->
+<a href="https://wa.me/51965846128?text=Hola%20Abigail!%20Estoy%20visitando%20su%20página%20y%20quisiera%20asesoría%20personalizada%20sobre%20joyería." class="wa-float" target="_blank">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30" height="30">
     <path fill="#fff" d="M24 4C13 4 4 13 4 24c0 3.6 1 7 2.7 9.9L4 44l10.4-2.7C17.2 43 20.5 44 24 44c11 0 20-9 20-20S35 4 24 4z"/>
     <path fill="#25D366" d="M24 6.5C14.3 6.5 6.5 14.3 6.5 24c0 3.3.9 6.4 2.5 9.1L6.5 41.5l8.6-2.5c2.6 1.5 5.6 2.3 8.9 2.3 9.7 0 17.5-7.8 17.5-17.5S33.7 6.5 24 6.5z"/>
     <path fill="#fff" d="M34.3 29.6c-.5-.2-2.8-1.4-3.3-1.5-.4-.2-.7-.2-1 .2-.3.5-1.2 1.5-1.5 1.8-.3.3-.5.4-1 .1-.5-.2-2-.7-3.8-2.3-1.4-1.2-2.3-2.7-2.6-3.2-.3-.5 0-.7.2-1 .2-.2.5-.5.7-.8.2-.3.3-.5.4-.8.2-.3 0-.6-.1-.8-.1-.2-1-2.5-1.4-3.4-.4-.9-.8-.8-1-.8h-.9c-.3 0-.8.1-1.2.6-.4.5-1.6 1.5-1.6 3.7s1.6 4.3 1.9 4.6c.2.3 3.2 5 7.9 6.8 1.1.5 2 .7 2.7.9 1.1.3 2.1.3 2.9.2.9-.1 2.8-1.1 3.2-2.2.4-1.1.4-2 .3-2.2-.1-.2-.4-.3-.9-.5z"/>
   </svg>
-  <span class="wa-float-label">Escríbenos ahora</span>
+  <span class="wa-float-tip">Escríbenos ahora</span>
 </a>
 
 <!-- URGENCY BAR -->
 <div class="urgency" id="urgBar">
   <p class="urgency-text">
-    <span class="urgency-count"><span class="urgency-dot"></span> <strong id="urgCount">12</strong> personas viendo ahora</span>
-    &nbsp;·&nbsp; Envíos a todo Perú &nbsp;·&nbsp; <strong>WhatsApp: 965 846 128</strong>
+    <span class="urgency-dot"></span>
+    <span id="urgCount">14</span> personas viendo ahora &nbsp;·&nbsp;
+    <strong>WhatsApp: 965 846 128</strong> &nbsp;·&nbsp;
+    Envíos a todo Perú &amp; internacional &nbsp;·&nbsp;
+    Grabado láser personalizado
   </p>
   <button class="urgency-close" onclick="document.getElementById('urgBar').classList.add('hidden')">×</button>
 </div>
@@ -485,7 +504,7 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
 <!-- NAV -->
 <nav id="mainNav">
   <a href="#" class="nav-logo">
-    <img src="img2/logo-final.png" alt="Abigail RM - The Atelier · Joyería de Autor" style="border-radius:3px">
+    <img src="img2/logo-final.png" alt="Abigail RM · The Atelier">
   </a>
   <ul class="nav-links">
     <li><a href="#anillos">Anillos</a></li>
@@ -494,73 +513,123 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
     <li><a href="#regalo">Regalos</a></li>
     <li><a href="#nosotros">Nosotros</a></li>
   </ul>
-  <a href="https://wa.me/51965846128" class="nav-wa btn-pulse" target="_blank">📲 Pedir ahora</a>
+  <a href="https://wa.me/51965846128?text=Hola%20Abigail!%20Vi%20su%20página%20y%20me%20interesa%20hacer%20un%20pedido.%20¿Me%20pueden%20asesorar?" class="nav-cta" target="_blank">📲 Pedir ahora</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <p class="hero-eyebrow">The Atelier · Joyería de autor</p>
-    <h1 class="hero-title">Encuentra la joya<br>que <em>siempre</em><br>soñaste</h1>
-    <p class="hero-sub">Anillos de compromiso, argollas matrimoniales y piezas únicas personalizadas con grabado láser. Plata 950 · Oro 18K · Acero quirúrgico.</p>
-
-    <!-- ── MEJORA 1: Precio ancla ── -->
-    <div class="hero-price-anchor">
-      <span class="hpa-label">Anillos</span>
-      <span class="hpa-price">Desde S/ 89</span>
-      <span class="hpa-sep">·</span>
-      <span class="hpa-label">Argollas par</span>
-      <span class="hpa-price">Desde S/ 250</span>
-    </div>
-
-    <div class="hero-btns">
-      <!-- ── MEJORA 3: verbo de apropiación ── -->
-      <a href="#anillos" class="btn-dark btn-pulse"><span>Quiero la mía →</span></a>
-      <a href="https://wa.me/51965846128" class="btn-link" target="_blank">
-        <span class="wdot"></span>Asesoría gratis por WhatsApp
-      </a>
-    </div>
-
-    <div class="hero-stats">
-      <div><div class="stat-n">+500</div><div class="stat-l">Piezas entregadas</div></div>
-      <div><div class="stat-n">18K</div><div class="stat-l">Oro certificado</div></div>
-      <div><div class="stat-n">100%</div><div class="stat-l">Personalizable</div></div>
-    </div>
-
-    <!-- ── MEJORA 4: viewer counter ── -->
-    <div class="hero-social-proof">
-      <span class="hsp-dot"></span>
-      <span id="heroViewers">8 personas están viendo esta página ahora mismo</span>
-    </div>
+<!-- ════ SLIDER ════ -->
+<div class="slider-section" id="heroSlider">
+  <div class="slide-logo">
+    <img src="img2/logo-final.png" alt="Abigail RM · The Atelier">
   </div>
+  <div class="slider-track" id="sliderTrack">
 
-  <div class="hero-right">
-    <img class="hero-img" src="img2/ai05.png" alt="Anillo solitario oro Abigail RM">
-    <div class="hero-grad"></div>
-    <!-- ── MEJORA 4: scarcity badge ── -->
-    <div class="hero-scarcity">
-      <div class="hs-num" id="heroStock">3</div>
-      <div class="hs-lbl">unidades<br>disponibles</div>
+    <!-- SLIDE 1: Solitario clásico -->
+    <div class="slide active" id="slide-0">
+      <img src="img2/ai01.png" alt="Anillo solitario oro Abigail RM">
+      <div class="slide-overlay">
+        <div class="slide-content">
+          <div class="slide-num">Colección compromiso</div>
+          <h2 class="slide-title">El anillo que<br>le dirá <em>sí</em></h2>
+          <p class="slide-sub">Anillos de compromiso en oro 18K y plata 950. Diseñados para el momento más importante de tu vida.</p>
+          <div class="slide-price-tag">
+            <div><div class="spt-label">Desde</div><div class="spt-price">S/ 120</div></div>
+            <div style="width:1px;height:36px;background:rgba(196,154,40,.35)"></div>
+            <div><div class="spt-label">Material</div><div class="spt-price" style="font-size:16px;margin-top:4px">Oro 18K</div></div>
+          </div>
+          <div class="slide-btns">
+            <a href="#anillos" class="slide-btn-main"><span>Ver anillos →</span></a>
+            <a href="https://wa.me/51965846128?text=Hola!%20Busco%20un%20anillo%20de%20compromiso.%20¿Me%20pueden%20asesorar?" class="slide-btn-wa" target="_blank"><span class="wdot-s"></span>Asesoría gratis</a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="hero-badge" style="padding:10px 16px;display:flex;flex-direction:column;align-items:center;gap:6px">
-      <img src="img2/logo-final.png" alt="Abigail RM" style="height:60px;object-fit:contain;border-radius:3px">
-      <div class="badge-l" style="text-align:center">Grabado láser personalizado</div>
+
+    <!-- SLIDE 2: Ceremonia matrimonial -->
+    <div class="slide" id="slide-1">
+      <img src="img2/ai03.png" alt="Ceremonia matrimonial argollas">
+      <div class="slide-overlay">
+        <div class="slide-content">
+          <div class="slide-num">Argollas matrimoniales</div>
+          <h2 class="slide-title">El inicio de<br>su <em>siempre</em></h2>
+          <p class="slide-sub">Argollas en oro 18K grabadas con sus nombres y la fecha que lo cambió todo. Para él y para ella.</p>
+          <div class="slide-price-tag">
+            <div><div class="spt-label">Par desde</div><div class="spt-price">S/ 250</div></div>
+            <div style="width:1px;height:36px;background:rgba(196,154,40,.35)"></div>
+            <div><div class="spt-label">Grabado</div><div class="spt-price" style="font-size:16px;margin-top:4px">Incluido</div></div>
+          </div>
+          <div class="slide-btns">
+            <a href="#argollas" class="slide-btn-main"><span>Ver argollas →</span></a>
+            <a href="https://wa.me/51965846128?text=Hola!%20Busco%20argollas%20matrimoniales%20en%20oro.%20¿Pueden%20asesorarme?" class="slide-btn-wa" target="_blank"><span class="wdot-s"></span>Consultar ahora</a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="hero-scroll-ind">Scroll</div>
+
+    <!-- SLIDE 3: Chevalier personalizado -->
+    <div class="slide" id="slide-2">
+      <img src="img2/ai07.png" alt="Chevalier personalizado grabado láser">
+      <div class="slide-overlay">
+        <div class="slide-content">
+          <div class="slide-num">Men & Chevalier · Grabado láser</div>
+          <h2 class="slide-title">Tu nombre,<br>tu <em>sello</em></h2>
+          <p class="slide-sub">Anillos chevalier personalizados con tu nombre, logo o diseño. Tecnología láser de precisión milimétrica.</p>
+          <div class="slide-price-tag">
+            <div><div class="spt-label">Desde</div><div class="spt-price">S/ 89</div></div>
+            <div style="width:1px;height:36px;background:rgba(196,154,40,.35)"></div>
+            <div><div class="spt-label">Plata 950</div><div class="spt-price" style="font-size:16px;margin-top:4px">& Oro 18K</div></div>
+          </div>
+          <div class="slide-btns">
+            <a href="#personalizado" class="slide-btn-main"><span>Personalizar →</span></a>
+            <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesa%20un%20anillo%20con%20grabado%20láser%20personalizado.%20¿Me%20dan%20información?" class="slide-btn-wa" target="_blank"><span class="wdot-s"></span>Cotización gratis</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Caja regalo -->
+    <div class="slide" id="slide-3">
+      <img src="img2/gm08.png" alt="Caja Abigail RM The Atelier regalo joyería">
+      <div class="slide-overlay">
+        <div class="slide-content">
+          <div class="slide-num">Joyería de autor · The Atelier</div>
+          <h2 class="slide-title">El regalo que<br><em>nunca olvidan</em></h2>
+          <p class="slide-sub">Cada joya llega en caja especial Abigail RM. Perfecta para cumpleaños, aniversarios y momentos únicos.</p>
+          <div class="slide-price-tag">
+            <div><div class="spt-label">Caja regalo</div><div class="spt-price" style="font-size:16px;margin-top:4px">Incluida</div></div>
+            <div style="width:1px;height:36px;background:rgba(196,154,40,.35)"></div>
+            <div><div class="spt-label">Envío</div><div class="spt-price" style="font-size:16px;margin-top:4px">Todo Perú</div></div>
+          </div>
+          <div class="slide-btns">
+            <a href="#regalo" class="slide-btn-main"><span>Ver regalos →</span></a>
+            <a href="https://wa.me/51965846128?text=Hola!%20Busco%20un%20regalo%20especial%20en%20joyería.%20¿Me%20pueden%20ayudar%20a%20elegir?" class="slide-btn-wa" target="_blank"><span class="wdot-s"></span>Pedir asesoría</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-</section>
+  <button class="sl-prev" id="sliderPrev">&#8592;</button>
+  <button class="sl-next" id="sliderNext">&#8594;</button>
+  <div class="sl-dots">
+    <div class="sd active" onclick="goToSlide(0)"></div>
+    <div class="sd" onclick="goToSlide(1)"></div>
+    <div class="sd" onclick="goToSlide(2)"></div>
+    <div class="sd" onclick="goToSlide(3)"></div>
+  </div>
+  <div class="sl-progress" id="sliderProgress"></div>
+</div>
 
 <!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
+<div class="mq-wrap">
+  <div class="mq-track">
     <span class="mi">Plata Ley 950</span><span class="md">✦</span>
     <span class="mi">Oro 18K</span><span class="md">✦</span>
     <span class="mi">Oro Blanco</span><span class="md">✦</span>
     <span class="mi">Oro Rosado</span><span class="md">✦</span>
     <span class="mi">Acero quirúrgico</span><span class="md">✦</span>
     <span class="mi">Grabado láser</span><span class="md">✦</span>
-    <span class="mi">Envíos internacional</span><span class="md">✦</span>
-    <span class="mi">Men & Chevalier</span><span class="md">✦</span>
+    <span class="mi">Envíos internacionales</span><span class="md">✦</span>
+    <span class="mi">Men &amp; Chevalier</span><span class="md">✦</span>
     <span class="mi">The Atelier</span><span class="md">✦</span>
     <span class="mi">Plata Ley 950</span><span class="md">✦</span>
     <span class="mi">Oro 18K</span><span class="md">✦</span>
@@ -568,36 +637,34 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
     <span class="mi">Oro Rosado</span><span class="md">✦</span>
     <span class="mi">Acero quirúrgico</span><span class="md">✦</span>
     <span class="mi">Grabado láser</span><span class="md">✦</span>
-    <span class="mi">Envíos internacional</span><span class="md">✦</span>
-    <span class="mi">Men & Chevalier</span><span class="md">✦</span>
+    <span class="mi">Envíos internacionales</span><span class="md">✦</span>
+    <span class="mi">Men &amp; Chevalier</span><span class="md">✦</span>
     <span class="mi">The Atelier</span><span class="md">✦</span>
   </div>
 </div>
 
-<!-- ── MEJORA 7: NOSOTROS con por qué + foto fundadora ── -->
+<!-- NOSOTROS -->
 <section class="story reveal" id="nosotros">
   <div class="story-mosaic">
-    <img class="sm tall" src="img2/ai09.png" alt="Abigail RM Arteaga" style="object-position:center top">
-    <img class="sm sq" src="img2/ai04.png" alt="Proceso artesanal">
-    <img class="sm sq" src="img2/ai03.png" alt="Ceremonia matrimonio">
+    <img class="sm tall" src="img2/ai09.png" alt="Abigail RM Arteaga fundadora" style="object-position:center top">
+    <img class="sm sq" src="img2/ai04.png" alt="Proceso artesanal joyería">
+    <img class="sm sq" src="img2/ai03.png" alt="Ceremonia matrimonio argollas">
     <div class="s-acc"></div>
   </div>
   <div>
-    <div class="s-why">✦ Por qué hacemos esto</div>
-    <blockquote class="s-quote">"Vi a mi mamá guardar su argolla en una cajita porque se había opacado. Desde ese día decidí que ninguna joya debería perder su brillo."</blockquote>
+    <div class="s-why">Por qué hacemos esto</div>
+    <blockquote class="s-quote">"Vi a mi mamá guardar su argolla porque se había opacado. Desde ese día decidí que ninguna joya debería perder su brillo."</blockquote>
     <p class="s-body">Ese momento marcó a Abigail. Estudió, aprendió y construyó The Atelier con una sola misión: que cada pieza que salga de nuestras manos dure toda una vida.<br><br>Hoy trabajamos con plata 950, oro 18K certificado y tecnología de grabado láser para ofrecerte algo completamente único. Desde Lima enviamos a todo el Perú y también al extranjero.</p>
     <div class="s-founder">
-      <img class="s-founder-img" src="img2/logo-final.png" alt="Abigail RM Arteaga" style="object-fit:contain;background:var(--cream);padding:6px;border-radius:8px;width:72px;height:72px">
-      <div class="s-founder-info">
+      <img class="s-founder-img" src="img2/logo-final.png" alt="Abigail RM" style="object-fit:contain;background:var(--cream);padding:6px;border-radius:8px">
+      <div>
         <div class="s-sig">Abigail RM Arteaga</div>
         <div class="s-role">Fundadora · The Atelier · 965 846 128</div>
       </div>
     </div>
     <div class="mt">
-      <span class="mtag">Plata 950</span>
-      <span class="mtag">Oro 18K</span>
-      <span class="mtag">Oro Blanco</span>
-      <span class="mtag">Oro Rosado</span>
+      <span class="mtag">Plata 950</span><span class="mtag">Oro 18K</span>
+      <span class="mtag">Oro Blanco</span><span class="mtag">Oro Rosado</span>
       <span class="mtag">Acero 316L</span>
     </div>
   </div>
@@ -607,8 +674,8 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
 <section class="coll" id="anillos">
   <div class="sh reveal">
     <div class="sk">Nuestras colecciones</div>
-    <h2 class="st">Encuentra la pieza<br><em>que te representa</em></h2>
-    <p class="sd">Cada colección nace de una emoción. Hay una que habla de ti.</p>
+    <h2 class="st">Encuentra la pieza que<br><em>te representa</em></h2>
+    <p class="sd-text">Cada colección nace de una emoción. Hay una que habla de ti.</p>
   </div>
   <div class="coll-grid reveal">
     <div class="cc">
@@ -616,7 +683,6 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
       <div class="cc-info">
         <div class="cc-mat">Oro 18K · Plata 950</div>
         <h3 class="cc-name">Anillos de Compromiso</h3>
-        <!-- ── precio ancla ── -->
         <div class="cc-price">Desde S/ 120</div>
         <p class="cc-desc">Solitarios, corazones, coronas y diseños únicos con piedras brillantes.</p>
         <a href="#productos" class="cc-link">Diseñar el mío</a>
@@ -628,15 +694,15 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
         <div class="cc-mat">Oro 18K · Plata Laminada</div>
         <h3 class="cc-name">Argollas Matrimoniales</h3>
         <div class="cc-price">Par desde S/ 250</div>
-        <p class="cc-desc">Argollas para él y para ella. Grabadas con sus nombres y fecha.</p>
+        <p class="cc-desc">Para él y para ella. Grabadas con sus nombres y la fecha que lo cambió todo.</p>
         <a href="#argollas" class="cc-link">Ver argollas</a>
       </div>
     </div>
     <div class="cc">
-      <img class="cc-img" src="img2/ai07.png" alt="Men & Chevalier">
+      <img class="cc-img" src="img2/ai07.png" alt="Men & Chevalier Personalizado">
       <div class="cc-info">
         <div class="cc-mat">Grabado láser · Personalizado</div>
-        <h3 class="cc-name">Men & Chevalier</h3>
+        <h3 class="cc-name">Men &amp; Chevalier</h3>
         <div class="cc-price">Desde S/ 89</div>
         <p class="cc-desc">Tu nombre, logo o imagen grabado con precisión láser en plata u oro.</p>
         <a href="#personalizado" class="cc-link">Personalizar ahora</a>
@@ -660,159 +726,118 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
     <button class="fb" onclick="filterP(this,'plata')">Plata</button>
   </div>
   <div class="pg reveal">
-
     <div class="pc" data-cat="compromiso oro">
       <div class="piw">
         <span class="pb fav">⭐ Favorito</span>
         <img class="pi" src="img2/ai01.png" alt="Solitario Clásico Oro">
-        <div class="p-viewers"><span class="pv-dot"></span> 6 personas viendo</div>
-        <div class="pa">
-          <button class="pab pri" onclick="wa('Anillo Solitario Clásico Oro 18K — lo vi en la página')">Quiero éste</button>
-          <button class="pab sec">♡</button>
-        </div>
+        <div class="p-viewers"><span class="pv-dot"></span>6 viendo</div>
+        <div class="pa"><button class="pab pri" onclick="wa('Anillo Solitario Clásico Oro 18K')">Quiero éste</button><button class="pab sec">♡</button></div>
       </div>
-      <div class="pm">Oro 18K</div>
-      <h3 class="pn">Solitario Clásico</h3>
-      <div class="pp"><span class="pp-from">Desde</span>S/ 180</div>
+      <div class="pm">Oro 18K</div><h3 class="pn">Solitario Clásico</h3>
+      <div class="pp"><span class="pp-from">Desde </span>S/ 180</div>
       <div class="pst">★★★★★ (24)</div>
-      <div class="p-scarcity">Solo 4 unidades disponibles</div>
+      <div class="p-scarcity">Solo 4 disponibles</div>
     </div>
-
     <div class="pc" data-cat="compromiso oro">
       <div class="piw">
         <span class="pb new">✨ Nuevo</span>
-        <img class="pi" src="img2/ai08.png" alt="Corazón Halo">
-        <div class="p-viewers"><span class="pv-dot"></span> 9 personas viendo</div>
-        <div class="pa">
-          <button class="pab pri" onclick="wa('Anillo Corazón Halo Oro 18K — lo vi en la página')">Quiero éste</button>
-          <button class="pab sec">♡</button>
-        </div>
+        <img class="pi" src="img2/ai08.png" alt="Corazón Halo Oro">
+        <div class="p-viewers"><span class="pv-dot"></span>9 viendo</div>
+        <div class="pa"><button class="pab pri" onclick="wa('Anillo Corazón Halo Oro 18K con Zirconia')">Quiero éste</button><button class="pab sec">♡</button></div>
       </div>
-      <div class="pm">Oro 18K · Zirconia</div>
-      <h3 class="pn">Corazón Halo</h3>
-      <div class="pp"><span class="pp-from">Desde</span>S/ 220</div>
+      <div class="pm">Oro 18K · Zirconia</div><h3 class="pn">Corazón Halo</h3>
+      <div class="pp"><span class="pp-from">Desde </span>S/ 220</div>
       <div class="pst">★★★★★ (18)</div>
     </div>
-
     <div class="pc" data-cat="compromiso oro">
       <div class="piw">
         <span class="pb last">🔥 Últimas 3</span>
-        <img class="pi" src="img2/ai09.png" alt="Corona Reina">
-        <div class="p-viewers"><span class="pv-dot"></span> 12 personas viendo</div>
-        <div class="pa">
-          <button class="pab pri" onclick="wa('Anillo Corona Reina Oro 18K — lo vi en la página')">Quiero éste</button>
-          <button class="pab sec">♡</button>
-        </div>
+        <img class="pi" src="img2/ai09.png" alt="Corona Reina Oro">
+        <div class="p-viewers"><span class="pv-dot"></span>12 viendo</div>
+        <div class="pa"><button class="pab pri" onclick="wa('Anillo Corona Reina Oro 18K con Diamantes')">Quiero éste</button><button class="pab sec">♡</button></div>
       </div>
-      <div class="pm">Oro 18K · Diamantes</div>
-      <h3 class="pn">Corona Reina</h3>
-      <div class="pp"><span class="pp-from">Desde</span>S/ 310</div>
+      <div class="pm">Oro 18K · Diamantes</div><h3 class="pn">Corona Reina</h3>
+      <div class="pp"><span class="pp-from">Desde </span>S/ 310</div>
       <div class="pst">★★★★★ (31)</div>
       <div class="p-scarcity">¡Solo quedan 3!</div>
     </div>
-
     <div class="pc" data-cat="compromiso oro">
       <div class="piw">
         <span class="pb avail">✅ Disponible hoy</span>
-        <img class="pi" src="img2/ai05.png" alt="Solitario Premium">
-        <div class="p-viewers"><span class="pv-dot"></span> 5 personas viendo</div>
-        <div class="pa">
-          <button class="pab pri" onclick="wa('Anillo Solitario Premium Oro — lo vi en la página')">Quiero éste</button>
-          <button class="pab sec">♡</button>
-        </div>
+        <img class="pi" src="img2/ai05.png" alt="Solitario Premium Fondo Negro">
+        <div class="p-viewers"><span class="pv-dot"></span>5 viendo</div>
+        <div class="pa"><button class="pab pri" onclick="wa('Anillo Solitario Premium Oro')">Quiero éste</button><button class="pab sec">♡</button></div>
       </div>
-      <div class="pm">Oro 18K</div>
-      <h3 class="pn">Solitario Premium</h3>
-      <div class="pp"><span class="pp-from">Desde</span>S/ 280</div>
+      <div class="pm">Oro 18K</div><h3 class="pn">Solitario Premium</h3>
+      <div class="pp"><span class="pp-from">Desde </span>S/ 280</div>
       <div class="pst">★★★★★ (15)</div>
     </div>
-
     <div class="pc" data-cat="argolla oro">
       <div class="piw">
         <span class="pb wed">💍 Matrimonio</span>
         <img class="pi" src="img2/ai06.png" alt="Argollas Par Oro">
-        <div class="p-viewers"><span class="pv-dot"></span> 7 personas viendo</div>
-        <div class="pa">
-          <button class="pab pri" onclick="wa('Argollas Matrimoniales Oro 18K par — lo vi en la página')">Quiero éstas</button>
-          <button class="pab sec">♡</button>
-        </div>
+        <div class="p-viewers"><span class="pv-dot"></span>7 viendo</div>
+        <div class="pa"><button class="pab pri" onclick="wa('Argollas Matrimoniales Oro 18K par')">Quiero éstas</button><button class="pab sec">♡</button></div>
       </div>
-      <div class="pm">Oro 18K · Par</div>
-      <h3 class="pn">Argollas Clásicas</h3>
-      <div class="pp"><span class="pp-from">Par desde</span>S/ 350</div>
+      <div class="pm">Oro 18K · Par</div><h3 class="pn">Argollas Clásicas</h3>
+      <div class="pp"><span class="pp-from">Par desde </span>S/ 350</div>
       <div class="pst">★★★★★ (42)</div>
     </div>
-
     <div class="pc" data-cat="argolla oro">
       <div class="piw">
         <span class="pb fav">⭐ Más pedidas</span>
         <img class="pi" src="img/p11.jpg" alt="Argollas Diamantadas">
-        <div class="p-viewers"><span class="pv-dot"></span> 11 personas viendo</div>
-        <div class="pa">
-          <button class="pab pri" onclick="wa('Argollas Diamantadas Oro 18K — lo vi en la página')">Quiero éstas</button>
-          <button class="pab sec">♡</button>
-        </div>
+        <div class="p-viewers"><span class="pv-dot"></span>11 viendo</div>
+        <div class="pa"><button class="pab pri" onclick="wa('Argollas Diamantadas Oro 18K')">Quiero éstas</button><button class="pab sec">♡</button></div>
       </div>
-      <div class="pm">Oro 18K · Par</div>
-      <h3 class="pn">Argollas Diamantadas</h3>
-      <div class="pp"><span class="pp-from">Par desde</span>S/ 420</div>
+      <div class="pm">Oro 18K · Par</div><h3 class="pn">Argollas Diamantadas</h3>
+      <div class="pp"><span class="pp-from">Par desde </span>S/ 420</div>
       <div class="pst">★★★★★ (38)</div>
     </div>
-
     <div class="pc" data-cat="chevalier plata">
       <div class="piw">
         <span class="pb cus">⚡ Personalizado</span>
-        <img class="pi" src="img2/ai07.png" alt="Chevalier Sello">
-        <div class="p-viewers"><span class="pv-dot"></span> 4 personas viendo</div>
-        <div class="pa">
-          <button class="pab pri" onclick="wa('Anillo Chevalier Sello personalizado — lo vi en la página')">Personalizar</button>
-          <button class="pab sec">♡</button>
-        </div>
+        <img class="pi" src="img2/ai07.png" alt="Chevalier Sello Oro">
+        <div class="p-viewers"><span class="pv-dot"></span>4 viendo</div>
+        <div class="pa"><button class="pab pri" onclick="wa('Anillo Chevalier Sello personalizado Oro o Plata')">Personalizar</button><button class="pab sec">♡</button></div>
       </div>
-      <div class="pm">Oro 18K · Plata 950</div>
-      <h3 class="pn">Chevalier Sello</h3>
-      <div class="pp"><span class="pp-from">Desde</span>S/ 130</div>
+      <div class="pm">Oro 18K · Plata 950</div><h3 class="pn">Chevalier Sello</h3>
+      <div class="pp"><span class="pp-from">Desde </span>S/ 130</div>
       <div class="pst">★★★★★ (19)</div>
     </div>
-
     <div class="pc" data-cat="chevalier plata">
       <div class="piw">
         <span class="pb last">🔥 Exclusivo</span>
-        <img class="pi" src="img/p1.jpg" alt="Chevalier Águila Plata">
-        <div class="p-viewers"><span class="pv-dot"></span> 3 personas viendo</div>
-        <div class="pa">
-          <button class="pab pri" onclick="wa('Chevalier Águila Plata 950 — lo vi en la página')">Personalizar</button>
-          <button class="pab sec">♡</button>
-        </div>
+        <img class="pi" src="img/p1.jpg" alt="Chevalier Águila Plata 950">
+        <div class="p-viewers"><span class="pv-dot"></span>3 viendo</div>
+        <div class="pa"><button class="pab pri" onclick="wa('Chevalier Águila Plata 950 Men and Chevalier')">Personalizar</button><button class="pab sec">♡</button></div>
       </div>
-      <div class="pm">Plata 950 · Men & Chevalier</div>
-      <h3 class="pn">Chevalier Águila</h3>
-      <div class="pp"><span class="pp-from">Desde</span>S/ 89</div>
+      <div class="pm">Plata 950 · Men &amp; Chevalier</div><h3 class="pn">Chevalier Águila</h3>
+      <div class="pp"><span class="pp-from">Desde </span>S/ 89</div>
       <div class="pst">★★★★★ (11)</div>
     </div>
-
   </div>
 </section>
 
 <!-- EMOTIONAL STRIP -->
 <div class="emo-strip">
-  <img src="img2/ai03.png" alt="Ceremonia de matrimonio argollas">
-  <div class="emo-strip-overlay">
+  <img src="img2/ai03.png" alt="Ceremonia de matrimonio argollas oro">
+  <div class="emo-overlay">
     <div class="emo-content reveal">
       <div class="emo-kicker">El momento que se graba para siempre</div>
       <h2 class="emo-title">Argollas que<br>cuentan su<br><em>historia de amor</em></h2>
       <p class="emo-text">Porque ese instante merece el mejor metal. Argollas en oro 18K, grabadas con sus nombres y la fecha que lo cambió todo.</p>
-      <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesan%20argollas%20matrimoniales" class="btn-gold-outline" target="_blank">Ver argollas →</a>
+      <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesan%20argollas%20matrimoniales%20en%20oro%2018K.%20¿Me%20pueden%20asesorar?" class="btn-outline-gold" target="_blank">Ver argollas matrimoniales →</a>
     </div>
   </div>
 </div>
 
-<!-- ── MEJORA 6: SECCIÓN REGALOS ── -->
+<!-- REGALOS -->
 <section class="regalo reveal" id="regalo">
   <div class="sh">
     <div class="sk">El regalo perfecto</div>
     <h2 class="st">¿A quién quieres<br><em>hacer feliz hoy?</em></h2>
-    <p class="sd">El 68% de nuestras joyas son regalos. Encuentra la pieza perfecta para cada momento especial.</p>
+    <p class="sd-text">El 68% de nuestras joyas son regalos. Encuentra la pieza perfecta para cada momento especial.</p>
   </div>
   <div class="regalo-grid">
     <div class="rg">
@@ -821,34 +846,34 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
       <div class="rg-info">
         <div class="rg-occasion">Para mamá</div>
         <div class="rg-name">Amor que<br>no se olvida</div>
-        <a href="https://wa.me/51965846128?text=Busco%20un%20regalo%20para%20mi%20mamá" class="rg-cta" target="_blank">Ver opciones</a>
+        <a href="https://wa.me/51965846128?text=Hola!%20Busco%20un%20regalo%20de%20joyería%20para%20mi%20mamá.%20¿Me%20pueden%20ayudar?" class="rg-cta" target="_blank">Ver opciones</a>
       </div>
     </div>
     <div class="rg">
-      <img class="rg-img" src="img2/ai08.png" alt="Regalo de compromiso">
+      <img class="rg-img" src="img2/ai08.png" alt="Anillo de compromiso regalo">
       <div class="rg-overlay"></div>
       <div class="rg-info">
         <div class="rg-occasion">Para ella</div>
         <div class="rg-name">La propuesta<br>de tu vida</div>
-        <a href="https://wa.me/51965846128?text=Busco%20un%20anillo%20de%20compromiso" class="rg-cta" target="_blank">Ver opciones</a>
+        <a href="https://wa.me/51965846128?text=Hola!%20Busco%20un%20anillo%20de%20compromiso%20para%20pedirle%20matrimonio.%20¿Me%20asesoran?" class="rg-cta" target="_blank">Ver opciones</a>
       </div>
     </div>
     <div class="rg">
-      <img class="rg-img" src="img2/ai07.png" alt="Regalo para él">
+      <img class="rg-img" src="img2/ai07.png" alt="Chevalier regalo para él">
       <div class="rg-overlay"></div>
       <div class="rg-info">
         <div class="rg-occasion">Para él</div>
         <div class="rg-name">Estilo que<br>lo distingue</div>
-        <a href="https://wa.me/51965846128?text=Busco%20un%20regalo%20para%20un%20hombre" class="rg-cta" target="_blank">Ver opciones</a>
+        <a href="https://wa.me/51965846128?text=Hola!%20Busco%20un%20regalo%20de%20joyería%20para%20un%20hombre.%20¿Qué%20me%20recomiendan?" class="rg-cta" target="_blank">Ver opciones</a>
       </div>
     </div>
     <div class="rg">
-      <img class="rg-img" src="img2/ai06.png" alt="Regalo de matrimonio">
+      <img class="rg-img" src="img2/ai06.png" alt="Argollas regalo de boda">
       <div class="rg-overlay"></div>
       <div class="rg-info">
         <div class="rg-occasion">Para su boda</div>
         <div class="rg-name">El regalo<br>que dura siempre</div>
-        <a href="https://wa.me/51965846128?text=Busco%20un%20regalo%20para%20una%20boda" class="rg-cta" target="_blank">Ver opciones</a>
+        <a href="https://wa.me/51965846128?text=Hola!%20Busco%20un%20regalo%20especial%20para%20una%20boda.%20¿Me%20pueden%20recomendar?" class="rg-cta" target="_blank">Ver opciones</a>
       </div>
     </div>
   </div>
@@ -859,16 +884,16 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
     <span class="rs-sep">·</span>
     <div class="rs-item">🚚 <span>Envío express <strong>disponible</strong></span></div>
     <span class="rs-sep">·</span>
-    <div class="rs-item">💬 <span>Te asesoramos <strong>gratis</strong></span></div>
+    <div class="rs-item">💬 <span>Asesoría <strong>gratuita</strong></span></div>
   </div>
 </section>
 
-<!-- PERSONALIZADO / LASER -->
+<!-- PERSONALIZADO -->
 <section class="custom" id="personalizado">
   <div class="reveal">
     <div class="c-kicker">Servicio exclusivo · The Atelier</div>
     <h2 class="c-title">Grabado láser<br><em>con tu diseño</em></h2>
-    <p class="c-text">Personalizamos anillos chevalier y sellos con nombres, logos, retratos, fechas o cualquier diseño. Desde S/ 89.</p>
+    <p class="c-text">Personalizamos anillos chevalier y sellos con nombres, logos, retratos, fechas o cualquier diseño. Tecnología de grabado láser de alta precisión. Desde S/ 89.</p>
     <ul class="c-list">
       <li class="c-item">Plata Ley 950</li>
       <li class="c-item">Plata Laminado en Oro 18K</li>
@@ -876,12 +901,12 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
       <li class="c-item">Ideal para regalos corporativos y personales</li>
       <li class="c-item">Envíos desde Lima · Nacional e internacional</li>
     </ul>
-    <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesa%20un%20anillo%20con%20grabado%20láser%20personalizado" class="btn-gold btn-pulse" target="_blank">Solicitar cotización gratis →</a>
+    <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesa%20un%20anillo%20con%20grabado%20láser%20personalizado.%20¿Me%20dan%20información%20y%20precios?" class="btn-gold" target="_blank"><span>Solicitar cotización gratis →</span></a>
   </div>
   <div class="c-img-grid reveal">
-    <img class="c-img" src="img2/gm07.png" alt="Máquina grabado láser">
-    <img class="c-img" src="img2/ai07.png" alt="Chevalier personalizado">
-    <img class="c-img" src="img/p2.jpg" alt="Sellos personalizados">
+    <img class="c-img" src="img2/gm07.png" alt="Máquina grabado láser joyería">
+    <img class="c-img" src="img2/ai07.png" alt="Chevalier personalizado oro">
+    <img class="c-img" src="img/p2.jpg" alt="Sellos grabados nombre">
     <img class="c-img" src="img/p3.jpg" alt="Grabado logo empresa">
   </div>
 </section>
@@ -891,30 +916,30 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
   <div class="sh reveal">
     <div class="sk">Así de fácil</div>
     <h2 class="st">Tu joya en <em>4 pasos</em></h2>
-    <p class="sd">Desde que nos escribes hasta que tienes tu pieza en las manos. Simple, rápido y con garantía.</p>
+    <p class="sd-text">Desde que nos escribes hasta que tienes tu pieza en las manos. Simple, rápido y con garantía.</p>
   </div>
   <div class="process-steps reveal">
     <div class="ps">
       <div class="ps-num">01</div>
-      <img class="ps-img" src="img2/ai04.png" alt="Escríbenos">
+      <img class="ps-img" src="img2/ai04.png" alt="Escríbenos por WhatsApp">
       <h3 class="ps-title">Escríbenos</h3>
       <p class="ps-text">Cuéntanos qué buscas por WhatsApp. Respondemos en minutos con opciones y precios.</p>
     </div>
     <div class="ps">
       <div class="ps-num">02</div>
-      <img class="ps-img" src="img2/gm07.png" alt="Diseño y grabado">
-      <h3 class="ps-title">Diseño & grabado</h3>
+      <img class="ps-img" src="img2/gm07.png" alt="Diseño y grabado láser">
+      <h3 class="ps-title">Diseño &amp; grabado</h3>
       <p class="ps-text">Seleccionamos el material y aplicamos el grabado láser con precisión milimétrica.</p>
     </div>
     <div class="ps">
       <div class="ps-num">03</div>
-      <img class="ps-img" src="img2/ai01.png" alt="Acabado premium">
+      <img class="ps-img" src="img2/ai01.png" alt="Acabado premium joyería">
       <h3 class="ps-title">Acabado premium</h3>
       <p class="ps-text">Pulido y acabado final con los más altos estándares. Tu pieza brilla como debe brillar.</p>
     </div>
     <div class="ps">
       <div class="ps-num">04</div>
-      <img class="ps-img" src="img2/gm08.png" alt="Entrega especial">
+      <img class="ps-img" src="img2/gm08.png" alt="Entrega en caja especial Abigail RM">
       <h3 class="ps-title">La recibes</h3>
       <p class="ps-text">En caja Abigail RM, lista para ser el regalo más especial. Enviamos a todo el Perú.</p>
     </div>
@@ -924,29 +949,29 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
 <!-- ARGOLLAS MATRIMONIALES -->
 <section class="wedding" id="argollas">
   <div class="sh reveal">
-    <div class="sk">Para siempre juntos</div>
-    <h2 class="st">Argollas<br><em>matrimoniales</em></h2>
-    <p class="sd">Oro 18K para él y para ella. Grabadas con sus nombres y fecha. El símbolo que dura toda una vida.</p>
+    <div class="sk" style="color:var(--gold)">Para siempre juntos</div>
+    <h2 class="st" style="color:var(--white)">Argollas<br><em>matrimoniales</em></h2>
+    <p class="sd-text" style="color:rgba(255,255,255,.5)">Oro 18K para él y para ella. Grabadas con sus nombres y fecha. El símbolo que dura toda una vida.</p>
   </div>
   <div class="wed-grid reveal">
     <div class="wc">
-      <img class="wi" src="img2/ai06.png" alt="Argollas Clásicas">
+      <img class="wi" src="img2/ai06.png" alt="Argollas Clásicas Oro">
       <div class="wo"></div>
       <div class="winfo">
         <div class="wmat">Oro 18K · Par</div>
         <div class="wname">Argollas Clásicas</div>
         <div class="wprice">Par desde S/ 350</div>
-        <a href="https://wa.me/51965846128?text=Me%20interesan%20argollas%20clásicas%20matrimoniales" class="wcta" target="_blank">Consultar precio</a>
+        <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesan%20las%20argollas%20clásicas%20matrimoniales%20en%20oro.%20¿Precio%20y%20disponibilidad?" class="wcta" target="_blank">Consultar precio</a>
       </div>
     </div>
     <div class="wc">
-      <img class="wi" src="img/p13.jpg" alt="Argollas Lisas">
+      <img class="wi" src="img/p13.jpg" alt="Argollas Lisas Oro">
       <div class="wo"></div>
       <div class="winfo">
         <div class="wmat">Oro 18K · Par</div>
         <div class="wname">Argollas Lisas</div>
         <div class="wprice">Par desde S/ 280</div>
-        <a href="https://wa.me/51965846128?text=Me%20interesan%20argollas%20lisas" class="wcta" target="_blank">Consultar precio</a>
+        <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesan%20argollas%20lisas%20en%20oro%2018K.%20¿Me%20dan%20más%20información?" class="wcta" target="_blank">Consultar precio</a>
       </div>
     </div>
     <div class="wc">
@@ -956,7 +981,7 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
         <div class="wmat">Plata laminada Oro · Par</div>
         <div class="wname">Argollas con Zirconia</div>
         <div class="wprice">Par desde S/ 250</div>
-        <a href="https://wa.me/51965846128?text=Me%20interesan%20argollas%20con%20zirconia" class="wcta" target="_blank">Consultar precio</a>
+        <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesan%20las%20argollas%20con%20zirconia.%20¿Precio%20y%20disponibilidad?" class="wcta" target="_blank">Consultar precio</a>
       </div>
     </div>
   </div>
@@ -965,34 +990,18 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
 <!-- WHY -->
 <section class="why">
   <div class="sh reveal">
-    <div class="sk" style="color:var(--gold)">¿Por qué elegirnos?</div>
-    <h2 class="st" style="color:var(--white)">La diferencia que<br><em>se nota</em></h2>
+    <div class="sk">¿Por qué elegirnos?</div>
+    <h2 class="st">La diferencia que<br><em>se nota</em></h2>
   </div>
   <div class="why-grid reveal">
-    <div class="wyc">
-      <span class="wy-icon">💎</span>
-      <h3 class="wy-title">Materiales certificados</h3>
-      <p class="wy-text">Solo Plata 950, Oro 18K certificado y Acero 316L. Cada pieza lleva su sello de calidad.</p>
-    </div>
-    <div class="wyc">
-      <span class="wy-icon">⚡</span>
-      <h3 class="wy-title">Grabado láser</h3>
-      <p class="wy-text">Tecnología de precisión para nombres, fechas, logos e imágenes. Sin límite de diseño.</p>
-    </div>
-    <div class="wyc">
-      <span class="wy-icon">🚚</span>
-      <h3 class="wy-title">Envío nacional e internacional</h3>
-      <p class="wy-text">Desde Lima a todo el Perú y al extranjero. Embalaje seguro y rastreable.</p>
-    </div>
-    <div class="wyc">
-      <span class="wy-icon">💬</span>
-      <h3 class="wy-title">Respuesta en minutos</h3>
-      <p class="wy-text">Atención personalizada por WhatsApp. Desde el diseño hasta la entrega.</p>
-    </div>
+    <div class="wyc"><span class="wy-icon">💎</span><h3 class="wy-title">Materiales certificados</h3><p class="wy-text">Solo Plata 950, Oro 18K certificado y Acero 316L. Cada pieza lleva su sello de calidad.</p></div>
+    <div class="wyc"><span class="wy-icon">⚡</span><h3 class="wy-title">Grabado láser</h3><p class="wy-text">Tecnología de precisión para nombres, fechas, logos e imágenes. Sin límite de diseño.</p></div>
+    <div class="wyc"><span class="wy-icon">🚚</span><h3 class="wy-title">Envío nacional e internacional</h3><p class="wy-text">Desde Lima a todo el Perú y al extranjero. Embalaje seguro y rastreable.</p></div>
+    <div class="wyc"><span class="wy-icon">💬</span><h3 class="wy-title">Respuesta en minutos</h3><p class="wy-text">Atención personalizada por WhatsApp desde el diseño hasta la entrega.</p></div>
   </div>
 </section>
 
-<!-- ── MEJORA 2 & 5: TESTIMONIALS con foto + 6 testimonios ── -->
+<!-- TESTIMONIOS -->
 <section class="testi">
   <div class="sh reveal">
     <div class="sk">Lo que dicen</div>
@@ -1001,174 +1010,114 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
   <div class="tg reveal">
     <div class="tc">
       <div class="tqm">"</div>
-      <div class="tst">★★★★★</div>
+      <div class="tst">⭐⭐⭐⭐⭐</div>
       <p class="tt">«Le pedí un chevalier con el logo de mi barbería. El resultado fue increíble. La máquina láser dejó un acabado perfecto, mejor de lo que esperaba.»</p>
       <div class="tline"></div>
       <div class="t-author">
         <div class="t-avatar-placeholder">C</div>
-        <div>
-          <div class="tn">Carlos V.</div>
-          <div class="tl">Lima, Perú</div>
-          <div class="tp">Chevalier con logo · Plata 950</div>
-        </div>
+        <div><div class="tn">Carlos V.</div><div class="tl">Lima, Perú</div><div class="tp">Chevalier con logo · Plata 950</div></div>
       </div>
     </div>
     <div class="tc">
       <div class="tqm">"</div>
-      <div class="tst">★★★★★</div>
+      <div class="tst">⭐⭐⭐⭐⭐</div>
       <p class="tt">«Compramos las argollas para nuestra boda y quedamos felices. Las grabaron con nuestros nombres y llegaron en la caja preciosa de Abigail RM.»</p>
       <div class="tline"></div>
       <div class="t-author">
         <div class="t-avatar-placeholder">S</div>
-        <div>
-          <div class="tn">Sandra & Raúl</div>
-          <div class="tl">Arequipa, Perú</div>
-          <div class="tp">Argollas matrimoniales · Oro 18K</div>
-        </div>
+        <div><div class="tn">Sandra &amp; Raúl</div><div class="tl">Arequipa, Perú</div><div class="tp">Argollas matrimoniales · Oro 18K</div></div>
       </div>
     </div>
     <div class="tc">
       <div class="tqm">"</div>
-      <div class="tst">★★★★★</div>
+      <div class="tst">⭐⭐⭐⭐⭐</div>
       <p class="tt">«El anillo de compromiso superó todas mis expectativas. El oro es real, la piedra brilla increíble. Abigail es muy profesional y puntual.»</p>
       <div class="tline"></div>
       <div class="t-author">
         <div class="t-avatar-placeholder">M</div>
-        <div>
-          <div class="tn">Marco A.</div>
-          <div class="tl">Cusco, Perú</div>
-          <div class="tp">Anillo de compromiso · Oro 18K</div>
-        </div>
+        <div><div class="tn">Marco A.</div><div class="tl">Cusco, Perú</div><div class="tp">Anillo de compromiso · Oro 18K</div></div>
       </div>
     </div>
   </div>
-  <!-- Fila extra testimonios -->
   <div class="tg-extra reveal">
     <div class="tc mini">
-      <div class="tst">★★★★★</div>
-      <p class="tt">«Le regalé a mi mamá un anillo con su nombre grabado. Lloró al abrirlo. Definitivamente vuelvo a comprar aquí.»</p>
+      <div class="tst">⭐⭐⭐⭐⭐</div>
+      <p class="tt">«Le regalé a mi mamá un anillo con su nombre grabado. Lloró al abrirlo. Definitivamente vuelvo a comprar.»</p>
       <div class="tline"></div>
       <div class="t-author">
         <div class="t-avatar-placeholder">L</div>
-        <div>
-          <div class="tn">Lucía P.</div>
-          <div class="tl">Lima, Perú</div>
-          <div class="tp">Regalo para mamá · Plata 950</div>
-        </div>
+        <div><div class="tn">Lucía P.</div><div class="tl">Lima, Perú</div><div class="tp">Regalo para mamá · Plata 950</div></div>
       </div>
     </div>
     <div class="tc mini">
-      <div class="tst">★★★★★</div>
+      <div class="tst">⭐⭐⭐⭐⭐</div>
       <p class="tt">«Pedí las argollas desde Trujillo y llegaron perfectas en 3 días. El empaque es hermoso. Mi esposa lloró de emoción.»</p>
       <div class="tline"></div>
       <div class="t-author">
         <div class="t-avatar-placeholder">R</div>
-        <div>
-          <div class="tn">Roberto M.</div>
-          <div class="tl">Trujillo, Perú</div>
-          <div class="tp">Argollas matrimoniales</div>
-        </div>
+        <div><div class="tn">Roberto M.</div><div class="tl">Trujillo, Perú</div><div class="tp">Argollas matrimoniales</div></div>
       </div>
     </div>
     <div class="tc mini">
-      <div class="tst">★★★★★</div>
-      <p class="tt">«Compré para el aniversario de mis padres. La atención por WhatsApp fue increíble, me guiaron en todo. La joya quedó hermosa.»</p>
+      <div class="tst">⭐⭐⭐⭐⭐</div>
+      <p class="tt">«Compré para el aniversario de mis padres. La atención por WhatsApp fue increíble. La joya quedó hermosa.»</p>
       <div class="tline"></div>
       <div class="t-author">
         <div class="t-avatar-placeholder">V</div>
-        <div>
-          <div class="tn">Valeria G.</div>
-          <div class="tl">Piura, Perú</div>
-          <div class="tp">Anillo aniversario · Oro 18K</div>
-        </div>
+        <div><div class="tn">Valeria G.</div><div class="tl">Piura, Perú</div><div class="tp">Anillo aniversario · Oro 18K</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- GALLERY -->
+<!-- GALERÍA -->
 <section class="gallery">
   <div class="gallery-hdr">
     <div class="g-handle">Síguenos <span>@abigailrmarteaga</span></div>
-    <a href="https://wa.me/51965846128" class="btn-link" target="_blank"><span class="wdot"></span>Consultar por WhatsApp</a>
+    <a href="https://wa.me/51965846128?text=Hola!%20Vi%20sus%20joyas%20en%20Instagram%20y%20me%20gustaría%20más%20información." class="slide-btn-wa" style="border-color:rgba(255,255,255,.25);font-size:11px;padding:10px 20px" target="_blank"><span class="wdot-s"></span>Consultar por WhatsApp</a>
   </div>
   <div class="gg">
-    <!-- ── MEJORA 10: cada tile abre WhatsApp con el producto ── -->
-    <div class="gt">
-      <img src="img2/gm01.png" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
-    <div class="gt">
-      <img src="img2/gm02.png" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
-    <div class="gt">
-      <img src="img2/gm03.png" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
-    <div class="gt">
-      <img src="img2/gm04.png" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
-    <div class="gt">
-      <img src="img2/gm06.png" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
-    <div class="gt">
-      <img src="img/p5.jpg" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
-    <div class="gt">
-      <img src="img/p15.jpg" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
-    <div class="gt">
-      <img src="img/p9.jpg" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
-    <div class="gt">
-      <img src="img/p20.jpg" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
-    <div class="gt">
-      <img src="img/p19.jpg" alt="">
-      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
-    </div>
+    <div class="gt"><img src="img2/gm01.png" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
+    <div class="gt"><img src="img2/gm02.png" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
+    <div class="gt"><img src="img2/gm03.png" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
+    <div class="gt"><img src="img2/gm04.png" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
+    <div class="gt"><img src="img2/gm06.png" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
+    <div class="gt"><img src="img/p5.jpg" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
+    <div class="gt"><img src="img/p15.jpg" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
+    <div class="gt"><img src="img/p9.jpg" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
+    <div class="gt"><img src="img/p20.jpg" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
+    <div class="gt"><img src="img/p19.jpg" alt=""><a href="https://wa.me/51965846128?text=Hola!%20Vi%20esta%20joya%20en%20su%20galería%20y%20me%20interesa.%20¿Pueden%20darme%20información?" class="gov" target="_blank"><span>♡</span>Pedir igual</a></div>
   </div>
 </section>
 
-<!-- ── MEJORA 5 & 7: CTA formulario reducido a 2 campos ── -->
+<!-- CTA CONTACTO -->
 <section class="cta-sec" id="contacto">
   <div class="reveal">
     <div class="cta-kicker">Sin compromiso · Respuesta inmediata</div>
     <h2 class="cta-title">Diseña tu joya<br><em>ahora mismo</em></h2>
     <p class="cta-text">Cuéntanos qué tienes en mente. Respondemos en minutos con opciones, fotos y precios exactos. Sin vueltas.</p>
-    <a href="https://wa.me/51965846128?text=Hola!%20Quiero%20diseñar%20mi%20joya" class="cta-wa btn-pulse" target="_blank">
-      💬 &nbsp; Diseñar por WhatsApp · 965 846 128
-    </a>
+    <a href="https://wa.me/51965846128?text=Hola!%20Quiero%20diseñar%20mi%20joya%20con%20ustedes.%20¿Me%20pueden%20asesorar%20y%20mostrar%20opciones?" class="cta-wa" target="_blank">💬 &nbsp;Diseñar por WhatsApp · 965 846 128</a>
     <div class="cta-or">o déjanos tu número y te llamamos</div>
-    <img src="img2/gm08.png" alt="Caja Abigail RM" style="width:100%;max-width:320px;margin-top:20px;opacity:.65;display:block">
-    <img src="img2/logo-final.png" alt="Abigail RM The Atelier" style="width:100%;max-width:200px;margin-top:20px;display:block;border-radius:6px;background:rgba(255,255,255,.08);padding:10px">
+    <img src="img2/gm08.png" alt="Caja Abigail RM" style="width:100%;max-width:300px;margin-top:20px;display:block;opacity:.6;filter:brightness(.9)">
+    <img src="img2/logo-final.png" alt="Abigail RM The Atelier" style="width:100%;max-width:200px;margin-top:18px;display:block;background:rgba(255,255,255,.06);padding:10px;border-radius:4px">
   </div>
   <div class="reveal">
-    <!-- ── Formulario reducido: solo nombre + teléfono ── -->
     <form class="cta-form" onsubmit="handleForm(event)">
-      <input class="cta-inp" type="text" placeholder="Tu nombre" required>
+      <input class="cta-inp" type="text" placeholder="Tu nombre completo" required>
       <input class="cta-inp" type="tel" placeholder="Tu WhatsApp / Teléfono" required>
-      <button type="submit" class="cta-sub btn-pulse">Recibir asesoría gratis →</button>
-      <p class="cta-priv">Te contactamos solo una vez. Sin spam, prometido.</p>
-      <!-- ── Reassurance icons ── -->
-      <div class="cta-reassurance">
-        <div class="cta-re"><span class="cta-re-icon">🔒</span> 100% privado</div>
-        <div class="cta-re"><span class="cta-re-icon">⚡</span> Respuesta en &lt;10 min</div>
-        <div class="cta-re"><span class="cta-re-icon">🎁</span> Cotización gratis</div>
-        <div class="cta-re"><span class="cta-re-icon">✅</span> Sin compromiso</div>
+      <button type="submit" class="cta-sub"><span class="cta-sub-text">Recibir asesoría gratis →</span></button>
+      <p class="cta-priv">Te contactamos una sola vez. Sin spam, prometido.</p>
+      <div class="cta-re-row">
+        <div class="cta-re"><span class="cta-re-icon">🔒</span>100% privado</div>
+        <div class="cta-re"><span class="cta-re-icon">⚡</span>Respuesta &lt;10 min</div>
+        <div class="cta-re"><span class="cta-re-icon">🎁</span>Cotización gratis</div>
+        <div class="cta-re"><span class="cta-re-icon">✅</span>Sin compromiso</div>
       </div>
     </form>
   </div>
 </section>
 
-<!-- TRUST -->
+<!-- TRUST STRIP -->
 <div class="trust">
   <div class="tri"><span class="tri-icon">🚚</span><span class="tri-lbl">Envío nacional e internacional</span></div>
   <div class="tri"><span class="tri-icon">💎</span><span class="tri-lbl">Materiales certificados</span></div>
@@ -1176,25 +1125,22 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
   <div class="tri"><span class="tri-icon">💬</span><span class="tri-lbl">Atención por WhatsApp</span></div>
 </div>
 
-<!-- ── MEJORA 15: Footer con cierre emocional ── -->
+<!-- FOOTER CTA BAR -->
 <div class="footer-cta-bar">
-  <div class="fcb-text">
-    Cada joya cuenta una historia.<br>
-    <strong>¿Cuál será la tuya?</strong>
-  </div>
-  <a href="https://wa.me/51965846128?text=Hola!%20Quiero%20hacer%20mi%20pedido" class="btn-white" target="_blank">
-    💬 Empezar ahora · 965 846 128
-  </a>
+  <div class="fcb-logo"><img src="img2/logo-final.png" alt="Abigail RM"></div>
+  <div class="fcb-text">Cada joya cuenta una historia.<br><strong>¿Cuál será la tuya?</strong></div>
+  <a href="https://wa.me/51965846128?text=Hola%20Abigail!%20Vi%20su%20página%20y%20quiero%20empezar%20a%20diseñar%20mi%20joya.%20¿Me%20ayudan?" class="btn-gold-solid" target="_blank">💬 Empezar ahora · 965 846 128</a>
 </div>
 
+<!-- FOOTER -->
 <footer>
   <div class="ft">
-    <div class="ft-brand"><div class="ft-brand-logo">
-      <img src="img2/logo-final.png" alt="Abigail RM - The Atelier" style="height:44px;object-fit:contain;object-position:left center"></div>
+    <div class="ft-brand">
+      <div class="ft-logo-wrap"><img src="img2/logo-final.png" alt="Abigail RM · The Atelier"></div>
       <p class="ft-about">Joyería en plata, oro y acero. Anillos, argollas y piezas personalizadas con grabado láser. Desde Lima a todo el Perú y al extranjero.</p>
       <div class="ft-soc">
         <a href="#" class="fts">ig</a>
-        <a href="https://wa.me/51965846128" class="fts" target="_blank">wa</a>
+        <a href="https://wa.me/51965846128?text=Hola%20Abigail!%20Me%20interesa%20conocer%20más%20sobre%20sus%20joyas.%20¿Me%20pueden%20atender?" class="fts" target="_blank">wa</a>
         <a href="#" class="fts">fb</a>
       </div>
     </div>
@@ -1220,7 +1166,7 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
     <div>
       <div class="ftct">Contacto</div>
       <ul class="ftl">
-        <li><a href="https://wa.me/51965846128" target="_blank">📲 965 846 128</a></li>
+        <li><a href="https://wa.me/51965846128?text=Hola!%20Los%20contacto%20desde%20su%20página%20web." target="_blank">📲 965 846 128</a></li>
         <li><a href="#">@abigailrmarteaga</a></li>
         <li><a href="#">Lima, Perú</a></li>
         <li><a href="#">Envíos internacionales</a></li>
@@ -1233,36 +1179,42 @@ footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
   </div>
 </footer>
 
-<!-- TOAST Social Proof -->
+<!-- TOAST -->
 <div class="toast" id="toast">
   <button class="toast-close" onclick="this.parentElement.classList.remove('show')">×</button>
-  <div class="toast-title" id="toastTitle">✦ Compra reciente</div>
+  <div class="toast-title" id="toastTitle">✦ Encargo reciente</div>
   <div class="toast-body" id="toastMsg">María de Lima acaba de encargar argollas matrimoniales</div>
 </div>
 
 <script>
 // ── Cursor ──
-const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+const cur=document.getElementById('cursor'),cring=document.getElementById('cring');
 document.addEventListener('mousemove',e=>{
   cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
-  setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},80);
+  setTimeout(()=>{cring.style.left=e.clientX+'px';cring.style.top=e.clientY+'px';},80);
 });
 document.querySelectorAll('a,button,.pc,.cc,.wc,.rg,.gt').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cur.style.transform='translate(-50%,-50%) scale(2)');
-  el.addEventListener('mouseleave',()=>cur.style.transform='translate(-50%,-50%) scale(1)');
+  el.addEventListener('mouseenter',()=>{cur.classList.add('big');cring.classList.add('big')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('big');cring.classList.remove('big')});
 });
 
 // ── Nav scroll ──
 const nav=document.getElementById('mainNav');
-window.addEventListener('scroll',()=>window.scrollY>60?nav.classList.add('scrolled'):nav.classList.remove('scrolled'));
+const URGENCY_H=36;
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>100){nav.classList.add('scrolled')}
+  else{nav.classList.remove('scrolled')}
+});
 
-// ── Reveal ──
+// ── Reveal IntersectionObserver ──
 const io=new IntersectionObserver(entries=>{
-  entries.forEach((e,i)=>{if(e.isIntersecting){e.target.style.transitionDelay=(i*.05)+'s';e.target.classList.add('visible');io.unobserve(e.target);}});
-},{threshold:.1});
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}
+  });
+},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
 
-// ── Filter ──
+// ── Product filter ──
 function filterP(btn,cat){
   document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
@@ -1273,65 +1225,102 @@ function filterP(btn,cat){
 
 // ── WhatsApp ──
 function wa(p){
-  window.open(`https://wa.me/51965846128?text=${encodeURIComponent('Hola! Me interesa: '+p+'. ¿Me puede dar información y precio?')}`,'_blank');
+  window.open(`https://wa.me/51965846128?text=${encodeURIComponent('Hola Abigail! Vi en su página la joya: '+p+'. Me gustaría recibir más información, fotos y precio. ¿Me pueden atender?')}`,'_blank');
 }
 
-// ── Form reducido ──
+// ── Form ──
 function handleForm(e){
   e.preventDefault();
   const btn=e.target.querySelector('.cta-sub');
   const name=e.target.querySelector('input[type=text]').value;
   const phone=e.target.querySelector('input[type=tel]').value;
-  // Abrir WhatsApp con los datos prellenados
-  const msg=encodeURIComponent(`Hola! Soy ${name} y quiero asesoría sobre una joya. Mi teléfono es ${phone}.`);
+  const msg=encodeURIComponent(`Hola Abigail! Soy ${name} y me interesa recibir asesoría personalizada sobre joyería. Mi número de contacto es ${phone}. Los vi en su página web. ¿Me pueden ayudar a elegir o diseñar una joya?`);
   window.open(`https://wa.me/51965846128?text=${msg}`,'_blank');
-  btn.textContent='✦ ¡Perfecto! Abriendo WhatsApp...';
+  btn.querySelector('.cta-sub-text').textContent='✦ Abriendo WhatsApp...';
   btn.style.background='#2d7a3a';
-  setTimeout(()=>{btn.textContent='Recibir asesoría gratis →';btn.style.background='';e.target.reset();},4000);
+  setTimeout(()=>{btn.querySelector('.cta-sub-text').textContent='Recibir asesoría gratis →';btn.style.background='';e.target.reset();},4000);
 }
 
-// ── Toast social proof mejorado ──
+// ── Toast ──
 const proofs=[
-  {title:'✦ Encargo reciente',msg:'María de Lima acaba de encargar argollas matrimoniales en oro'},
-  {title:'💍 Nuevo pedido',msg:'Carlos de Lima pidió un chevalier con el logo de su empresa'},
-  {title:'⭐ Favorito elegido',msg:'Paola de Arequipa seleccionó el Anillo Corona Reina'},
-  {title:'🎁 Regalo especial',msg:'Jorge de Cusco encargó un anillo de compromiso como sorpresa'},
-  {title:'✦ Encargo reciente',msg:'Sofía de Trujillo está consultando argollas con zirconia'},
-  {title:'💬 Consulta activa',msg:'Roberto de Piura acaba de escribirnos por WhatsApp'},
+  {t:'✦ Encargo reciente',m:'María de Lima acaba de encargar argollas matrimoniales en oro'},
+  {t:'💍 Nuevo pedido',m:'Carlos de Lima pidió un chevalier con el logo de su empresa'},
+  {t:'⭐ Favorito elegido',m:'Paola de Arequipa seleccionó el Anillo Corona Reina'},
+  {t:'🎁 Regalo especial',m:'Jorge de Cusco encargó un anillo de compromiso como sorpresa'},
+  {t:'✦ Consulta activa',m:'Sofía de Trujillo está preguntando por argollas con zirconia'},
+  {t:'💬 Pedido en curso',m:'Roberto de Piura acaba de escribirnos por WhatsApp'},
 ];
 let pi=0;
 function showToast(){
   const t=document.getElementById('toast');
   const p=proofs[pi++%proofs.length];
-  document.getElementById('toastTitle').textContent=p.title;
-  document.getElementById('toastMsg').textContent=p.msg;
+  document.getElementById('toastTitle').textContent=p.t;
+  document.getElementById('toastMsg').textContent=p.m;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),4500);
+  setTimeout(()=>t.classList.remove('show'),4800);
 }
-setTimeout(()=>{showToast();setInterval(showToast,10000);},4000);
+setTimeout(()=>{showToast();setInterval(showToast,10500);},5000);
 
-// ── MEJORA 4: Viewer counter dinámico ──
+// ── Viewer counter ──
 function updateViewers(){
-  const base=6, variation=Math.floor(Math.random()*8);
-  const count=base+variation;
-  const el=document.getElementById('heroViewers');
-  if(el) el.textContent=`${count} personas están viendo esta página ahora mismo`;
-  const uc=document.getElementById('urgCount');
-  if(uc) uc.textContent=count+4;
+  const n=8+Math.floor(Math.random()*10);
+  const el=document.getElementById('urgCount');
+  if(el)el.textContent=n;
 }
-updateViewers();
-setInterval(updateViewers, 8000);
+updateViewers();setInterval(updateViewers,9000);
 
-// ── Stock countdown (crea urgencia) ──
-let stock=3;
-function updateStock(){
-  if(Math.random()<0.15 && stock>1){ // 15% chance de bajar
-    stock--;
-    const el=document.getElementById('heroStock');
-    if(el) el.textContent=stock;
+// ══════════════════════
+// SLIDER
+// ══════════════════════
+(function(){
+  let cur=0,total=4,progressTimer;
+  const DURATION=5500;
+  const track=document.getElementById('sliderTrack');
+  const dots=document.querySelectorAll('.sd');
+  const progress=document.getElementById('sliderProgress');
+  let autoTimer;
+
+  function goToSlide(n){
+    document.getElementById('slide-'+cur).classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur=(n+total)%total;
+    document.getElementById('slide-'+cur).classList.add('active');
+    dots[cur].classList.add('active');
+    track.style.transform='translateX(-'+cur+'00%)';
+    startProgress();
   }
-}
-setInterval(updateStock,25000);
+  window.goToSlide=goToSlide;
+
+  function startProgress(){
+    clearTimeout(progressTimer);
+    progress.style.transition='none';
+    progress.style.width='0%';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      progress.style.transition='width '+DURATION+'ms linear';
+      progress.style.width='100%';
+    }));
+  }
+
+  function play(){clearInterval(autoTimer);autoTimer=setInterval(()=>goToSlide(cur+1),DURATION);}
+  function pause(){clearInterval(autoTimer);}
+
+  document.getElementById('sliderNext').onclick=()=>{goToSlide(cur+1);play();};
+  document.getElementById('sliderPrev').onclick=()=>{goToSlide(cur-1);play();};
+
+  // Swipe
+  let tx=0;
+  track.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+  track.addEventListener('touchend',e=>{
+    const d=tx-e.changedTouches[0].clientX;
+    if(Math.abs(d)>44){goToSlide(d>0?cur+1:cur-1);play();}
+  });
+
+  const slider=document.getElementById('heroSlider');
+  slider.addEventListener('mouseenter',pause);
+  slider.addEventListener('mouseleave',play);
+
+  startProgress();play();
+})();
 </script>
 </body>
 </html>
