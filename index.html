@@ -442,15 +442,10 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
   nav.scrolled .nav-logo img{height:34px}
   .nav-cta{padding:8px 14px;font-size:10px;letter-spacing:.08em}
 
-  /* ══ SLIDER MÓVIL ══
-     Diseño de 2 partes:
-     - Imagen arriba: altura fija 260px
-     - Contenido abajo: fondo oscuro, texto y botones visibles
-  */
+  /* ══ SLIDER MÓVIL — Layout vertical optimizado ══ */
   .slider-section{height:auto;overflow:visible}
   .slider-track{display:block;transition:none}
 
-  /* Cada slide: columna vertical imagen + contenido */
   .slide{
     min-width:100%;
     height:auto;
@@ -461,29 +456,40 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
   }
   .slide.active{display:flex}
 
-  /* Imagen: altura fija, no scale */
+  /* IMAGEN: 370px — suficiente para impacto emocional */
   .slide img{
     width:100%;
-    height:260px;
+    height:370px;
     flex-shrink:0;
     object-fit:cover;
-    object-position:center 30%;
+    object-position:center 35%;
     transform:none !important;
-    filter:brightness(.75) saturate(1.1);
+    filter:brightness(.78) saturate(1.15);
     display:block
   }
   .slide.active img{transform:none !important}
 
-  /* Overlay: ahora es el contenido debajo de la imagen */
-  .slide-overlay{
-    position:static;
-    background:var(--charcoal);
-    display:flex;
-    align-items:flex-start;
-    padding:22px 18px 24px 18px
+  /* Gradiente de transición imagen → contenido */
+  .slide img::after{content:''}
+  .slide-img-fade{
+    position:absolute;
+    left:0;right:0;
+    top:310px;
+    height:80px;
+    background:linear-gradient(to bottom,transparent,#1A1208);
+    z-index:5;
+    pointer-events:none
   }
 
-  /* Contenido: siempre visible, sin animación */
+  /* CONTENIDO: fondo negro cálido con tono dorado */
+  .slide-overlay{
+    position:static;
+    background:linear-gradient(160deg,#1A1208 0%,#111008 100%);
+    display:flex;
+    align-items:flex-start;
+    padding:20px 18px 22px 18px
+  }
+
   .slide-content{
     width:100%;
     opacity:1 !important;
@@ -492,45 +498,110 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
   }
   .slide.active .slide-content{opacity:1;transform:none}
 
-  .slide-num{font-size:9px;letter-spacing:.22em;margin-bottom:8px}
-  .slide-num::before{width:20px}
-  .slide-title{font-size:22px;line-height:1.08;margin-bottom:10px;color:var(--white)}
+  /* Kicker más visible */
+  .slide-num{
+    font-size:10px;
+    letter-spacing:.28em;
+    margin-bottom:10px;
+    color:var(--gold);
+    opacity:.85
+  }
+  .slide-num::before{width:22px;background:var(--gold);opacity:.7}
+
+  /* Título más grande e impactante */
+  .slide-title{
+    font-size:28px;
+    line-height:1.06;
+    margin-bottom:14px;
+    color:#FFFFFF
+  }
+
   .slide-sub{display:none !important}
-  .slide-price-tag{margin-bottom:14px;padding-left:10px;gap:10px;border-left:2px solid var(--gold)}
-  .spt-price{font-size:18px}
-  .spt-label{font-size:9px;letter-spacing:.1em}
-  .slide-btns{gap:8px;flex-wrap:nowrap}
-  .slide-btn-main{padding:10px 18px;font-size:9.5px;letter-spacing:.1em;flex:1;text-align:center}
-  .slide-btn-wa{padding:10px 14px;font-size:9.5px;letter-spacing:.08em;flex:1;justify-content:center}
 
-  /* Logo sobre la imagen */
+  /* Precio ancla con más presencia */
+  .slide-price-tag{
+    margin-bottom:18px;
+    padding:10px 0 10px 14px;
+    gap:14px;
+    border-left:3px solid var(--gold);
+    background:rgba(196,154,40,.07);
+    padding-right:14px;
+    display:inline-flex
+  }
+  .spt-price{font-size:22px;color:var(--gold)}
+  .spt-label{font-size:9px;letter-spacing:.12em;color:rgba(255,255,255,.5)}
+
+  /* Botones: principal más grande y dominante */
+  .slide-btns{gap:10px;flex-wrap:nowrap;display:flex}
+  .slide-btn-main{
+    padding:14px 0;
+    font-size:10.5px;
+    letter-spacing:.14em;
+    flex:1.4;
+    text-align:center;
+    background:var(--gold);
+    box-shadow:0 4px 16px rgba(196,154,40,.4)
+  }
+  .slide-btn-wa{
+    padding:13px 0;
+    font-size:10px;
+    letter-spacing:.08em;
+    flex:1;
+    justify-content:center;
+    border-color:rgba(255,255,255,.3)
+  }
+
+  /* Urgencia bajo los botones */
+  .slide-urgency{
+    margin-top:12px;
+    font-size:10.5px;
+    color:rgba(255,255,255,.55);
+    display:flex;
+    align-items:center;
+    gap:7px
+  }
+  .slide-urgency-dot{
+    width:6px;height:6px;
+    background:#e05252;
+    border-radius:50%;
+    flex-shrink:0;
+    animation:blink 1.2s ease-in-out infinite
+  }
+
+  /* Logo sobre imagen */
   .slide-logo{top:10px;left:12px;z-index:20}
-  .slide-logo img{height:32px}
+  .slide-logo img{height:34px}
 
-  /* Flechas ocultas en móvil */
+  /* Flechas ocultas */
   .sl-prev,.sl-next{display:none}
 
-  /* Dots sobre la imagen */
-  .sl-dots{position:absolute;top:230px;left:50%;transform:translateX(-50%);bottom:auto;z-index:20}
-  .sd{width:14px;height:2px;background:rgba(255,255,255,.5)}
-  .sd.active{width:24px;background:var(--gold)}
-
-  /* Progress bar */
+  /* Dots sobre imagen */
+  .sl-dots{
+    position:absolute;
+    top:342px;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:auto;
+    z-index:20
+  }
+  .sd{width:14px;height:2px;background:rgba(255,255,255,.4)}
+  .sd.active{width:26px;background:var(--gold)}
   .sl-progress{height:2px}
 
-  /* RESTO DE SECCIONES */
+  /* RESTO SECCIONES */
   .story,.coll,.products,.wedding,.why,.testi,.gallery,.regalo,.process,.custom,.cta-sec{padding-left:16px;padding-right:16px}
   .story{padding-top:52px;padding-bottom:52px;grid-template-columns:1fr;gap:36px}
-  .coll-grid,.custom,.wed-grid,.why-grid,.tg,.tg-extra,.cta-sec,.ft,.regalo-grid{grid-template-columns:1fr}
+  .coll-grid,.custom,.wed-grid,.tg,.tg-extra,.cta-sec,.ft{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr 1fr;gap:12px}
   .pg{grid-template-columns:1fr 1fr;gap:12px}
   .pn{font-size:14px}
   .piw{aspect-ratio:3/4}
-  .emo-strip img{height:320px}
+  .regalo-grid{grid-template-columns:1fr 1fr}
+  .emo-strip img{height:300px}
   .emo-overlay{padding:0 5%}
-  .emo-title{font-size:26px}
+  .emo-title{font-size:24px}
   .process-steps{grid-template-columns:1fr;gap:28px}
   .process-steps::before{display:none}
-  .why-grid{grid-template-columns:1fr 1fr;gap:12px}
   .wyc{padding:20px 12px}
   .gg{grid-template-columns:repeat(2,1fr)}
   .trust{grid-template-columns:1fr 1fr;padding:20px 16px}
@@ -540,7 +611,6 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
   footer{padding:40px 16px 20px}
   .ft{grid-template-columns:1fr}
   .regalo-strip{padding:18px 14px;gap:14px}
-  .regalo-grid{grid-template-columns:1fr 1fr}
   .wa-float{bottom:16px;right:16px;width:52px;height:52px}
   .wa-float-tip{display:none}
   .toast{left:10px;max-width:calc(100vw - 20px)}
@@ -595,12 +665,14 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
 <div class="slider-section" id="heroSlider">
   <div class="slide-logo">
     <img src="img2/logo-final.png" alt="Abigail RM · The Atelier">
+      <div class="slide-img-fade"></div>
   </div>
   <div class="slider-track" id="sliderTrack">
 
     <!-- SLIDE 1: Solitario clásico -->
     <div class="slide active" id="slide-0">
       <img src="img2/ai01.png" alt="Anillo solitario oro Abigail RM">
+      <div class="slide-img-fade"></div>
       <div class="slide-overlay">
         <div class="slide-content">
           <div class="slide-num">Colección compromiso</div>
@@ -622,6 +694,7 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
     <!-- SLIDE 2: Ceremonia matrimonial -->
     <div class="slide" id="slide-1">
       <img src="img2/ai03.png" alt="Ceremonia matrimonial argollas">
+      <div class="slide-img-fade"></div>
       <div class="slide-overlay">
         <div class="slide-content">
           <div class="slide-num">Argollas matrimoniales</div>
@@ -643,6 +716,7 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
     <!-- SLIDE 3: Chevalier personalizado -->
     <div class="slide" id="slide-2">
       <img src="img2/ai07.png" alt="Chevalier personalizado grabado láser">
+      <div class="slide-img-fade"></div>
       <div class="slide-overlay">
         <div class="slide-content">
           <div class="slide-num">Men & Chevalier · Grabado láser</div>
@@ -664,6 +738,7 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
     <!-- SLIDE 4: Caja regalo -->
     <div class="slide" id="slide-3">
       <img src="img2/gm08.png" alt="Caja Abigail RM The Atelier regalo joyería">
+      <div class="slide-img-fade"></div>
       <div class="slide-overlay">
         <div class="slide-content">
           <div class="slide-num">Joyería de autor · The Atelier</div>
