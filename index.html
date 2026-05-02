@@ -84,7 +84,7 @@ nav.scrolled .nav-logo img{height:48px}
 /* ── SLIDER ── */
 .slider-section{position:relative;width:100%;overflow:hidden;background:var(--charcoal)}
 .slider-track{display:flex;transition:transform .85s var(--ease-out);will-change:transform}
-.slide{min-width:100%;position:relative;height:100vh;overflow:hidden;flex-shrink:0}
+.slide{min-width:100%;position:relative;height:100vh;height:100svh;overflow:hidden;flex-shrink:0}
 .slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transform:scale(1.06);transition:transform 7s ease-out;filter:brightness(.62) saturate(1.1)}
 .slide.active img{transform:scale(1)}
 .slide-overlay{position:absolute;inset:0;background:linear-gradient(125deg,rgba(10,8,5,.82) 0%,rgba(10,8,5,.5) 45%,rgba(10,8,5,.1) 100%);display:flex;align-items:flex-end;padding:0 8% 10% 8%}
@@ -437,11 +437,30 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
   .nav-cta{padding:9px 16px;font-size:10px;letter-spacing:.1em}
   .urgency{padding:8px 12px}
   .urgency-text{font-size:10.5px}
-  .slide{height:95vh}
-  .slide-overlay{padding:90px 6% 8% 6%;align-items:flex-end}
-  .slide-title{font-size:clamp(28px,9vw,42px)}
-  .slide-sub{font-size:14px;display:none}
-  .slide-logo img{height:44px}
+  /* Slider móvil: altura que cabe en pantalla sin scroll */
+  .slide{height:100svh;height:100vh;max-height:700px}
+  .slide img{object-position:center center}
+  .slide-overlay{
+    padding:72px 5% 6% 5%;
+    align-items:flex-end;
+    background:linear-gradient(to top,rgba(10,8,5,.95) 0%,rgba(10,8,5,.6) 45%,rgba(10,8,5,.15) 100%)
+  }
+  .slide-content{width:100%}
+  .slide-num{margin-bottom:10px;font-size:10px}
+  .slide-num::before{width:28px}
+  .slide-title{font-size:clamp(26px,8.5vw,38px);margin-bottom:10px;line-height:1.05}
+  .slide-sub{display:none}
+  .slide-price-tag{margin-bottom:18px;padding-left:10px;gap:10px}
+  .spt-price{font-size:20px}
+  .spt-label{font-size:10px}
+  .slide-btns{gap:10px;flex-wrap:nowrap}
+  .slide-btn-main{padding:12px 20px;font-size:10px;letter-spacing:.14em}
+  .slide-btn-wa{padding:11px 16px;font-size:10px;letter-spacing:.1em}
+  .slide-logo{top:14px;left:14px}
+  .slide-logo img{height:38px}
+  .sl-dots{bottom:18px}
+  .sd{width:18px;height:2px}
+  .sd.active{width:32px}
   .slide-logo{top:16px;left:16px}
   .sl-prev,.sl-next{display:none}
   .coll-grid{grid-template-columns:1fr}
