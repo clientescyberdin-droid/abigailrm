@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abigail RM · The Atelier — Joyería de Autor | Plata, Oro & Acero</title>
+<meta name="description" content="Joyería artesanal en plata, oro y acero desde S/89. Anillos de compromiso, argollas matrimoniales, grabado láser personalizado. WhatsApp: 965846128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#B8922A;--gold-l:#D4AA50;--gold-pale:#F5EDD4;
+  --cream:#FAF8F3;--charcoal:#1A1A1A;--mid:#4A4440;--muted:#8A8078;
+  --white:#FFFFFF;--red:#8B1A1A;--green:#25D366;
+  --fd:'Cormorant Garamond',Georgia,serif;--fb:'Jost',sans-serif;
+  --ease:cubic-bezier(.25,.46,.45,.94);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--cream);color:var(--charcoal);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+.cursor{width:10px;height:10px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:transform .15s var(--ease);transform:translate(-50%,-50%)}
+.cursor-ring{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:all .32s var(--ease);transform:translate(-50%,-50%);opacity:.5}
+
+/* ── MEJORA 9: WhatsApp flotante con pulso ── */
+.wa-float{
+  position:fixed;bottom:32px;right:32px;z-index:400;
+  width:62px;height:62px;border-radius:50%;
+  background:var(--green);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 24px rgba(37,211,102,.5);
+  text-decoration:none;
+  transition:transform .3s var(--ease),box-shadow .3s;
+}
+.wa-float svg{position:relative;z-index:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
+.wa-float:hover{transform:scale(1.12);box-shadow:0 6px 28px rgba(37,211,102,.6)}
+.wa-float::before{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:rgba(37,211,102,.4);
+  animation:waPulse 2.2s ease-out infinite;
+}
+@keyframes waPulse{
+  0%{transform:scale(1);opacity:.7}
+  70%{transform:scale(1.7);opacity:0}
+  100%{transform:scale(1.7);opacity:0}
+}
+.wa-float-label{
+  position:absolute;right:70px;top:50%;transform:translateY(-50%);
+  background:var(--charcoal);color:var(--white);
+  font-size:12px;letter-spacing:.06em;padding:8px 14px;
+  white-space:nowrap;opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.wa-float:hover .wa-float-label{opacity:1}
+
+/* ── MEJORA 14: Botón CTA pulsante ── */
+@keyframes ctaPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(184,146,42,.4)}
+  50%{box-shadow:0 0 0 10px rgba(184,146,42,0)}
+}
+.btn-pulse{animation:ctaPulse 2.5s ease-in-out infinite}
+
+/* URGENCY */
+.urgency{background:var(--gold);padding:10px 24px;display:flex;align-items:center;justify-content:center;gap:0;position:fixed;top:0;left:0;right:0;z-index:200;transition:transform .4s}
+.urgency.hidden{transform:translateY(-100%)}
+.urgency-text{font-size:12px;letter-spacing:.08em;color:var(--white);text-align:center;flex:1;font-weight:400}
+.urgency-text strong{font-weight:600}
+.urgency-count{display:inline-flex;align-items:center;gap:6px}
+.urgency-dot{width:7px;height:7px;background:var(--white);border-radius:50%;animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.urgency-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.75);font-size:17px;flex-shrink:0;padding:0 8px}
+
+/* NAV */
+nav{position:fixed;top:38px;width:100%;z-index:100;padding:0 60px;display:flex;align-items:center;justify-content:space-between;height:76px;background:rgba(250,248,243,.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(184,146,42,.12);transition:all .4s var(--ease)}
+nav.scrolled{height:60px;top:0}
+.nav-logo img{height:64px;display:block;transition:height .3s;object-fit:contain;object-position:center center;border-radius:2px}
+nav.scrolled .nav-logo img{height:52px}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);text-decoration:none;position:relative;padding-bottom:4px;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease)}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-wa{font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;background:var(--gold);color:var(--white);text-decoration:none;transition:background .3s;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.nav-wa:hover{background:var(--charcoal)}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:110px;overflow:hidden}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:60px 60px 60px 80px}
+.hero-eyebrow{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.hero-eyebrow::before{content:'';width:36px;height:1px;background:var(--gold)}
+
+/* ── MEJORA 3: CTA verbo apropiación ── */
+h1.hero-title{font-family:var(--fd);font-size:clamp(42px,5.2vw,76px);font-weight:300;line-height:1.04;margin-bottom:20px}
+h1.hero-title em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:15px;font-weight:300;line-height:1.82;color:var(--mid);max-width:400px;margin-bottom:16px}
+
+/* ── MEJORA 1: Precio ancla en hero ── */
+.hero-price-anchor{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:32px;padding:10px 18px;
+  background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.3);
+}
+.hpa-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.hpa-price{font-family:var(--fd);font-size:22px;font-weight:400;color:var(--gold)}
+.hpa-sep{color:rgba(184,146,42,.3);font-size:18px}
+
+.hero-btns{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.btn-dark{display:inline-block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:15px 40px;background:var(--charcoal);color:var(--white);text-decoration:none;position:relative;overflow:hidden;transition:all .4s var(--ease);border:none;cursor:pointer}
+.btn-dark::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-100%);transition:transform .4s var(--ease)}
+.btn-dark span{position:relative;z-index:1}
+.btn-dark:hover::before{transform:translateX(0)}
+.btn-link{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mid);text-decoration:none;transition:color .3s}
+.btn-link:hover{color:var(--gold)}
+.wdot{width:8px;height:8px;background:var(--green);border-radius:50%;flex-shrink:0;animation:wdotPulse 2s ease-in-out infinite}
+@keyframes wdotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.8)}}
+
+.hero-stats{display:flex;gap:32px;margin-top:44px;padding-top:28px;border-top:1px solid rgba(184,146,42,.2)}
+.stat-n{font-family:var(--fd);font-size:30px;font-weight:300;color:var(--gold);line-height:1}
+.stat-l{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* ── MEJORA 4: Scarcity viewer counter en hero ── */
+.hero-social-proof{
+  display:flex;align-items:center;gap:10px;margin-top:16px;
+  font-size:12px;color:var(--muted);font-weight:300;
+}
+.hsp-dot{width:8px;height:8px;background:#e74c3c;border-radius:50%;animation:blink 1.5s ease-in-out infinite}
+
+.hero-right{position:relative;overflow:hidden;background:var(--charcoal)}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82;transition:transform 8s var(--ease)}
+.hero-grad{position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,26,26,.35) 0%,transparent 55%)}
+.hero-badge{position:absolute;bottom:44px;left:28px;background:rgba(250,248,243,.96);padding:14px 20px;border-left:3px solid var(--gold);animation:float 4s ease-in-out infinite;max-width:200px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.badge-l{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.badge-v{font-family:var(--fd);font-size:17px;font-weight:500;color:var(--charcoal);margin-top:2px;line-height:1.2}
+
+/* ── MEJORA 4: Scarcity badge en hero imagen ── */
+.hero-scarcity{
+  position:absolute;top:32px;right:32px;
+  background:var(--red);color:var(--white);
+  padding:10px 16px;text-align:center;
+  animation:float 3s ease-in-out infinite;
+}
+.hs-num{font-family:var(--fd);font-size:28px;font-weight:300;line-height:1}
+.hs-lbl{font-size:9px;letter-spacing:.18em;text-transform:uppercase;margin-top:2px}
+
+.hero-scroll-ind{position:absolute;bottom:28px;right:28px;writing-mode:vertical-rl;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:10px}
+.hero-scroll-ind::before{content:'';width:1px;height:44px;background:rgba(255,255,255,.25);animation:sl 2s ease-in-out infinite}
+@keyframes sl{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* MARQUEE */
+.marquee-wrap{padding:14px 0;background:var(--charcoal);overflow:hidden;white-space:nowrap}
+.marquee-track{display:inline-flex;animation:mq 26s linear infinite}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mi{font-family:var(--fd);font-size:14px;font-weight:300;font-style:italic;color:rgba(184,146,42,.65);padding:0 36px;letter-spacing:.05em}
+.md{color:var(--gold);padding:0 5px}
+
+/* SEC HEADER */
+.sh{text-align:center;margin-bottom:56px}
+.sk{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:12px}
+.sk::before,.sk::after{content:'';width:32px;height:1px;background:var(--gold)}
+.st{font-family:var(--fd);font-size:clamp(30px,3.8vw,50px);font-weight:300;line-height:1.1}
+.st em{font-style:italic;color:var(--gold)}
+.sd{font-size:15px;font-weight:300;color:var(--muted);max-width:500px;margin:14px auto 0;line-height:1.85}
+
+/* STORY ── MEJORA 7: por qué + foto Abigail ── */
+.story{padding:100px 80px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.story-mosaic{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative}
+.sm{width:100%;object-fit:cover;display:block}
+.sm.tall{grid-row:span 2;aspect-ratio:2/3}
+.sm.sq{aspect-ratio:1}
+.s-acc{position:absolute;bottom:-20px;right:-20px;width:80px;height:80px;border:2px solid var(--gold);z-index:-1}
+blockquote.s-quote{font-family:var(--fd);font-size:22px;font-weight:300;font-style:italic;line-height:1.55;margin-bottom:18px;padding-left:20px;border-left:3px solid var(--gold)}
+.s-why{font-size:14px;font-weight:400;color:var(--gold);letter-spacing:.05em;margin-bottom:12px;text-transform:uppercase;font-size:10px;letter-spacing:.2em}
+.s-body{font-size:15px;font-weight:300;color:var(--mid);line-height:1.9;margin-bottom:24px}
+.s-founder{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:16px;background:rgba(184,146,42,.06);border-left:3px solid var(--gold)}
+.s-founder-img{width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--gold)}
+.s-founder-info{}
+.s-sig{font-family:var(--fd);font-size:22px;font-style:italic;color:var(--gold);line-height:1}
+.s-role{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.mt{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.mtag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border:1px solid rgba(184,146,42,.4);color:var(--gold)}
+
+/* COLECCIONES */
+.coll{padding:90px 80px;background:var(--white)}
+.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.cc{position:relative;overflow:hidden;cursor:pointer;background:var(--charcoal)}
+.cc::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(26,26,26,.92) 0%,rgba(26,26,26,.15) 50%,transparent 100%);z-index:1;transition:opacity .4s}
+.cc:hover::before{opacity:.85}
+.cc-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;transition:transform .7s var(--ease);opacity:.82}
+.cc:hover .cc-img{transform:scale(1.07);opacity:.65}
+.cc-info{position:absolute;bottom:0;left:0;right:0;padding:28px 24px;z-index:2;transform:translateY(12px);transition:transform .4s var(--ease)}
+.cc:hover .cc-info{transform:translateY(0)}
+.cc-mat{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-l);margin-bottom:8px}
+.cc-name{font-family:var(--fd);font-size:24px;font-weight:300;color:var(--white);line-height:1.1;margin-bottom:8px}
+/* ── MEJORA 1: precio ancla en colecciones ── */
+.cc-price{font-size:13px;color:rgba(184,146,42,.85);margin-bottom:10px;font-weight:300}
+.cc-desc{font-size:13px;color:rgba(255,255,255,.58);line-height:1.65;max-height:0;overflow:hidden;transition:max-height .4s var(--ease);font-weight:300}
+.cc:hover .cc-desc{max-height:70px}
+.cc-link{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-l);display:flex;align-items:center;gap:6px;text-decoration:none;margin-top:12px;transition:gap .3s}
+.cc:hover .cc-link{gap:14px}
+.cc-link::after{content:'→'}
+
+/* PRODUCTS */
+.products{padding:90px 80px}
+.pf{display:flex;gap:0;margin-bottom:44px;border-bottom:1px solid rgba(184,146,42,.2);flex-wrap:wrap}
+.fb{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);background:none;border:none;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .3s}
+.fb.active,.fb:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.pg{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.pc{position:relative}
+.piw{position:relative;overflow:hidden;background:var(--white);aspect-ratio:1;margin-bottom:14px}
+.pi{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+.pc:hover .pi{transform:scale(1.07)}
+
+/* ── MEJORA 13: badges con jerarquía emocional correcta ── */
+.pb{position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;font-weight:500;z-index:2}
+.pb.fav{background:var(--gold);color:var(--white)}           /* dorado = aspiracional */
+.pb.new{background:#1a3a5c;color:var(--white)}               /* azul = novedad confiable */
+.pb.wed{background:#5c1a3a;color:var(--white)}               /* burdeos = especial */
+.pb.cus{background:var(--charcoal);color:var(--white)}       /* negro = premium */
+.pb.last{background:var(--red);color:var(--white)}           /* rojo = escasez/urgencia */
+.pb.avail{background:#2d7a3a;color:var(--white)}             /* verde = disponible hoy */
+
+/* ── MEJORA 4: viewer counter por producto ── */
+.p-viewers{
+  position:absolute;bottom:10px;left:10px;z-index:2;
+  background:rgba(26,26,26,.78);backdrop-filter:blur(4px);
+  color:var(--white);font-size:10px;padding:4px 9px;
+  display:flex;align-items:center;gap:5px;
+  opacity:0;transition:opacity .3s;
+}
+.pc:hover .p-viewers{opacity:1}
+.pv-dot{width:6px;height:6px;background:#e74c3c;border-radius:50%;animation:blink 1.2s ease-in-out infinite}
+
+.pa{position:absolute;bottom:0;left:0;right:0;display:flex;transform:translateY(100%);transition:transform .3s var(--ease);z-index:2}
+.pc:hover .pa{transform:translateY(0)}
+.pab{flex:1;padding:11px;border:none;cursor:pointer;font-size:10px;letter-spacing:.13em;text-transform:uppercase;transition:opacity .2s}
+.pab.pri{background:var(--charcoal);color:var(--white)}
+.pab.sec{background:var(--gold);color:var(--white);max-width:46px;font-size:13px}
+.pab:hover{opacity:.85}
+.pm{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.pn{font-family:var(--fd);font-size:17px;font-weight:400;line-height:1.2;margin-bottom:4px}
+
+/* ── MEJORA 8: precio desde en productos ── */
+.pp{font-size:14px;color:var(--charcoal);font-weight:400}
+.pp-from{font-size:11px;color:var(--muted);font-weight:300;margin-right:4px}
+.pst{color:var(--gold);font-size:10px;margin-top:4px}
+/* ── MEJORA 4: scarcity line bajo producto ── */
+.p-scarcity{font-size:10px;color:var(--red);margin-top:4px;font-weight:400;display:flex;align-items:center;gap:5px}
+.p-scarcity::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;flex-shrink:0;animation:blink 1.2s ease-in-out infinite}
+
+/* EMOTIONAL STRIP */
+.emo-strip{padding:0;background:var(--charcoal);overflow:hidden;position:relative}
+.emo-strip img{width:100%;max-height:520px;object-fit:cover;object-position:center 30%;display:block;opacity:.75}
+.emo-strip-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(26,26,26,.85) 0%,rgba(26,26,26,.3) 50%,transparent 100%);display:flex;align-items:center;padding:0 80px}
+.emo-content{max-width:560px}
+.emo-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.emo-title{font-family:var(--fd);font-size:clamp(32px,4vw,56px);font-weight:300;color:var(--white);line-height:1.08;margin-bottom:20px}
+.emo-title em{font-style:italic;color:var(--gold)}
+.emo-text{font-size:15px;color:rgba(255,255,255,.6);line-height:1.85;font-weight:300;margin-bottom:32px;max-width:420px}
+.btn-gold-outline{display:inline-block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:14px 36px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;transition:all .3s}
+.btn-gold-outline:hover{background:var(--gold);color:var(--white)}
+
+/* ── MEJORA 6: REGALO SECTION ── */
+.regalo{padding:90px 80px;background:var(--gold-pale)}
+.regalo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:56px}
+.rg{position:relative;overflow:hidden;cursor:pointer;text-align:center}
+.rg-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:transform .6s var(--ease);filter:brightness(.88)}
+.rg:hover .rg-img{transform:scale(1.05);filter:brightness(1)}
+.rg-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,26,26,.85) 0%,transparent 50%)}
+.rg-info{position:absolute;bottom:0;left:0;right:0;padding:20px 16px}
+.rg-occasion{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-l);margin-bottom:5px}
+.rg-name{font-family:var(--fd);font-size:18px;font-weight:300;color:var(--white);line-height:1.2;margin-bottom:10px}
+.rg-cta{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);display:inline-flex;align-items:center;gap:5px;text-decoration:none;opacity:0;transform:translateY(6px);transition:all .3s var(--ease)}
+.rg-cta::after{content:'→'}
+.rg:hover .rg-cta{opacity:1;transform:translateY(0)}
+.regalo-strip{margin-top:40px;display:flex;align-items:center;justify-content:center;gap:0;background:var(--charcoal);padding:24px 40px;flex-wrap:wrap;gap:32px}
+.rs-item{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.7);font-weight:300}
+.rs-item strong{color:var(--gold)}
+.rs-sep{color:rgba(255,255,255,.2);font-size:20px}
+
+/* CUSTOM */
+.custom{padding:80px;background:var(--charcoal);display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;overflow:hidden}
+.custom::after{content:'LASER';position:absolute;right:-30px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:var(--fd);font-size:100px;font-weight:300;color:rgba(184,146,42,.04);letter-spacing:.1em;white-space:nowrap;pointer-events:none}
+.c-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.c-title{font-family:var(--fd);font-size:clamp(28px,3.2vw,46px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px}
+.c-title em{font-style:italic;color:var(--gold)}
+.c-text{font-size:15px;color:rgba(255,255,255,.52);line-height:1.85;font-weight:300;margin-bottom:24px}
+.c-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px}
+.c-item{display:flex;align-items:center;gap:11px;font-size:14px;color:rgba(255,255,255,.7);font-weight:300}
+.c-item::before{content:'✦';color:var(--gold);font-size:9px;flex-shrink:0}
+.btn-gold{display:inline-block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:14px 36px;background:var(--gold);color:var(--white);text-decoration:none;border:none;cursor:pointer;transition:background .3s;font-weight:500}
+.btn-gold:hover{background:var(--gold-l)}
+.c-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.c-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:opacity .3s;filter:brightness(.92)}
+.c-img:hover{opacity:.85;filter:brightness(1)}
+
+/* PROCESS */
+.process{padding:90px 80px;background:var(--white)}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:56px;position:relative}
+.process-steps::before{content:'';position:absolute;top:34px;left:80px;right:80px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.ps{text-align:center;padding:0 8px;position:relative}
+/* ── MEJORA 12: números grandes y visibles ── */
+.ps-num{
+  width:68px;height:68px;border-radius:50%;
+  background:var(--white);border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  font-family:var(--fd);font-size:28px;font-weight:400;color:var(--gold);
+  transition:all .3s;position:relative;z-index:1;
+}
+.ps:hover .ps-num{background:var(--gold);color:var(--white);transform:scale(1.1)}
+.ps-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;margin-bottom:16px;border-radius:2px;opacity:.85;transition:opacity .3s}
+.ps:hover .ps-img{opacity:1}
+.ps-title{font-family:var(--fd);font-size:18px;font-weight:400;margin-bottom:8px;color:var(--charcoal)}
+.ps-text{font-size:13px;color:var(--muted);line-height:1.85;font-weight:300}
+
+/* WEDDING */
+.wedding{padding:90px 80px;background:var(--gold-pale)}
+.wed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.wc{position:relative;overflow:hidden;cursor:pointer}
+.wi{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+.wc:hover .wi{transform:scale(1.05)}
+.wo{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,26,26,.88) 0%,transparent 50%)}
+.winfo{position:absolute;bottom:0;left:0;right:0;padding:22px}
+.wmat{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-l);margin-bottom:5px}
+.wname{font-family:var(--fd);font-size:19px;font-weight:300;color:var(--white)}
+/* ── precio desde en argollas ── */
+.wprice{font-size:13px;color:rgba(184,146,42,.85);margin-top:4px;font-weight:300}
+.wcta{margin-top:8px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);display:flex;align-items:center;gap:6px;text-decoration:none;opacity:0;transform:translateY(7px);transition:all .3s var(--ease)}
+.wcta::after{content:'→'}
+.wc:hover .wcta{opacity:1;transform:translateY(0)}
+
+/* WHY */
+.why{padding:90px 80px;background:var(--charcoal)}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:56px}
+.wyc{text-align:center;padding:32px 16px;border:1px solid rgba(184,146,42,.12);transition:transform .3s,border-color .3s}
+.wyc:hover{transform:translateY(-7px);border-color:rgba(184,146,42,.4)}
+.wy-icon{font-size:32px;margin-bottom:16px;display:block}
+.wy-title{font-family:var(--fd);font-size:18px;font-weight:400;color:var(--white);margin-bottom:12px}
+.wy-text{font-size:13px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.85}
+
+/* ── MEJORA 2 & 5: TESTIMONIALS con fotos y más cantidad ── */
+.testi{padding:90px 80px;background:var(--cream)}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.tc{background:var(--white);padding:32px 24px;position:relative;transition:transform .3s}
+.tc:hover{transform:translateY(-5px)}
+.tqm{position:absolute;top:14px;right:18px;font-family:var(--fd);font-size:56px;font-weight:300;color:rgba(184,146,42,.1);line-height:1}
+.tst{color:var(--gold);font-size:11px;margin-bottom:14px}
+.tt{font-family:var(--fd);font-size:15px;font-weight:300;font-style:italic;line-height:1.65;margin-bottom:18px}
+.tline{width:30px;height:1px;background:var(--gold);margin-bottom:14px}
+/* foto + nombre */
+.t-author{display:flex;align-items:center;gap:12px}
+.t-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(184,146,42,.3);flex-shrink:0;background:var(--gold-pale)}
+.t-avatar-placeholder{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-l) 100%);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:18px;font-weight:300;color:var(--white);flex-shrink:0}
+.tn{font-size:14px;font-weight:500;line-height:1.2}
+.tl{font-size:11px;color:var(--muted);margin-top:2px}
+.tp{font-size:10px;color:var(--gold);margin-top:2px;letter-spacing:.05em}
+/* fila extra testimonios */
+.tg-extra{margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tc.mini{padding:22px 20px}
+.tc.mini .tt{font-size:14px;margin-bottom:12px}
+
+/* GALLERY */
+.gallery{padding:50px 80px;background:var(--white)}
+.gallery-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.g-handle{font-size:16px;font-weight:300}
+.g-handle span{color:var(--gold);font-style:italic;font-family:var(--fd)}
+.gg{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+.gt{aspect-ratio:1;overflow:hidden;position:relative;cursor:pointer;background:var(--charcoal)}
+.gt img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease),opacity .3s;opacity:.9}
+.gt:hover img{transform:scale(1.1);opacity:.4}
+.gov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:var(--white);opacity:0;transition:opacity .3s;font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+.gov span{font-size:20px}
+.gt:hover .gov{opacity:1}
+
+/* ── MEJORA 7 & 15: CTA FINAL mejorado ── */
+.cta-sec{padding:90px 80px;background:var(--charcoal);display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.cta-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.cta-title{font-family:var(--fd);font-size:clamp(28px,3.2vw,44px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px}
+.cta-title em{font-style:italic;color:var(--gold)}
+.cta-text{font-size:15px;color:rgba(255,255,255,.5);line-height:1.85;font-weight:300;margin-bottom:20px}
+.cta-wa{display:inline-flex;align-items:center;gap:11px;padding:16px 32px;background:var(--green);color:var(--white);text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;transition:background .3s}
+.cta-wa:hover{background:#1ea952}
+
+/* ── MEJORA 5 & 7: formulario reducido a 2 campos ── */
+.cta-or{font-size:12px;color:rgba(255,255,255,.25);margin:20px 0;display:flex;align-items:center;gap:12px}
+.cta-or::before,.cta-or::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
+.cta-form{display:flex;flex-direction:column;gap:11px}
+.cta-inp{padding:14px 18px;background:rgba(255,255,255,.05);border:1px solid rgba(184,146,42,.25);color:var(--white);font-family:var(--fb);font-size:14px;font-weight:300;outline:none;transition:border-color .3s;width:100%}
+.cta-inp::placeholder{color:rgba(255,255,255,.28)}
+.cta-inp:focus{border-color:var(--gold)}
+.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.cta-sub{padding:16px 32px;background:var(--gold);border:none;color:var(--white);font-family:var(--fb);font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background .3s;font-weight:500;width:100%}
+.cta-sub:hover{background:var(--gold-l)}
+.cta-priv{font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-top:3px}
+/* reassurance icons bajo el form */
+.cta-reassurance{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap}
+.cta-re{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.4);font-weight:300}
+.cta-re-icon{font-size:13px}
+
+/* ── MEJORA 15: Footer con cierre emocional ── */
+.footer-cta-bar{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-l) 100%);padding:40px 80px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.fcb-text{font-family:var(--fd);font-size:28px;font-weight:300;font-style:italic;color:var(--white);line-height:1.2}
+.fcb-text strong{font-style:normal;font-weight:500}
+.btn-white{display:inline-flex;align-items:center;gap:10px;padding:15px 36px;background:var(--white);color:var(--gold);font-size:11px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-weight:500;transition:all .3s;white-space:nowrap}
+.btn-white:hover{background:var(--charcoal);color:var(--white)}
+
+footer{background:var(--charcoal);color:var(--white);padding:56px 80px 24px}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px}
+.ft-brand{display:flex;flex-direction:column;gap:14px}
+.ft-brand-logo{background:var(--white);border-radius:4px;padding:8px 14px;display:inline-flex;align-items:center;max-width:220px}
+.ft-about{font-size:13px;color:rgba(255,255,255,.36);line-height:1.85;font-weight:300;max-width:240px}
+.ft-soc{display:flex;gap:9px;margin-top:4px}
+.fts{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.38);text-decoration:none;font-size:11px;transition:all .3s}
+.fts:hover{border-color:var(--gold);color:var(--gold)}
+.ftct{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.ftl{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ftl a{font-size:13px;color:rgba(255,255,255,.36);text-decoration:none;font-weight:300;transition:color .3s}
+.ftl a:hover{color:var(--white)}
+.ftb{border-top:1px solid rgba(255,255,255,.07);padding-top:20px;display:flex;align-items:center;justify-content:space-between}
+.ftc{font-size:12px;color:rgba(255,255,255,.2);font-weight:300}
+.ftleg{display:flex;gap:22px}
+.ftleg a{font-size:12px;color:rgba(255,255,255,.2);text-decoration:none;transition:color .3s}
+.ftleg a:hover{color:var(--gold)}
+
+/* TRUST */
+.trust{padding:28px 80px;background:var(--white);display:grid;grid-template-columns:repeat(4,1fr);gap:16px;text-align:center;border-top:1px solid rgba(184,146,42,.12)}
+.tri{display:flex;flex-direction:column;align-items:center;gap:6px}
+.tri-icon{font-size:22px}
+.tri-lbl{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--mid)}
+
+/* TOAST */
+.toast{position:fixed;bottom:104px;left:28px;z-index:500;background:var(--white);border-left:3px solid var(--gold);padding:14px 20px;max-width:280px;box-shadow:0 6px 32px rgba(0,0,0,.1);transform:translateX(-120%);transition:transform .5s var(--ease)}
+.toast.show{transform:translateX(0)}
+.toast-title{font-size:13px;font-weight:500;margin-bottom:3px}
+.toast-body{font-size:12px;color:var(--muted);line-height:1.5}
+.toast-close{position:absolute;top:8px;right:10px;background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero,.story,.coll-grid,.custom,.wed-grid,.why-grid,.tg,.tg-extra,.cta-sec,.ft,.regalo-grid{grid-template-columns:1fr}
+  .hero-right{height:50vh}
+  .pg{grid-template-columns:repeat(2,1fr)}
+  .process-steps{grid-template-columns:repeat(2,1fr);gap:32px}
+  .process-steps::before{display:none}
+  .trust{grid-template-columns:repeat(2,1fr)}
+  .gg{grid-template-columns:repeat(3,1fr)}
+  nav,.story,.coll,.products,.custom,.process,.wedding,.why,.testi,.gallery,.cta-sec,.trust,.regalo,.footer-cta-bar{padding-left:24px;padding-right:24px}
+  footer{padding:48px 24px 20px}
+  nav{padding:0 18px}
+  .hero-left{padding:40px 22px}
+  .emo-strip-overlay{padding:0 32px}
+  .footer-cta-bar{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── MEJORA 9: WhatsApp flotante siempre visible ── -->
+<a href="https://wa.me/51965846128?text=Hola!%20Me%20interesa%20hacer%20un%20pedido" class="wa-float" target="_blank" id="waFloat">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="32" height="32" fill="none">
+    <path fill="#fff" d="M24 4C13 4 4 13 4 24c0 3.6 1 7 2.7 9.9L4 44l10.4-2.7C17.2 43 20.5 44 24 44c11 0 20-9 20-20S35 4 24 4z"/>
+    <path fill="#25D366" d="M24 6.5C14.3 6.5 6.5 14.3 6.5 24c0 3.3.9 6.4 2.5 9.1L6.5 41.5l8.6-2.5c2.6 1.5 5.6 2.3 8.9 2.3 9.7 0 17.5-7.8 17.5-17.5S33.7 6.5 24 6.5z"/>
+    <path fill="#fff" d="M34.3 29.6c-.5-.2-2.8-1.4-3.3-1.5-.4-.2-.7-.2-1 .2-.3.5-1.2 1.5-1.5 1.8-.3.3-.5.4-1 .1-.5-.2-2-.7-3.8-2.3-1.4-1.2-2.3-2.7-2.6-3.2-.3-.5 0-.7.2-1 .2-.2.5-.5.7-.8.2-.3.3-.5.4-.8.2-.3 0-.6-.1-.8-.1-.2-1-2.5-1.4-3.4-.4-.9-.8-.8-1-.8h-.9c-.3 0-.8.1-1.2.6-.4.5-1.6 1.5-1.6 3.7s1.6 4.3 1.9 4.6c.2.3 3.2 5 7.9 6.8 1.1.5 2 .7 2.7.9 1.1.3 2.1.3 2.9.2.9-.1 2.8-1.1 3.2-2.2.4-1.1.4-2 .3-2.2-.1-.2-.4-.3-.9-.5z"/>
+  </svg>
+  <span class="wa-float-label">Escríbenos ahora</span>
+</a>
+
+<!-- URGENCY BAR -->
+<div class="urgency" id="urgBar">
+  <p class="urgency-text">
+    <span class="urgency-count"><span class="urgency-dot"></span> <strong id="urgCount">12</strong> personas viendo ahora</span>
+    &nbsp;·&nbsp; Envíos a todo Perú &nbsp;·&nbsp; <strong>WhatsApp: 965 846 128</strong>
+  </p>
+  <button class="urgency-close" onclick="document.getElementById('urgBar').classList.add('hidden')">×</button>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <img src="img2/logo-final.png" alt="Abigail RM - The Atelier · Joyería de Autor" style="border-radius:3px">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#anillos">Anillos</a></li>
+    <li><a href="#argollas">Argollas</a></li>
+    <li><a href="#personalizado">Personalizado</a></li>
+    <li><a href="#regalo">Regalos</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+  </ul>
+  <a href="https://wa.me/51965846128" class="nav-wa btn-pulse" target="_blank">📲 Pedir ahora</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">The Atelier · Joyería de autor</p>
+    <h1 class="hero-title">Encuentra la joya<br>que <em>siempre</em><br>soñaste</h1>
+    <p class="hero-sub">Anillos de compromiso, argollas matrimoniales y piezas únicas personalizadas con grabado láser. Plata 950 · Oro 18K · Acero quirúrgico.</p>
+
+    <!-- ── MEJORA 1: Precio ancla ── -->
+    <div class="hero-price-anchor">
+      <span class="hpa-label">Anillos</span>
+      <span class="hpa-price">Desde S/ 89</span>
+      <span class="hpa-sep">·</span>
+      <span class="hpa-label">Argollas par</span>
+      <span class="hpa-price">Desde S/ 250</span>
+    </div>
+
+    <div class="hero-btns">
+      <!-- ── MEJORA 3: verbo de apropiación ── -->
+      <a href="#anillos" class="btn-dark btn-pulse"><span>Quiero la mía →</span></a>
+      <a href="https://wa.me/51965846128" class="btn-link" target="_blank">
+        <span class="wdot"></span>Asesoría gratis por WhatsApp
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div><div class="stat-n">+500</div><div class="stat-l">Piezas entregadas</div></div>
+      <div><div class="stat-n">18K</div><div class="stat-l">Oro certificado</div></div>
+      <div><div class="stat-n">100%</div><div class="stat-l">Personalizable</div></div>
+    </div>
+
+    <!-- ── MEJORA 4: viewer counter ── -->
+    <div class="hero-social-proof">
+      <span class="hsp-dot"></span>
+      <span id="heroViewers">8 personas están viendo esta página ahora mismo</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <img class="hero-img" src="img2/ai05.png" alt="Anillo solitario oro Abigail RM">
+    <div class="hero-grad"></div>
+    <!-- ── MEJORA 4: scarcity badge ── -->
+    <div class="hero-scarcity">
+      <div class="hs-num" id="heroStock">3</div>
+      <div class="hs-lbl">unidades<br>disponibles</div>
+    </div>
+    <div class="hero-badge" style="padding:10px 16px;display:flex;flex-direction:column;align-items:center;gap:6px">
+      <img src="img2/logo-final.png" alt="Abigail RM" style="height:60px;object-fit:contain;border-radius:3px">
+      <div class="badge-l" style="text-align:center">Grabado láser personalizado</div>
+    </div>
+    <div class="hero-scroll-ind">Scroll</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="mi">Plata Ley 950</span><span class="md">✦</span>
+    <span class="mi">Oro 18K</span><span class="md">✦</span>
+    <span class="mi">Oro Blanco</span><span class="md">✦</span>
+    <span class="mi">Oro Rosado</span><span class="md">✦</span>
+    <span class="mi">Acero quirúrgico</span><span class="md">✦</span>
+    <span class="mi">Grabado láser</span><span class="md">✦</span>
+    <span class="mi">Envíos internacional</span><span class="md">✦</span>
+    <span class="mi">Men & Chevalier</span><span class="md">✦</span>
+    <span class="mi">The Atelier</span><span class="md">✦</span>
+    <span class="mi">Plata Ley 950</span><span class="md">✦</span>
+    <span class="mi">Oro 18K</span><span class="md">✦</span>
+    <span class="mi">Oro Blanco</span><span class="md">✦</span>
+    <span class="mi">Oro Rosado</span><span class="md">✦</span>
+    <span class="mi">Acero quirúrgico</span><span class="md">✦</span>
+    <span class="mi">Grabado láser</span><span class="md">✦</span>
+    <span class="mi">Envíos internacional</span><span class="md">✦</span>
+    <span class="mi">Men & Chevalier</span><span class="md">✦</span>
+    <span class="mi">The Atelier</span><span class="md">✦</span>
+  </div>
+</div>
+
+<!-- ── MEJORA 7: NOSOTROS con por qué + foto fundadora ── -->
+<section class="story reveal" id="nosotros">
+  <div class="story-mosaic">
+    <img class="sm tall" src="img2/ai09.png" alt="Abigail RM Arteaga" style="object-position:center top">
+    <img class="sm sq" src="img2/ai04.png" alt="Proceso artesanal">
+    <img class="sm sq" src="img2/ai03.png" alt="Ceremonia matrimonio">
+    <div class="s-acc"></div>
+  </div>
+  <div>
+    <div class="s-why">✦ Por qué hacemos esto</div>
+    <blockquote class="s-quote">"Vi a mi mamá guardar su argolla en una cajita porque se había opacado. Desde ese día decidí que ninguna joya debería perder su brillo."</blockquote>
+    <p class="s-body">Ese momento marcó a Abigail. Estudió, aprendió y construyó The Atelier con una sola misión: que cada pieza que salga de nuestras manos dure toda una vida.<br><br>Hoy trabajamos con plata 950, oro 18K certificado y tecnología de grabado láser para ofrecerte algo completamente único. Desde Lima enviamos a todo el Perú y también al extranjero.</p>
+    <div class="s-founder">
+      <img class="s-founder-img" src="img2/logo-final.png" alt="Abigail RM Arteaga" style="object-fit:contain;background:var(--cream);padding:6px;border-radius:8px;width:72px;height:72px">
+      <div class="s-founder-info">
+        <div class="s-sig">Abigail RM Arteaga</div>
+        <div class="s-role">Fundadora · The Atelier · 965 846 128</div>
+      </div>
+    </div>
+    <div class="mt">
+      <span class="mtag">Plata 950</span>
+      <span class="mtag">Oro 18K</span>
+      <span class="mtag">Oro Blanco</span>
+      <span class="mtag">Oro Rosado</span>
+      <span class="mtag">Acero 316L</span>
+    </div>
+  </div>
+</section>
+
+<!-- COLECCIONES -->
+<section class="coll" id="anillos">
+  <div class="sh reveal">
+    <div class="sk">Nuestras colecciones</div>
+    <h2 class="st">Encuentra la pieza<br><em>que te representa</em></h2>
+    <p class="sd">Cada colección nace de una emoción. Hay una que habla de ti.</p>
+  </div>
+  <div class="coll-grid reveal">
+    <div class="cc">
+      <img class="cc-img" src="img2/ai08.png" alt="Anillos de Compromiso">
+      <div class="cc-info">
+        <div class="cc-mat">Oro 18K · Plata 950</div>
+        <h3 class="cc-name">Anillos de Compromiso</h3>
+        <!-- ── precio ancla ── -->
+        <div class="cc-price">Desde S/ 120</div>
+        <p class="cc-desc">Solitarios, corazones, coronas y diseños únicos con piedras brillantes.</p>
+        <a href="#productos" class="cc-link">Diseñar el mío</a>
+      </div>
+    </div>
+    <div class="cc">
+      <img class="cc-img" src="img2/ai06.png" alt="Argollas Matrimoniales">
+      <div class="cc-info">
+        <div class="cc-mat">Oro 18K · Plata Laminada</div>
+        <h3 class="cc-name">Argollas Matrimoniales</h3>
+        <div class="cc-price">Par desde S/ 250</div>
+        <p class="cc-desc">Argollas para él y para ella. Grabadas con sus nombres y fecha.</p>
+        <a href="#argollas" class="cc-link">Ver argollas</a>
+      </div>
+    </div>
+    <div class="cc">
+      <img class="cc-img" src="img2/ai07.png" alt="Men & Chevalier">
+      <div class="cc-info">
+        <div class="cc-mat">Grabado láser · Personalizado</div>
+        <h3 class="cc-name">Men & Chevalier</h3>
+        <div class="cc-price">Desde S/ 89</div>
+        <p class="cc-desc">Tu nombre, logo o imagen grabado con precisión láser en plata u oro.</p>
+        <a href="#personalizado" class="cc-link">Personalizar ahora</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="products" id="productos">
+  <div class="sh reveal">
+    <div class="sk">Catálogo</div>
+    <h2 class="st">Lo más <em>solicitado</em></h2>
+  </div>
+  <div class="pf reveal">
+    <button class="fb active" onclick="filterP(this,'todos')">Todos</button>
+    <button class="fb" onclick="filterP(this,'compromiso')">Compromiso</button>
+    <button class="fb" onclick="filterP(this,'argolla')">Argollas</button>
+    <button class="fb" onclick="filterP(this,'chevalier')">Chevalier</button>
+    <button class="fb" onclick="filterP(this,'oro')">Oro</button>
+    <button class="fb" onclick="filterP(this,'plata')">Plata</button>
+  </div>
+  <div class="pg reveal">
+
+    <div class="pc" data-cat="compromiso oro">
+      <div class="piw">
+        <span class="pb fav">⭐ Favorito</span>
+        <img class="pi" src="img2/ai01.png" alt="Solitario Clásico Oro">
+        <div class="p-viewers"><span class="pv-dot"></span> 6 personas viendo</div>
+        <div class="pa">
+          <button class="pab pri" onclick="wa('Anillo Solitario Clásico Oro 18K — lo vi en la página')">Quiero éste</button>
+          <button class="pab sec">♡</button>
+        </div>
+      </div>
+      <div class="pm">Oro 18K</div>
+      <h3 class="pn">Solitario Clásico</h3>
+      <div class="pp"><span class="pp-from">Desde</span>S/ 180</div>
+      <div class="pst">★★★★★ (24)</div>
+      <div class="p-scarcity">Solo 4 unidades disponibles</div>
+    </div>
+
+    <div class="pc" data-cat="compromiso oro">
+      <div class="piw">
+        <span class="pb new">✨ Nuevo</span>
+        <img class="pi" src="img2/ai08.png" alt="Corazón Halo">
+        <div class="p-viewers"><span class="pv-dot"></span> 9 personas viendo</div>
+        <div class="pa">
+          <button class="pab pri" onclick="wa('Anillo Corazón Halo Oro 18K — lo vi en la página')">Quiero éste</button>
+          <button class="pab sec">♡</button>
+        </div>
+      </div>
+      <div class="pm">Oro 18K · Zirconia</div>
+      <h3 class="pn">Corazón Halo</h3>
+      <div class="pp"><span class="pp-from">Desde</span>S/ 220</div>
+      <div class="pst">★★★★★ (18)</div>
+    </div>
+
+    <div class="pc" data-cat="compromiso oro">
+      <div class="piw">
+        <span class="pb last">🔥 Últimas 3</span>
+        <img class="pi" src="img2/ai09.png" alt="Corona Reina">
+        <div class="p-viewers"><span class="pv-dot"></span> 12 personas viendo</div>
+        <div class="pa">
+          <button class="pab pri" onclick="wa('Anillo Corona Reina Oro 18K — lo vi en la página')">Quiero éste</button>
+          <button class="pab sec">♡</button>
+        </div>
+      </div>
+      <div class="pm">Oro 18K · Diamantes</div>
+      <h3 class="pn">Corona Reina</h3>
+      <div class="pp"><span class="pp-from">Desde</span>S/ 310</div>
+      <div class="pst">★★★★★ (31)</div>
+      <div class="p-scarcity">¡Solo quedan 3!</div>
+    </div>
+
+    <div class="pc" data-cat="compromiso oro">
+      <div class="piw">
+        <span class="pb avail">✅ Disponible hoy</span>
+        <img class="pi" src="img2/ai05.png" alt="Solitario Premium">
+        <div class="p-viewers"><span class="pv-dot"></span> 5 personas viendo</div>
+        <div class="pa">
+          <button class="pab pri" onclick="wa('Anillo Solitario Premium Oro — lo vi en la página')">Quiero éste</button>
+          <button class="pab sec">♡</button>
+        </div>
+      </div>
+      <div class="pm">Oro 18K</div>
+      <h3 class="pn">Solitario Premium</h3>
+      <div class="pp"><span class="pp-from">Desde</span>S/ 280</div>
+      <div class="pst">★★★★★ (15)</div>
+    </div>
+
+    <div class="pc" data-cat="argolla oro">
+      <div class="piw">
+        <span class="pb wed">💍 Matrimonio</span>
+        <img class="pi" src="img2/ai06.png" alt="Argollas Par Oro">
+        <div class="p-viewers"><span class="pv-dot"></span> 7 personas viendo</div>
+        <div class="pa">
+          <button class="pab pri" onclick="wa('Argollas Matrimoniales Oro 18K par — lo vi en la página')">Quiero éstas</button>
+          <button class="pab sec">♡</button>
+        </div>
+      </div>
+      <div class="pm">Oro 18K · Par</div>
+      <h3 class="pn">Argollas Clásicas</h3>
+      <div class="pp"><span class="pp-from">Par desde</span>S/ 350</div>
+      <div class="pst">★★★★★ (42)</div>
+    </div>
+
+    <div class="pc" data-cat="argolla oro">
+      <div class="piw">
+        <span class="pb fav">⭐ Más pedidas</span>
+        <img class="pi" src="img/p11.jpg" alt="Argollas Diamantadas">
+        <div class="p-viewers"><span class="pv-dot"></span> 11 personas viendo</div>
+        <div class="pa">
+          <button class="pab pri" onclick="wa('Argollas Diamantadas Oro 18K — lo vi en la página')">Quiero éstas</button>
+          <button class="pab sec">♡</button>
+        </div>
+      </div>
+      <div class="pm">Oro 18K · Par</div>
+      <h3 class="pn">Argollas Diamantadas</h3>
+      <div class="pp"><span class="pp-from">Par desde</span>S/ 420</div>
+      <div class="pst">★★★★★ (38)</div>
+    </div>
+
+    <div class="pc" data-cat="chevalier plata">
+      <div class="piw">
+        <span class="pb cus">⚡ Personalizado</span>
+        <img class="pi" src="img2/ai07.png" alt="Chevalier Sello">
+        <div class="p-viewers"><span class="pv-dot"></span> 4 personas viendo</div>
+        <div class="pa">
+          <button class="pab pri" onclick="wa('Anillo Chevalier Sello personalizado — lo vi en la página')">Personalizar</button>
+          <button class="pab sec">♡</button>
+        </div>
+      </div>
+      <div class="pm">Oro 18K · Plata 950</div>
+      <h3 class="pn">Chevalier Sello</h3>
+      <div class="pp"><span class="pp-from">Desde</span>S/ 130</div>
+      <div class="pst">★★★★★ (19)</div>
+    </div>
+
+    <div class="pc" data-cat="chevalier plata">
+      <div class="piw">
+        <span class="pb last">🔥 Exclusivo</span>
+        <img class="pi" src="img/p1.jpg" alt="Chevalier Águila Plata">
+        <div class="p-viewers"><span class="pv-dot"></span> 3 personas viendo</div>
+        <div class="pa">
+          <button class="pab pri" onclick="wa('Chevalier Águila Plata 950 — lo vi en la página')">Personalizar</button>
+          <button class="pab sec">♡</button>
+        </div>
+      </div>
+      <div class="pm">Plata 950 · Men & Chevalier</div>
+      <h3 class="pn">Chevalier Águila</h3>
+      <div class="pp"><span class="pp-from">Desde</span>S/ 89</div>
+      <div class="pst">★★★★★ (11)</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EMOTIONAL STRIP -->
+<div class="emo-strip">
+  <img src="img2/ai03.png" alt="Ceremonia de matrimonio argollas">
+  <div class="emo-strip-overlay">
+    <div class="emo-content reveal">
+      <div class="emo-kicker">El momento que se graba para siempre</div>
+      <h2 class="emo-title">Argollas que<br>cuentan su<br><em>historia de amor</em></h2>
+      <p class="emo-text">Porque ese instante merece el mejor metal. Argollas en oro 18K, grabadas con sus nombres y la fecha que lo cambió todo.</p>
+      <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesan%20argollas%20matrimoniales" class="btn-gold-outline" target="_blank">Ver argollas →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── MEJORA 6: SECCIÓN REGALOS ── -->
+<section class="regalo reveal" id="regalo">
+  <div class="sh">
+    <div class="sk">El regalo perfecto</div>
+    <h2 class="st">¿A quién quieres<br><em>hacer feliz hoy?</em></h2>
+    <p class="sd">El 68% de nuestras joyas son regalos. Encuentra la pieza perfecta para cada momento especial.</p>
+  </div>
+  <div class="regalo-grid">
+    <div class="rg">
+      <img class="rg-img" src="img2/ai01.png" alt="Regalo para mamá">
+      <div class="rg-overlay"></div>
+      <div class="rg-info">
+        <div class="rg-occasion">Para mamá</div>
+        <div class="rg-name">Amor que<br>no se olvida</div>
+        <a href="https://wa.me/51965846128?text=Busco%20un%20regalo%20para%20mi%20mamá" class="rg-cta" target="_blank">Ver opciones</a>
+      </div>
+    </div>
+    <div class="rg">
+      <img class="rg-img" src="img2/ai08.png" alt="Regalo de compromiso">
+      <div class="rg-overlay"></div>
+      <div class="rg-info">
+        <div class="rg-occasion">Para ella</div>
+        <div class="rg-name">La propuesta<br>de tu vida</div>
+        <a href="https://wa.me/51965846128?text=Busco%20un%20anillo%20de%20compromiso" class="rg-cta" target="_blank">Ver opciones</a>
+      </div>
+    </div>
+    <div class="rg">
+      <img class="rg-img" src="img2/ai07.png" alt="Regalo para él">
+      <div class="rg-overlay"></div>
+      <div class="rg-info">
+        <div class="rg-occasion">Para él</div>
+        <div class="rg-name">Estilo que<br>lo distingue</div>
+        <a href="https://wa.me/51965846128?text=Busco%20un%20regalo%20para%20un%20hombre" class="rg-cta" target="_blank">Ver opciones</a>
+      </div>
+    </div>
+    <div class="rg">
+      <img class="rg-img" src="img2/ai06.png" alt="Regalo de matrimonio">
+      <div class="rg-overlay"></div>
+      <div class="rg-info">
+        <div class="rg-occasion">Para su boda</div>
+        <div class="rg-name">El regalo<br>que dura siempre</div>
+        <a href="https://wa.me/51965846128?text=Busco%20un%20regalo%20para%20una%20boda" class="rg-cta" target="_blank">Ver opciones</a>
+      </div>
+    </div>
+  </div>
+  <div class="regalo-strip">
+    <div class="rs-item">🎁 <span>Caja regalo <strong>incluida</strong></span></div>
+    <span class="rs-sep">·</span>
+    <div class="rs-item">✍️ <span>Tarjeta personalizada <strong>gratis</strong></span></div>
+    <span class="rs-sep">·</span>
+    <div class="rs-item">🚚 <span>Envío express <strong>disponible</strong></span></div>
+    <span class="rs-sep">·</span>
+    <div class="rs-item">💬 <span>Te asesoramos <strong>gratis</strong></span></div>
+  </div>
+</section>
+
+<!-- PERSONALIZADO / LASER -->
+<section class="custom" id="personalizado">
+  <div class="reveal">
+    <div class="c-kicker">Servicio exclusivo · The Atelier</div>
+    <h2 class="c-title">Grabado láser<br><em>con tu diseño</em></h2>
+    <p class="c-text">Personalizamos anillos chevalier y sellos con nombres, logos, retratos, fechas o cualquier diseño. Desde S/ 89.</p>
+    <ul class="c-list">
+      <li class="c-item">Plata Ley 950</li>
+      <li class="c-item">Plata Laminado en Oro 18K</li>
+      <li class="c-item">Oro Blanco, Rosado y Amarillo</li>
+      <li class="c-item">Ideal para regalos corporativos y personales</li>
+      <li class="c-item">Envíos desde Lima · Nacional e internacional</li>
+    </ul>
+    <a href="https://wa.me/51965846128?text=Hola!%20Me%20interesa%20un%20anillo%20con%20grabado%20láser%20personalizado" class="btn-gold btn-pulse" target="_blank">Solicitar cotización gratis →</a>
+  </div>
+  <div class="c-img-grid reveal">
+    <img class="c-img" src="img2/gm07.png" alt="Máquina grabado láser">
+    <img class="c-img" src="img2/ai07.png" alt="Chevalier personalizado">
+    <img class="c-img" src="img/p2.jpg" alt="Sellos personalizados">
+    <img class="c-img" src="img/p3.jpg" alt="Grabado logo empresa">
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="process">
+  <div class="sh reveal">
+    <div class="sk">Así de fácil</div>
+    <h2 class="st">Tu joya en <em>4 pasos</em></h2>
+    <p class="sd">Desde que nos escribes hasta que tienes tu pieza en las manos. Simple, rápido y con garantía.</p>
+  </div>
+  <div class="process-steps reveal">
+    <div class="ps">
+      <div class="ps-num">01</div>
+      <img class="ps-img" src="img2/ai04.png" alt="Escríbenos">
+      <h3 class="ps-title">Escríbenos</h3>
+      <p class="ps-text">Cuéntanos qué buscas por WhatsApp. Respondemos en minutos con opciones y precios.</p>
+    </div>
+    <div class="ps">
+      <div class="ps-num">02</div>
+      <img class="ps-img" src="img2/gm07.png" alt="Diseño y grabado">
+      <h3 class="ps-title">Diseño & grabado</h3>
+      <p class="ps-text">Seleccionamos el material y aplicamos el grabado láser con precisión milimétrica.</p>
+    </div>
+    <div class="ps">
+      <div class="ps-num">03</div>
+      <img class="ps-img" src="img2/ai01.png" alt="Acabado premium">
+      <h3 class="ps-title">Acabado premium</h3>
+      <p class="ps-text">Pulido y acabado final con los más altos estándares. Tu pieza brilla como debe brillar.</p>
+    </div>
+    <div class="ps">
+      <div class="ps-num">04</div>
+      <img class="ps-img" src="img2/gm08.png" alt="Entrega especial">
+      <h3 class="ps-title">La recibes</h3>
+      <p class="ps-text">En caja Abigail RM, lista para ser el regalo más especial. Enviamos a todo el Perú.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ARGOLLAS MATRIMONIALES -->
+<section class="wedding" id="argollas">
+  <div class="sh reveal">
+    <div class="sk">Para siempre juntos</div>
+    <h2 class="st">Argollas<br><em>matrimoniales</em></h2>
+    <p class="sd">Oro 18K para él y para ella. Grabadas con sus nombres y fecha. El símbolo que dura toda una vida.</p>
+  </div>
+  <div class="wed-grid reveal">
+    <div class="wc">
+      <img class="wi" src="img2/ai06.png" alt="Argollas Clásicas">
+      <div class="wo"></div>
+      <div class="winfo">
+        <div class="wmat">Oro 18K · Par</div>
+        <div class="wname">Argollas Clásicas</div>
+        <div class="wprice">Par desde S/ 350</div>
+        <a href="https://wa.me/51965846128?text=Me%20interesan%20argollas%20clásicas%20matrimoniales" class="wcta" target="_blank">Consultar precio</a>
+      </div>
+    </div>
+    <div class="wc">
+      <img class="wi" src="img/p13.jpg" alt="Argollas Lisas">
+      <div class="wo"></div>
+      <div class="winfo">
+        <div class="wmat">Oro 18K · Par</div>
+        <div class="wname">Argollas Lisas</div>
+        <div class="wprice">Par desde S/ 280</div>
+        <a href="https://wa.me/51965846128?text=Me%20interesan%20argollas%20lisas" class="wcta" target="_blank">Consultar precio</a>
+      </div>
+    </div>
+    <div class="wc">
+      <img class="wi" src="img/p14.jpg" alt="Argollas con Zirconia">
+      <div class="wo"></div>
+      <div class="winfo">
+        <div class="wmat">Plata laminada Oro · Par</div>
+        <div class="wname">Argollas con Zirconia</div>
+        <div class="wprice">Par desde S/ 250</div>
+        <a href="https://wa.me/51965846128?text=Me%20interesan%20argollas%20con%20zirconia" class="wcta" target="_blank">Consultar precio</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="sh reveal">
+    <div class="sk" style="color:var(--gold)">¿Por qué elegirnos?</div>
+    <h2 class="st" style="color:var(--white)">La diferencia que<br><em>se nota</em></h2>
+  </div>
+  <div class="why-grid reveal">
+    <div class="wyc">
+      <span class="wy-icon">💎</span>
+      <h3 class="wy-title">Materiales certificados</h3>
+      <p class="wy-text">Solo Plata 950, Oro 18K certificado y Acero 316L. Cada pieza lleva su sello de calidad.</p>
+    </div>
+    <div class="wyc">
+      <span class="wy-icon">⚡</span>
+      <h3 class="wy-title">Grabado láser</h3>
+      <p class="wy-text">Tecnología de precisión para nombres, fechas, logos e imágenes. Sin límite de diseño.</p>
+    </div>
+    <div class="wyc">
+      <span class="wy-icon">🚚</span>
+      <h3 class="wy-title">Envío nacional e internacional</h3>
+      <p class="wy-text">Desde Lima a todo el Perú y al extranjero. Embalaje seguro y rastreable.</p>
+    </div>
+    <div class="wyc">
+      <span class="wy-icon">💬</span>
+      <h3 class="wy-title">Respuesta en minutos</h3>
+      <p class="wy-text">Atención personalizada por WhatsApp. Desde el diseño hasta la entrega.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── MEJORA 2 & 5: TESTIMONIALS con foto + 6 testimonios ── -->
+<section class="testi">
+  <div class="sh reveal">
+    <div class="sk">Lo que dicen</div>
+    <h2 class="st">+500 clientes<br><em>felices nos avalan</em></h2>
+  </div>
+  <div class="tg reveal">
+    <div class="tc">
+      <div class="tqm">"</div>
+      <div class="tst">★★★★★</div>
+      <p class="tt">«Le pedí un chevalier con el logo de mi barbería. El resultado fue increíble. La máquina láser dejó un acabado perfecto, mejor de lo que esperaba.»</p>
+      <div class="tline"></div>
+      <div class="t-author">
+        <div class="t-avatar-placeholder">C</div>
+        <div>
+          <div class="tn">Carlos V.</div>
+          <div class="tl">Lima, Perú</div>
+          <div class="tp">Chevalier con logo · Plata 950</div>
+        </div>
+      </div>
+    </div>
+    <div class="tc">
+      <div class="tqm">"</div>
+      <div class="tst">★★★★★</div>
+      <p class="tt">«Compramos las argollas para nuestra boda y quedamos felices. Las grabaron con nuestros nombres y llegaron en la caja preciosa de Abigail RM.»</p>
+      <div class="tline"></div>
+      <div class="t-author">
+        <div class="t-avatar-placeholder">S</div>
+        <div>
+          <div class="tn">Sandra & Raúl</div>
+          <div class="tl">Arequipa, Perú</div>
+          <div class="tp">Argollas matrimoniales · Oro 18K</div>
+        </div>
+      </div>
+    </div>
+    <div class="tc">
+      <div class="tqm">"</div>
+      <div class="tst">★★★★★</div>
+      <p class="tt">«El anillo de compromiso superó todas mis expectativas. El oro es real, la piedra brilla increíble. Abigail es muy profesional y puntual.»</p>
+      <div class="tline"></div>
+      <div class="t-author">
+        <div class="t-avatar-placeholder">M</div>
+        <div>
+          <div class="tn">Marco A.</div>
+          <div class="tl">Cusco, Perú</div>
+          <div class="tp">Anillo de compromiso · Oro 18K</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fila extra testimonios -->
+  <div class="tg-extra reveal">
+    <div class="tc mini">
+      <div class="tst">★★★★★</div>
+      <p class="tt">«Le regalé a mi mamá un anillo con su nombre grabado. Lloró al abrirlo. Definitivamente vuelvo a comprar aquí.»</p>
+      <div class="tline"></div>
+      <div class="t-author">
+        <div class="t-avatar-placeholder">L</div>
+        <div>
+          <div class="tn">Lucía P.</div>
+          <div class="tl">Lima, Perú</div>
+          <div class="tp">Regalo para mamá · Plata 950</div>
+        </div>
+      </div>
+    </div>
+    <div class="tc mini">
+      <div class="tst">★★★★★</div>
+      <p class="tt">«Pedí las argollas desde Trujillo y llegaron perfectas en 3 días. El empaque es hermoso. Mi esposa lloró de emoción.»</p>
+      <div class="tline"></div>
+      <div class="t-author">
+        <div class="t-avatar-placeholder">R</div>
+        <div>
+          <div class="tn">Roberto M.</div>
+          <div class="tl">Trujillo, Perú</div>
+          <div class="tp">Argollas matrimoniales</div>
+        </div>
+      </div>
+    </div>
+    <div class="tc mini">
+      <div class="tst">★★★★★</div>
+      <p class="tt">«Compré para el aniversario de mis padres. La atención por WhatsApp fue increíble, me guiaron en todo. La joya quedó hermosa.»</p>
+      <div class="tline"></div>
+      <div class="t-author">
+        <div class="t-avatar-placeholder">V</div>
+        <div>
+          <div class="tn">Valeria G.</div>
+          <div class="tl">Piura, Perú</div>
+          <div class="tp">Anillo aniversario · Oro 18K</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery">
+  <div class="gallery-hdr">
+    <div class="g-handle">Síguenos <span>@abigailrmarteaga</span></div>
+    <a href="https://wa.me/51965846128" class="btn-link" target="_blank"><span class="wdot"></span>Consultar por WhatsApp</a>
+  </div>
+  <div class="gg">
+    <!-- ── MEJORA 10: cada tile abre WhatsApp con el producto ── -->
+    <div class="gt">
+      <img src="img2/gm01.png" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+    <div class="gt">
+      <img src="img2/gm02.png" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+    <div class="gt">
+      <img src="img2/gm03.png" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+    <div class="gt">
+      <img src="img2/gm04.png" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+    <div class="gt">
+      <img src="img2/gm06.png" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+    <div class="gt">
+      <img src="img/p5.jpg" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+    <div class="gt">
+      <img src="img/p15.jpg" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+    <div class="gt">
+      <img src="img/p9.jpg" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+    <div class="gt">
+      <img src="img/p20.jpg" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+    <div class="gt">
+      <img src="img/p19.jpg" alt="">
+      <a href="https://wa.me/51965846128?text=Vi%20esta%20joya%20en%20tu%20Instagram%20y%20me%20interesa" class="gov" target="_blank"><span>♡</span>Pedir igual</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── MEJORA 5 & 7: CTA formulario reducido a 2 campos ── -->
+<section class="cta-sec" id="contacto">
+  <div class="reveal">
+    <div class="cta-kicker">Sin compromiso · Respuesta inmediata</div>
+    <h2 class="cta-title">Diseña tu joya<br><em>ahora mismo</em></h2>
+    <p class="cta-text">Cuéntanos qué tienes en mente. Respondemos en minutos con opciones, fotos y precios exactos. Sin vueltas.</p>
+    <a href="https://wa.me/51965846128?text=Hola!%20Quiero%20diseñar%20mi%20joya" class="cta-wa btn-pulse" target="_blank">
+      💬 &nbsp; Diseñar por WhatsApp · 965 846 128
+    </a>
+    <div class="cta-or">o déjanos tu número y te llamamos</div>
+    <img src="img2/gm08.png" alt="Caja Abigail RM" style="width:100%;max-width:320px;margin-top:20px;opacity:.65;display:block">
+    <img src="img2/logo-final.png" alt="Abigail RM The Atelier" style="width:100%;max-width:200px;margin-top:20px;display:block;border-radius:6px;background:rgba(255,255,255,.08);padding:10px">
+  </div>
+  <div class="reveal">
+    <!-- ── Formulario reducido: solo nombre + teléfono ── -->
+    <form class="cta-form" onsubmit="handleForm(event)">
+      <input class="cta-inp" type="text" placeholder="Tu nombre" required>
+      <input class="cta-inp" type="tel" placeholder="Tu WhatsApp / Teléfono" required>
+      <button type="submit" class="cta-sub btn-pulse">Recibir asesoría gratis →</button>
+      <p class="cta-priv">Te contactamos solo una vez. Sin spam, prometido.</p>
+      <!-- ── Reassurance icons ── -->
+      <div class="cta-reassurance">
+        <div class="cta-re"><span class="cta-re-icon">🔒</span> 100% privado</div>
+        <div class="cta-re"><span class="cta-re-icon">⚡</span> Respuesta en &lt;10 min</div>
+        <div class="cta-re"><span class="cta-re-icon">🎁</span> Cotización gratis</div>
+        <div class="cta-re"><span class="cta-re-icon">✅</span> Sin compromiso</div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="tri"><span class="tri-icon">🚚</span><span class="tri-lbl">Envío nacional e internacional</span></div>
+  <div class="tri"><span class="tri-icon">💎</span><span class="tri-lbl">Materiales certificados</span></div>
+  <div class="tri"><span class="tri-icon">⚡</span><span class="tri-lbl">Grabado láser disponible</span></div>
+  <div class="tri"><span class="tri-icon">💬</span><span class="tri-lbl">Atención por WhatsApp</span></div>
+</div>
+
+<!-- ── MEJORA 15: Footer con cierre emocional ── -->
+<div class="footer-cta-bar">
+  <div class="fcb-text">
+    Cada joya cuenta una historia.<br>
+    <strong>¿Cuál será la tuya?</strong>
+  </div>
+  <a href="https://wa.me/51965846128?text=Hola!%20Quiero%20hacer%20mi%20pedido" class="btn-white" target="_blank">
+    💬 Empezar ahora · 965 846 128
+  </a>
+</div>
+
+<footer>
+  <div class="ft">
+    <div class="ft-brand"><div class="ft-brand-logo">
+      <img src="img2/logo-final.png" alt="Abigail RM - The Atelier" style="height:44px;object-fit:contain;object-position:left center"></div>
+      <p class="ft-about">Joyería en plata, oro y acero. Anillos, argollas y piezas personalizadas con grabado láser. Desde Lima a todo el Perú y al extranjero.</p>
+      <div class="ft-soc">
+        <a href="#" class="fts">ig</a>
+        <a href="https://wa.me/51965846128" class="fts" target="_blank">wa</a>
+        <a href="#" class="fts">fb</a>
+      </div>
+    </div>
+    <div>
+      <div class="ftct">Productos</div>
+      <ul class="ftl">
+        <li><a href="#anillos">Anillos de compromiso</a></li>
+        <li><a href="#argollas">Argollas matrimoniales</a></li>
+        <li><a href="#personalizado">Chevalier personalizado</a></li>
+        <li><a href="#regalo">Regalos especiales</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ftct">Materiales</div>
+      <ul class="ftl">
+        <li><a href="#">Plata Ley 950</a></li>
+        <li><a href="#">Oro 18K amarillo</a></li>
+        <li><a href="#">Oro 18K blanco</a></li>
+        <li><a href="#">Oro 18K rosado</a></li>
+        <li><a href="#">Plata laminado en oro</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ftct">Contacto</div>
+      <ul class="ftl">
+        <li><a href="https://wa.me/51965846128" target="_blank">📲 965 846 128</a></li>
+        <li><a href="#">@abigailrmarteaga</a></li>
+        <li><a href="#">Lima, Perú</a></li>
+        <li><a href="#">Envíos internacionales</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ftb">
+    <p class="ftc">© 2025 Abigail RM Arteaga · The Atelier. Todos los derechos reservados.</p>
+    <div class="ftleg"><a href="#">Privacidad</a><a href="#">Términos</a></div>
+  </div>
+</footer>
+
+<!-- TOAST Social Proof -->
+<div class="toast" id="toast">
+  <button class="toast-close" onclick="this.parentElement.classList.remove('show')">×</button>
+  <div class="toast-title" id="toastTitle">✦ Compra reciente</div>
+  <div class="toast-body" id="toastMsg">María de Lima acaba de encargar argollas matrimoniales</div>
+</div>
+
+<script>
+// ── Cursor ──
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},80);
+});
+document.querySelectorAll('a,button,.pc,.cc,.wc,.rg,.gt').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.style.transform='translate(-50%,-50%) scale(2)');
+  el.addEventListener('mouseleave',()=>cur.style.transform='translate(-50%,-50%) scale(1)');
+});
+
+// ── Nav scroll ──
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>window.scrollY>60?nav.classList.add('scrolled'):nav.classList.remove('scrolled'));
+
+// ── Reveal ──
+const io=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){e.target.style.transitionDelay=(i*.05)+'s';e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+
+// ── Filter ──
+function filterP(btn,cat){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pc').forEach(c=>{
+    c.style.display=(cat==='todos'||c.dataset.cat.includes(cat))?'block':'none';
+  });
+}
+
+// ── WhatsApp ──
+function wa(p){
+  window.open(`https://wa.me/51965846128?text=${encodeURIComponent('Hola! Me interesa: '+p+'. ¿Me puede dar información y precio?')}`,'_blank');
+}
+
+// ── Form reducido ──
+function handleForm(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('.cta-sub');
+  const name=e.target.querySelector('input[type=text]').value;
+  const phone=e.target.querySelector('input[type=tel]').value;
+  // Abrir WhatsApp con los datos prellenados
+  const msg=encodeURIComponent(`Hola! Soy ${name} y quiero asesoría sobre una joya. Mi teléfono es ${phone}.`);
+  window.open(`https://wa.me/51965846128?text=${msg}`,'_blank');
+  btn.textContent='✦ ¡Perfecto! Abriendo WhatsApp...';
+  btn.style.background='#2d7a3a';
+  setTimeout(()=>{btn.textContent='Recibir asesoría gratis →';btn.style.background='';e.target.reset();},4000);
+}
+
+// ── Toast social proof mejorado ──
+const proofs=[
+  {title:'✦ Encargo reciente',msg:'María de Lima acaba de encargar argollas matrimoniales en oro'},
+  {title:'💍 Nuevo pedido',msg:'Carlos de Lima pidió un chevalier con el logo de su empresa'},
+  {title:'⭐ Favorito elegido',msg:'Paola de Arequipa seleccionó el Anillo Corona Reina'},
+  {title:'🎁 Regalo especial',msg:'Jorge de Cusco encargó un anillo de compromiso como sorpresa'},
+  {title:'✦ Encargo reciente',msg:'Sofía de Trujillo está consultando argollas con zirconia'},
+  {title:'💬 Consulta activa',msg:'Roberto de Piura acaba de escribirnos por WhatsApp'},
+];
+let pi=0;
+function showToast(){
+  const t=document.getElementById('toast');
+  const p=proofs[pi++%proofs.length];
+  document.getElementById('toastTitle').textContent=p.title;
+  document.getElementById('toastMsg').textContent=p.msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),4500);
+}
+setTimeout(()=>{showToast();setInterval(showToast,10000);},4000);
+
+// ── MEJORA 4: Viewer counter dinámico ──
+function updateViewers(){
+  const base=6, variation=Math.floor(Math.random()*8);
+  const count=base+variation;
+  const el=document.getElementById('heroViewers');
+  if(el) el.textContent=`${count} personas están viendo esta página ahora mismo`;
+  const uc=document.getElementById('urgCount');
+  if(uc) uc.textContent=count+4;
+}
+updateViewers();
+setInterval(updateViewers, 8000);
+
+// ── Stock countdown (crea urgencia) ──
+let stock=3;
+function updateStock(){
+  if(Math.random()<0.15 && stock>1){ // 15% chance de bajar
+    stock--;
+    const el=document.getElementById('heroStock');
+    if(el) el.textContent=stock;
+  }
+}
+setInterval(updateStock,25000);
+</script>
+</body>
+</html>
