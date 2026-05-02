@@ -437,30 +437,40 @@ footer{background:var(--charcoal2);color:var(--white);padding:60px 80px 28px}
   .nav-cta{padding:9px 16px;font-size:10px;letter-spacing:.1em}
   .urgency{padding:8px 12px}
   .urgency-text{font-size:10.5px}
-  /* Slider móvil: altura que cabe en pantalla sin scroll */
-  .slide{height:100svh;height:100vh;max-height:700px}
-  .slide img{object-position:center center}
-  .slide-overlay{
-    padding:72px 5% 6% 5%;
-    align-items:flex-end;
-    background:linear-gradient(to top,rgba(10,8,5,.95) 0%,rgba(10,8,5,.6) 45%,rgba(10,8,5,.15) 100%)
+  /* ── SLIDER MÓVIL: altura fija, imagen controlada ── */
+  .slider-section{height:520px}
+  .slide{height:520px;min-height:unset;max-height:unset}
+  .slide img{
+    height:520px;
+    transform:none !important;
+    object-fit:cover;
+    object-position:center center
   }
-  .slide-content{width:100%}
-  .slide-num{margin-bottom:10px;font-size:10px}
-  .slide-num::before{width:28px}
-  .slide-title{font-size:clamp(26px,8.5vw,38px);margin-bottom:10px;line-height:1.05}
-  .slide-sub{display:none}
-  .slide-price-tag{margin-bottom:18px;padding-left:10px;gap:10px}
-  .spt-price{font-size:20px}
-  .spt-label{font-size:10px}
-  .slide-btns{gap:10px;flex-wrap:nowrap}
-  .slide-btn-main{padding:12px 20px;font-size:10px;letter-spacing:.14em}
-  .slide-btn-wa{padding:11px 16px;font-size:10px;letter-spacing:.1em}
-  .slide-logo{top:14px;left:14px}
-  .slide-logo img{height:38px}
-  .sl-dots{bottom:18px}
-  .sd{width:18px;height:2px}
-  .sd.active{width:32px}
+  .slide.active img{transform:none !important}
+  .slide-overlay{
+    padding:62px 5% 5% 5%;
+    align-items:flex-end;
+    background:linear-gradient(to top,rgba(10,8,5,.96) 0%,rgba(10,8,5,.65) 50%,rgba(10,8,5,.1) 100%)
+  }
+  .slide-content{width:100%;transform:none !important;opacity:1 !important}
+  .slide.active .slide-content{transform:none;opacity:1}
+  .slide-num{margin-bottom:8px;font-size:10px;letter-spacing:.25em}
+  .slide-num::before{width:22px}
+  .slide-title{font-size:26px;margin-bottom:10px;line-height:1.05}
+  .slide-sub{display:none !important}
+  .slide-price-tag{margin-bottom:16px;padding-left:10px;gap:8px}
+  .spt-price{font-size:19px}
+  .spt-label{font-size:9.5px}
+  .slide-btns{gap:8px}
+  .slide-btn-main{padding:11px 18px;font-size:10px;letter-spacing:.12em}
+  .slide-btn-wa{padding:10px 14px;font-size:10px;letter-spacing:.08em}
+  .slide-logo{top:12px;left:12px}
+  .slide-logo img{height:36px}
+  .sl-prev,.sl-next{display:none}
+  .sl-dots{bottom:14px}
+  .sd{width:16px;height:2px}
+  .sd.active{width:28px}
+  .sl-progress{height:2px}
   .slide-logo{top:16px;left:16px}
   .sl-prev,.sl-next{display:none}
   .coll-grid{grid-template-columns:1fr}
